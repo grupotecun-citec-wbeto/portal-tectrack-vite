@@ -1,7 +1,7 @@
 {
   "name": "portal-tectrack-vite",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,6 @@
     "release:major": "standard-version --release-as major",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch"
-    
   },
   "dependencies": {
     "react": "^19.1.0",
