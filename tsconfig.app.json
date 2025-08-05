@@ -21,7 +21,15 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* alias */
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/shared/components/*"],
+      "@utils/*": ["./src/shared/utils/*"],
+      "@hooks/*": ["./src/shared/hooks/*"]
+    }
   },
   "include": ["src"]
 }
