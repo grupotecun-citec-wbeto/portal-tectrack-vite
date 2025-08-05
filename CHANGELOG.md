@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/compare/v0.1.0...v0.1.1) (2025-08-05)
+
+
+### Features
+
+* configure alias ([1ae53dc](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/1ae53dcebf00868d2f479550c2af0f0dbacd9deb))
+* hook catch changes pwa serviceworker ([ae5cb16](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/ae5cb16d91c2ae2320b7e637d3d7991230345fed))
+
+
+### Chores
+
+* install @types/node ([505d6b1](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/505d6b110a0baff3040f834427851a018bad7737))
+
 ## [0.1.0](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/compare/v0.0.3...v0.1.0) (2025-08-05)
 
 
