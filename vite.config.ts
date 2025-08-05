@@ -56,7 +56,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'), // Alias para la carpeta src
       '@components': path.resolve(__dirname, './src/shared/components'),
       '@utils': path.resolve(__dirname, './src/shared/utils'),
-      '@hooks': path.resolve(__dirname, './src/shared/hooks') 
+      '@hooks': path.resolve(__dirname, './src/shared/hooks'),
+      '@dashboard': path.resolve(__dirname, './src/features/dashboard')
+       
     } 
   }
 })
