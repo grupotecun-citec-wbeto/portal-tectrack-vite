@@ -68,5 +68,8 @@ export default defineConfig({
       '@dashboard': path.resolve(__dirname, './src/features/tsnocheck/dashboard')
 
     }
+  },
+  define: {
+    'process.env': {}
   }
 })

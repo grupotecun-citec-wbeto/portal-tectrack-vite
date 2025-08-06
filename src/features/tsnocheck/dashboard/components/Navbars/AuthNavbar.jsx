@@ -40,7 +40,7 @@ export default function AuthNavbar(props) {
   };
   let brand = (
     <Link
-      href={`${process.env.PUBLIC_URL}/#/`}
+      href={`${import.meta.env.BASE_URL}/#/`}
       target="_blank"
       display="flex"
       lineHeight="100%"
