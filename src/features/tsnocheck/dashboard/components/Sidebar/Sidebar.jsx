@@ -62,7 +62,12 @@ function Sidebar(props) {
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
     
     // Calculate padding based on nesting level
-    const paddingLeft = level > 0 ? `${16 + (level * 16)}px` : "16px";
+    const paddingLeft = level > 0 ? `${16 + (level * 24)}px` : "16px";
+    
+    // Debug: Log nesting level and padding
+    if (level > 0) {
+      console.log(`Level ${level}, Padding: ${paddingLeft}`);
+    }
     
     return routes.map((prop, key) => {
       if (prop.redirect) {
