@@ -19,7 +19,7 @@
 */
 import { StrictMode } from 'react'
 import ReactDOM from "react-dom";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import AuthLayout from "@/features/tsnocheck/dashboard/layouts/Auth";
 import AdminLayout from "@/features/tsnocheck/dashboard/layouts/Admin";
@@ -30,14 +30,14 @@ import theme from "@dashboard/theme/theme";
 
 ReactDOM.render(
   <ChakraProvider theme={theme} resetCss={false} position="relative">
-    <HashRouter>
+    <BrowserRouter>
       <Switch>
         <Route path={`/auth`} component={AuthLayout} />
         <Route path={`/admin`} component={AdminLayout} />
         <Route path={`/rtl`} component={RTLLayout} />
         <Redirect from={`/`} to="/admin/dashboard" />
       </Switch>
-    </HashRouter>
+    </BrowserRouter>
   </ChakraProvider>,
   document.getElementById("root")
 );
