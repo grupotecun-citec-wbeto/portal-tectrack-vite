@@ -92,8 +92,6 @@ function Sidebar(props) {
               py="12px"
               ps={{
                 sm: "10px",
-                md: paddingLeft,
-                lg: paddingLeft,
                 xl: paddingLeft,
               }}
               pe="16px"
@@ -164,8 +162,6 @@ function Sidebar(props) {
               mx="auto"
               ps={{
                 sm: "10px",
-                md: paddingLeft,
-                lg: paddingLeft,
                 xl: paddingLeft,
               }}
               py="12px"
@@ -198,8 +194,6 @@ function Sidebar(props) {
               }}
               ps={{
                 sm: "10px",
-                md: paddingLeft,
-                lg: paddingLeft,
                 xl: paddingLeft,
               }}
               py="12px"
@@ -252,8 +246,6 @@ function Sidebar(props) {
               py="12px"
               ps={{
                 sm: "10px",
-                md: paddingLeft,
-                lg: paddingLeft,
                 xl: paddingLeft,
               }}
               borderRadius="15px"
@@ -371,7 +363,6 @@ export function SidebarResponsive(props) {
   // this is for the rest of the collapses
   const [state, setState] = React.useState({});
   const mainPanel = React.useRef();
-  let variantChange = "0.2s linear";
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
@@ -389,20 +380,8 @@ export function SidebarResponsive(props) {
 
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = (routes, level = 0) => {
-    // Chakra Color Mode
-    let activeBg = useColorModeValue("white", "navy.700");
-    let inactiveBg = useColorModeValue("white", "navy.700");
-    let activeColor = useColorModeValue("gray.700", "white");
-    let inactiveColor = useColorModeValue("gray.400", "gray.400");
-    let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
-    
     // Calculate padding based on nesting level
-    const paddingLeft = level > 0 ? `${16 + (level * 24)}px` : "16px";
-    
-    // Debug: Log nesting level and padding
-    if (level > 0) {
-      console.log(`Level ${level}, Padding: ${paddingLeft}`);
-    }
+    const paddingLeft = level > 0 ? `${16 + (level * 16)}px` : "16px";
     
     return routes.map((prop, key) => {
       if (prop.redirect) {
@@ -427,8 +406,6 @@ export function SidebarResponsive(props) {
               py="12px"
               ps={{
                 sm: "10px",
-                md: paddingLeft,
-                lg: paddingLeft,
                 xl: paddingLeft,
               }}
               pe="16px"
@@ -453,11 +430,11 @@ export function SidebarResponsive(props) {
                   <Icon>{prop.icon}</Icon>
                 ) : (
                   <IconBox
-                    bg="inherit"
-                    borderRadius="inherit"
-                    h="16px"
-                    w="16px"
-                    me="8px"
+                    bg={inactiveBg}
+                    color="blue.500"
+                    h="30px"
+                    w="30px"
+                    me="12px"
                   >
                     {prop.icon}
                   </IconBox>
@@ -498,8 +475,6 @@ export function SidebarResponsive(props) {
               mx="auto"
               ps={{
                 sm: "10px",
-                md: paddingLeft,
-                lg: paddingLeft,
                 xl: paddingLeft,
               }}
               py="12px"
@@ -521,9 +496,8 @@ export function SidebarResponsive(props) {
               boxSize="initial"
               justifyContent="flex-start"
               alignItems="center"
-              boxShadow={sidebarActiveShadow}
               bg={activeBg}
-              transition={variantChange}
+              boxShadow={sidebarActiveShadow}
               mb={{
                 xl: "6px",
               }}
@@ -532,9 +506,7 @@ export function SidebarResponsive(props) {
               }}
               ps={{
                 sm: "10px",
-                md: paddingLeft,
-                lg: paddingLeft,
-                xl: paddingLeft,
+                xl: "16px",
               }}
               py="12px"
               borderRadius="15px"
@@ -554,11 +526,11 @@ export function SidebarResponsive(props) {
                   <Icon>{prop.icon}</Icon>
                 ) : (
                   <IconBox
-                    bg="inherit"
-                    borderRadius="inherit"
-                    h="16px"
-                    w="16px"
-                    me="8px"
+                    bg="blue.500"
+                    color="white"
+                    h="30px"
+                    w="30px"
+                    me="12px"
                   >
                     {prop.icon}
                   </IconBox>
@@ -585,9 +557,7 @@ export function SidebarResponsive(props) {
               py="12px"
               ps={{
                 sm: "10px",
-                md: paddingLeft,
-                lg: paddingLeft,
-                xl: paddingLeft,
+                xl: "16px",
               }}
               borderRadius="15px"
               _hover="none"
@@ -606,11 +576,11 @@ export function SidebarResponsive(props) {
                   <Icon>{prop.icon}</Icon>
                 ) : (
                   <IconBox
-                    bg="inherit"
-                    borderRadius="inherit"
-                    h="16px"
-                    w="16px"
-                    me="8px"
+                    bg={inactiveBg}
+                    color="blue.500"
+                    h="30px"
+                    w="30px"
+                    me="12px"
                   >
                     {prop.icon}
                   </IconBox>
