@@ -79,7 +79,7 @@ var dashRoutes = [
             path: "/billing",
             name: "Billing",
             rtlName: "لوحة القيادة",
-            icon: <CreditIcon color='inherit' />,
+            //icon: <CreditIcon color='inherit' />,
             component: Billing,
             layout: "/admin",
           },
