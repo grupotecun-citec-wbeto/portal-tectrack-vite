@@ -1,15 +1,18 @@
+// @ts-nocheck
 /*eslint-disable*/
 import { HamburgerIcon } from "@chakra-ui/icons";
 // chakra imports
 import {
   Box,
   Button,
+  Collapse,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
   Flex,
+  Icon,
   Stack,
   Text,
   useColorMode,
@@ -30,6 +33,7 @@ import { SidebarHelp } from "@dashboard/components/Sidebar/SidebarHelp";
 import React from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
 
 
@@ -46,7 +50,7 @@ function Sidebar(props) {
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
   };
-  const { colorMode } = useColorMode;
+  const { colorMode } = useColorMode();
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const { sidebarVariant } = props;
   const createLinks = (routes) => {
@@ -56,15 +60,90 @@ function Sidebar(props) {
     let activeColor = useColorModeValue("gray.700", "white");
     let inactiveColor = useColorModeValue("gray.400", "gray.400");
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
+    
     return routes.map((prop, key) => {
       if (prop.redirect) {
         return null;
       }
+      
+      // Handle collapse items (sub-menus)
+      if (prop.collapse) {
+        var st = {};
+        st[prop["state"]] = !state[prop.state];
+        return (
+          <div key={key}>
+            <Button
+              boxSize="initial"
+              justifyContent="space-between"
+              alignItems="center"
+              bg="transparent"
+              mb={{
+                xl: "6px",
+              }}
+              mx={{
+                xl: "auto",
+              }}
+              py="12px"
+              ps={{
+                sm: "10px",
+                xl: "16px",
+              }}
+              pe="16px"
+              borderRadius="15px"
+              _hover="none"
+              w="100%"
+              _active={{
+                bg: "inherit",
+                transform: "none",
+                borderColor: "transparent",
+              }}
+              _focus={{
+                boxShadow: "none",
+              }}
+              onClick={() => setState(st)}
+            >
+              <Flex alignItems="center">
+                {typeof prop.icon === "string" ? (
+                  <Icon>{prop.icon}</Icon>
+                ) : (
+                  <IconBox
+                    bg={inactiveBg}
+                    color="blue.500"
+                    h="30px"
+                    w="30px"
+                    me="12px"
+                    transition={variantChange}
+                  >
+                    {prop.icon}
+                  </IconBox>
+                )}
+                <Text color={inactiveColor} my="auto" fontSize="sm">
+                  {document.documentElement.dir === "rtl"
+                    ? prop.rtlName
+                    : prop.name}
+                </Text>
+              </Flex>
+              {state[prop.state] ? (
+                <ChevronUpIcon color={inactiveColor} />
+              ) : (
+                <ChevronDownIcon color={inactiveColor} />
+              )}
+            </Button>
+            <Collapse in={state[prop.state]}>
+              <Box pl="32px">
+                {createLinks(prop.views)}
+              </Box>
+            </Collapse>
+          </div>
+        );
+      }
+      
+      // Handle category items
       if (prop.category) {
         var st = {};
         st[prop["state"]] = !state[prop.state];
         return (
-          <>
+          <div key={key}>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -83,9 +162,11 @@ function Sidebar(props) {
                 : prop.name}
             </Text>
             {createLinks(prop.views)}
-          </>
+          </div>
         );
       }
+      
+      // Handle regular menu items
       return (
         <NavLink to={prop.layout + prop.path} key={key}>
           {activeRoute(prop.layout + prop.path) === "active" ? (
@@ -294,11 +375,84 @@ export function SidebarResponsive(props) {
       if (prop.redirect) {
         return null;
       }
+      
+      // Handle collapse items (sub-menus)
+      if (prop.collapse) {
+        var st = {};
+        st[prop["state"]] = !state[prop.state];
+        return (
+          <div key={key}>
+            <Button
+              boxSize="initial"
+              justifyContent="space-between"
+              alignItems="center"
+              bg="transparent"
+              mb={{
+                xl: "6px",
+              }}
+              mx={{
+                xl: "auto",
+              }}
+              py="12px"
+              ps={{
+                sm: "10px",
+                xl: "16px",
+              }}
+              pe="16px"
+              borderRadius="15px"
+              _hover="none"
+              w="100%"
+              _active={{
+                bg: "inherit",
+                transform: "none",
+                borderColor: "transparent",
+              }}
+              _focus={{
+                boxShadow: "none",
+              }}
+              onClick={() => setState(st)}
+            >
+              <Flex alignItems="center">
+                {typeof prop.icon === "string" ? (
+                  <Icon>{prop.icon}</Icon>
+                ) : (
+                  <IconBox
+                    bg={inactiveBg}
+                    color="blue.500"
+                    h="30px"
+                    w="30px"
+                    me="12px"
+                  >
+                    {prop.icon}
+                  </IconBox>
+                )}
+                <Text color={inactiveColor} my="auto" fontSize="sm">
+                  {document.documentElement.dir === "rtl"
+                    ? prop.rtlName
+                    : prop.name}
+                </Text>
+              </Flex>
+              {state[prop.state] ? (
+                <ChevronUpIcon color={inactiveColor} />
+              ) : (
+                <ChevronDownIcon color={inactiveColor} />
+              )}
+            </Button>
+            <Collapse in={state[prop.state]}>
+              <Box pl="32px">
+                {createLinks(prop.views)}
+              </Box>
+            </Collapse>
+          </div>
+        );
+      }
+      
+      // Handle category items
       if (prop.category) {
         var st = {};
         st[prop["state"]] = !state[prop.state];
         return (
-          <>
+          <div key={key}>
             <Text
               color={activeColor}
               fontWeight="bold"
@@ -317,9 +471,11 @@ export function SidebarResponsive(props) {
                 : prop.name}
             </Text>
             {createLinks(prop.views)}
-          </>
+          </div>
         );
       }
+      
+      // Handle regular menu items
       return (
         <NavLink to={prop.layout + prop.path} key={key}>
           {activeRoute(prop.layout + prop.path) === "active" ? (
