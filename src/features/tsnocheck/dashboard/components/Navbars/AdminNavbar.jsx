@@ -28,9 +28,47 @@ export default function AdminNavbar(props) {
     fixed,
     secondary,
     brandText,
+    routes,
     onOpen,
     ...rest
   } = props;
+
+  // Función para generar breadcrumbs dinámicos
+  const getBreadcrumbs = (routes) => {
+    const currentPath = window.location.pathname;
+    let breadcrumbs = ["Pages"];
+    
+    const findPathInRoutes = (routeArray, path, currentBreadcrumb = []) => {
+      for (let route of routeArray) {
+        if (route.collapse && route.views) {
+          // Es un collapse, agregar su nombre y buscar en sus views
+          const newBreadcrumb = [...currentBreadcrumb, route.name];
+          const found = findPathInRoutes(route.views, path, newBreadcrumb);
+          if (found) return found;
+        } else if (route.category && route.views) {
+          // Es una categoría, buscar en sus views sin agregar el nombre de la categoría
+          const found = findPathInRoutes(route.views, path, currentBreadcrumb);
+          if (found) return found;
+        } else if (route.layout && route.path) {
+          // Es una ruta normal
+          const fullPath = route.layout + route.path;
+          if (fullPath === path) {
+            return [...currentBreadcrumb, route.name];
+          }
+        }
+      }
+      return null;
+    };
+    
+    const foundPath = findPathInRoutes(routes || [], currentPath, []);
+    if (foundPath && foundPath.length > 0) {
+      breadcrumbs = ["Pages", ...foundPath];
+    }
+    
+    return breadcrumbs;
+  };
+
+  const breadcrumbs = getBreadcrumbs(routes);
 
   // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
   let mainText = (fixed && scrolled) ? useColorModeValue("gray.700", "gray.200") : useColorModeValue("white", "gray.200");
@@ -122,17 +160,16 @@ export default function AdminNavbar(props) {
       >
         <Box mb={{ sm: "8px", md: "0px" }}>
           <Breadcrumb>
-            <BreadcrumbItem color={mainText}>
-              <BreadcrumbLink href="#" color={secondaryText}>
-                Pages
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem color={mainText}>
-              <BreadcrumbLink href="#" color={mainText}>
-                {brandText}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
+            {breadcrumbs.map((crumb, index) => (
+              <BreadcrumbItem key={index} color={mainText}>
+                <BreadcrumbLink 
+                  href="#" 
+                  color={index === breadcrumbs.length - 1 ? mainText : secondaryText}
+                >
+                  {crumb}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            ))}
           </Breadcrumb>
           {/* Here we create navbar brand, based on route name */}
           <Link

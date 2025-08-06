@@ -78,7 +78,7 @@ var dashRoutes = [
         state: "tablesCollapseInterface",
         views: [
           {
-            path: "/tables/billing",
+            path: "/tablesydata/tablesinterface/billing",
             name: "Billing",
             rtlName: "لوحة القيادة",
             icon: <CreditIcon color='inherit' />,
