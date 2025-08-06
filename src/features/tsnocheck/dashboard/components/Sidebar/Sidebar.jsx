@@ -64,7 +64,10 @@ function Sidebar(props) {
     // Calculate padding based on nesting level
     const paddingLeft = level > 0 ? `${16 + (level * 24)}px` : "16px";
     
-    return routes.map((prop, key) => {
+    // Filter out routes that should be hidden from sidebar
+    const visibleRoutes = routes.filter(route => !route.hideFromSidebar);
+    
+    return visibleRoutes.map((prop, key) => {
       if (prop.redirect) {
         return null;
       }
@@ -394,7 +397,10 @@ export function SidebarResponsive(props) {
     // Calculate padding based on nesting level
     const paddingLeft = level > 0 ? `${16 + (level * 24)}px` : "16px";
     
-    return routes.map((prop, key) => {
+    // Filter out routes that should be hidden from sidebar
+    const visibleRoutes = routes.filter(route => !route.hideFromSidebar);
+    
+    return visibleRoutes.map((prop, key) => {
       if (prop.redirect) {
         return null;
       }

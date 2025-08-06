@@ -126,12 +126,22 @@ var dashRoutes = [
                 layout: "/admin",
               },
               {
+                path: "/tables/datos/:id",
+                name: "Datos Details",
+                rtlName: "تفاصيل البيانات",
+                icon: <StatsIcon color='inherit' />,
+                component: DatosWithId,
+                layout: "/admin",
+                hideFromSidebar: true,
+              },
+              {
                 path: "/tables/datos4/:id",
                 name: "Dato3 Details",
                 rtlName: "تفاصيل البيانات",
                 icon: <StatsIcon color='inherit' />,
                 component: DatosWithId,
                 layout: "/admin",
+                hideFromSidebar: true,
               },
               {
                 path: "/tables/datos2",
@@ -148,6 +158,7 @@ var dashRoutes = [
                 icon: <StatsIcon color='inherit' />,
                 component: DatosWithId,
                 layout: "/admin",
+                hideFromSidebar: true,
               },
             ]
           },
