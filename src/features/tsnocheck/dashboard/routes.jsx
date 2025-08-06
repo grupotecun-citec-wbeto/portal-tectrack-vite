@@ -71,6 +71,22 @@ var dashRoutes = [
     state: "tablesCollapse",
     views: [
       {
+                path: "/tables",
+                name: "Tables Main",
+                rtlName: "الجداول الرئيسية",
+                icon: <StatsIcon color='inherit' />,
+                component: Tables,
+                layout: "/admin",
+      },
+      {
+        path: "/profile",
+        name: "Profile",
+        rtlName: "لوحة القيادة",
+        icon: <PersonIcon color='inherit' />,
+        component: Profile,
+        layout: "/admin",
+      },
+      {
         name: "TablesInterface",
         rtlName: "لوحة القيادة",
         icon: <StatsIcon color='inherit' />,
@@ -119,15 +135,7 @@ var dashRoutes = [
             ]
           },
         ]
-      },
-      {
-        path: "/profile",
-        name: "Profile",
-        rtlName: "لوحة القيادة",
-        icon: <PersonIcon color='inherit' />,
-        component: Profile,
-        layout: "/admin",
-      },
+      }
     ],
   },
   {

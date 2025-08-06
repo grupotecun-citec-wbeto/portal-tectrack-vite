@@ -6,9 +6,11 @@ import {
   BreadcrumbLink,
   Flex,
   Link,
+  Text,
   useColorModeValue
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import AdminNavbarLinks from "./AdminNavbarLinks";
 
 export default function AdminNavbar(props) {
@@ -33,16 +35,30 @@ export default function AdminNavbar(props) {
     ...rest
   } = props;
 
-  // Función para generar breadcrumbs dinámicos
-  const getBreadcrumbs = (routes) => {
+  // Función para generar breadcrumbs dinámicos con rutas
+  const getBreadcrumbsWithRoutes = (routes) => {
     const currentPath = window.location.pathname;
-    let breadcrumbs = ["Pages"];
+    let breadcrumbs = [{ name: "Pages", path: "/admin/dashboard" }];
+    
+    // Función auxiliar para encontrar la primera ruta válida en un grupo
+    const findFirstValidRoute = (routeArray) => {
+      for (let route of routeArray) {
+        if (route.layout && route.path) {
+          return route.layout + route.path;
+        } else if (route.views) {
+          const found = findFirstValidRoute(route.views);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
     
     const findPathInRoutes = (routeArray, path, currentBreadcrumb = []) => {
       for (let route of routeArray) {
         if (route.collapse && route.views) {
-          // Es un collapse, agregar su nombre y buscar en sus views
-          const newBreadcrumb = [...currentBreadcrumb, route.name];
+          // Es un collapse, buscar la primera ruta válida para usar como enlace
+          const collapsePath = findFirstValidRoute(route.views) || "/admin/dashboard";
+          const newBreadcrumb = [...currentBreadcrumb, { name: route.name, path: collapsePath }];
           const found = findPathInRoutes(route.views, path, newBreadcrumb);
           if (found) return found;
         } else if (route.category && route.views) {
@@ -53,7 +69,7 @@ export default function AdminNavbar(props) {
           // Es una ruta normal
           const fullPath = route.layout + route.path;
           if (fullPath === path) {
-            return [...currentBreadcrumb, route.name];
+            return [...currentBreadcrumb, { name: route.name, path: fullPath }];
           }
         }
       }
@@ -62,13 +78,13 @@ export default function AdminNavbar(props) {
     
     const foundPath = findPathInRoutes(routes || [], currentPath, []);
     if (foundPath && foundPath.length > 0) {
-      breadcrumbs = ["Pages", ...foundPath];
+      breadcrumbs = [{ name: "Pages", path: "/admin/dashboard" }, ...foundPath];
     }
     
     return breadcrumbs;
   };
 
-  const breadcrumbs = getBreadcrumbs(routes);
+  const breadcrumbs = getBreadcrumbsWithRoutes(routes);
 
   // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
   let mainText = (fixed && scrolled) ? useColorModeValue("gray.700", "gray.200") : useColorModeValue("white", "gray.200");
@@ -160,16 +176,30 @@ export default function AdminNavbar(props) {
       >
         <Box mb={{ sm: "8px", md: "0px" }}>
           <Breadcrumb>
-            {breadcrumbs.map((crumb, index) => (
-              <BreadcrumbItem key={index} color={mainText}>
-                <BreadcrumbLink 
-                  href="#" 
-                  color={index === breadcrumbs.length - 1 ? mainText : secondaryText}
-                >
-                  {crumb}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            ))}
+            {breadcrumbs.map((crumb, index) => {
+              const isLast = index === breadcrumbs.length - 1;
+              return (
+                <BreadcrumbItem key={index} color={mainText}>
+                  {isLast ? (
+                    <BreadcrumbLink color={mainText}>
+                      {crumb.name}
+                    </BreadcrumbLink>
+                  ) : (
+                    <BreadcrumbLink 
+                      as={RouterLink}
+                      to={crumb.path}
+                      color={secondaryText}
+                      _hover={{ 
+                        color: mainText,
+                        textDecoration: "underline"
+                      }}
+                    >
+                      {crumb.name}
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+              );
+            })}
           </Breadcrumb>
           {/* Here we create navbar brand, based on route name */}
           <Link
