@@ -4,6 +4,8 @@ import React, { Component }  from 'react';
 import Dashboard from "./views/Dashboard/Dashboard.jsx";
 import Tables from "./views/Dashboard/Tables.jsx";
 import Billing from "./views/Dashboard/Billing.jsx";
+import Datos from "./views/Dashboard/Datos.jsx";
+import Datos2 from "./views/Dashboard/Datos2.jsx";
 import RTLPage from "./views/RTL/RTLPage.jsx";
 import Profile from "./views/Dashboard/Profile.jsx";
 import SignIn from "./views/Pages/SignIn.jsx";
@@ -76,7 +78,7 @@ var dashRoutes = [
         state: "tablesCollapseInterface",
         views: [
           {
-            path: "/billing",
+            path: "/tables/billing",
             name: "Billing",
             rtlName: "لوحة القيادة",
             icon: <CreditIcon color='inherit' />,
@@ -84,12 +86,37 @@ var dashRoutes = [
             layout: "/admin",
           },
           {
-            path: "/tables",
             name: "Tables",
             rtlName: "الجداول",
             icon: <StatsIcon color='inherit' />,
-            component: Tables,
-            layout: "/admin",
+            collapse: true,
+            state: "tablesSubCollapse",
+            views: [
+              {
+                path: "/tables",
+                name: "Tables Main",
+                rtlName: "الجداول الرئيسية",
+                icon: <StatsIcon color='inherit' />,
+                component: Tables,
+                layout: "/admin",
+              },
+              {
+                path: "/tables/datos",
+                name: "Datos",
+                rtlName: "البيانات",
+                icon: <StatsIcon color='inherit' />,
+                component: Datos,
+                layout: "/admin",
+              },
+              {
+                path: "/tables/datos2",
+                name: "Datos2",
+                rtlName: "البيانات",
+                icon: <StatsIcon color='inherit' />,
+                component: Datos2,
+                layout: "/admin",
+              },
+            ]
           },
         ]
       },

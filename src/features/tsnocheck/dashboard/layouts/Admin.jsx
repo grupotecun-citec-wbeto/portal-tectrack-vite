@@ -83,25 +83,33 @@ export default function Dashboard(props) {
     return activeNavbar;
   };
   const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.collapse) {
-        return getRoutes(prop.views);
-      }
-      if (prop.category === "account") {
-        return getRoutes(prop.views);
-      }
-      if (prop.layout === "/admin") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
+    let allRoutes = [];
+    
+    const extractRoutes = (routeArray) => {
+      routeArray.forEach((prop) => {
+        if (prop.collapse) {
+          extractRoutes(prop.views);
+        } else if (prop.category === "account") {
+          extractRoutes(prop.views);
+        } else if (prop.layout === "/admin") {
+          allRoutes.push(prop);
+        }
+      });
+    };
+    
+    extractRoutes(routes);
+    
+    // Ordenar rutas por longitud de path (más específicas primero)
+    allRoutes.sort((a, b) => b.path.length - a.path.length);
+    
+    return allRoutes.map((prop, key) => (
+      <Route
+        path={prop.layout + prop.path}
+        component={prop.component}
+        key={key}
+        exact
+      />
+    ));
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
