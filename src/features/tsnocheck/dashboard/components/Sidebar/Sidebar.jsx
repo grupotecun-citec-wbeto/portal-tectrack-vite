@@ -53,13 +53,16 @@ function Sidebar(props) {
   const { colorMode } = useColorMode();
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const { sidebarVariant } = props;
-  const createLinks = (routes) => {
+  const createLinks = (routes, level = 0) => {
     // Chakra Color Mode
     let activeBg = useColorModeValue("white", "navy.700");
     let inactiveBg = useColorModeValue("white", "navy.700");
     let activeColor = useColorModeValue("gray.700", "white");
     let inactiveColor = useColorModeValue("gray.400", "gray.400");
     let sidebarActiveShadow = "0px 7px 11px rgba(0, 0, 0, 0.04)";
+    
+    // Calculate padding based on nesting level
+    const paddingLeft = level > 0 ? `${16 + (level * 16)}px` : "16px";
     
     return routes.map((prop, key) => {
       if (prop.redirect) {
@@ -68,8 +71,6 @@ function Sidebar(props) {
       
       // Handle collapse items (sub-menus)
       if (prop.collapse) {
-        var st = {};
-        st[prop["state"]] = !state[prop.state];
         return (
           <div key={key}>
             <Button
@@ -86,7 +87,7 @@ function Sidebar(props) {
               py="12px"
               ps={{
                 sm: "10px",
-                xl: "16px",
+                xl: paddingLeft,
               }}
               pe="16px"
               borderRadius="15px"
@@ -100,7 +101,10 @@ function Sidebar(props) {
               _focus={{
                 boxShadow: "none",
               }}
-              onClick={() => setState(st)}
+              onClick={() => setState(prevState => ({
+                ...prevState,
+                [prop.state]: !prevState[prop.state]
+              }))}
             >
               <Flex alignItems="center">
                 {typeof prop.icon === "string" ? (
@@ -130,8 +134,8 @@ function Sidebar(props) {
               )}
             </Button>
             <Collapse in={state[prop.state]}>
-              <Box pl="32px">
-                {createLinks(prop.views)}
+              <Box>
+                {createLinks(prop.views, level + 1)}
               </Box>
             </Collapse>
           </div>
@@ -153,7 +157,7 @@ function Sidebar(props) {
               mx="auto"
               ps={{
                 sm: "10px",
-                xl: "16px",
+                xl: paddingLeft,
               }}
               py="12px"
             >
@@ -161,7 +165,7 @@ function Sidebar(props) {
                 ? prop.rtlName
                 : prop.name}
             </Text>
-            {createLinks(prop.views)}
+            {createLinks(prop.views, level + 1)}
           </div>
         );
       }
@@ -185,7 +189,7 @@ function Sidebar(props) {
               }}
               ps={{
                 sm: "10px",
-                xl: "16px",
+                xl: paddingLeft,
               }}
               py="12px"
               borderRadius="15px"
@@ -237,7 +241,7 @@ function Sidebar(props) {
               py="12px"
               ps={{
                 sm: "10px",
-                xl: "16px",
+                xl: paddingLeft,
               }}
               borderRadius="15px"
               _hover="none"
@@ -370,7 +374,10 @@ export function SidebarResponsive(props) {
   let sidebarBackgroundColor = useColorModeValue("white", "navy.800");
 
   // this function creates the links and collapses that appear in the sidebar (left menu)
-  const createLinks = (routes) => {
+  const createLinks = (routes, level = 0) => {
+    // Calculate padding based on nesting level
+    const paddingLeft = level > 0 ? `${16 + (level * 16)}px` : "16px";
+    
     return routes.map((prop, key) => {
       if (prop.redirect) {
         return null;
@@ -378,8 +385,6 @@ export function SidebarResponsive(props) {
       
       // Handle collapse items (sub-menus)
       if (prop.collapse) {
-        var st = {};
-        st[prop["state"]] = !state[prop.state];
         return (
           <div key={key}>
             <Button
@@ -396,7 +401,7 @@ export function SidebarResponsive(props) {
               py="12px"
               ps={{
                 sm: "10px",
-                xl: "16px",
+                xl: paddingLeft,
               }}
               pe="16px"
               borderRadius="15px"
@@ -410,7 +415,10 @@ export function SidebarResponsive(props) {
               _focus={{
                 boxShadow: "none",
               }}
-              onClick={() => setState(st)}
+              onClick={() => setState(prevState => ({
+                ...prevState,
+                [prop.state]: !prevState[prop.state]
+              }))}
             >
               <Flex alignItems="center">
                 {typeof prop.icon === "string" ? (
@@ -439,8 +447,8 @@ export function SidebarResponsive(props) {
               )}
             </Button>
             <Collapse in={state[prop.state]}>
-              <Box pl="32px">
-                {createLinks(prop.views)}
+              <Box>
+                {createLinks(prop.views, level + 1)}
               </Box>
             </Collapse>
           </div>
@@ -462,7 +470,7 @@ export function SidebarResponsive(props) {
               mx="auto"
               ps={{
                 sm: "10px",
-                xl: "16px",
+                xl: paddingLeft,
               }}
               py="12px"
             >
@@ -470,7 +478,7 @@ export function SidebarResponsive(props) {
                 ? prop.rtlName
                 : prop.name}
             </Text>
-            {createLinks(prop.views)}
+            {createLinks(prop.views, level + 1)}
           </div>
         );
       }
