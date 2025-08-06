@@ -7,7 +7,9 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      include: "**/*.{jsx,tsx,js,ts}",
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
@@ -57,8 +59,8 @@ export default defineConfig({
       '@components': path.resolve(__dirname, './src/shared/components'),
       '@utils': path.resolve(__dirname, './src/shared/utils'),
       '@hooks': path.resolve(__dirname, './src/shared/hooks'),
-      '@dashboard': path.resolve(__dirname, './src/features/dashboard')
-       
-    } 
+      '@dashboard': path.resolve(__dirname, './src/features/tsnocheck/dashboard')
+
+    }
   }
 })

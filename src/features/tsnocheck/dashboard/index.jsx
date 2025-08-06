@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 /*!
 
@@ -17,16 +16,16 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { StrictMode } from 'react'
+import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 
-import AuthLayout from "@/features/tsnocheck/dashboard/layouts/Auth";
-import AdminLayout from "@/features/tsnocheck/dashboard/layouts/Admin";
-import RTLLayout from "@/features/tsnocheck/dashboard/layouts/RTL"; // Chakra imports
+import AuthLayout from "layouts/Auth.jsx";
+import AdminLayout from "layouts/Admin.jsx";
+import RTLLayout from "layouts/RTL.jsx"; // Chakra imports
 import { ChakraProvider } from "@chakra-ui/react";
 // Custom Chakra theme
-import theme from "@dashboard/theme/theme";
+import theme from "theme/theme.jsx";
 
 ReactDOM.render(
   <ChakraProvider theme={theme} resetCss={false} position="relative">
@@ -41,4 +40,3 @@ ReactDOM.render(
   </ChakraProvider>,
   document.getElementById("root")
 );
-
