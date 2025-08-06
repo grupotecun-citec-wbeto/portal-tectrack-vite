@@ -99,17 +99,41 @@ export default function Dashboard(props) {
     
     extractRoutes(routes);
     
-    // Ordenar rutas por longitud de path (más específicas primero)
-    allRoutes.sort((a, b) => b.path.length - a.path.length);
+    // Ordenamiento inteligente para React Router v5
+    allRoutes.sort((a, b) => {
+      const aPath = a.path;
+      const bPath = b.path;
+      
+      // 1. Rutas sin parámetros van antes que rutas con parámetros
+      const aHasParams = aPath.includes(':');
+      const bHasParams = bPath.includes(':');
+      
+      if (!aHasParams && bHasParams) return -1; // a sin parámetros va primero
+      if (aHasParams && !bHasParams) return 1;  // b sin parámetros va primero
+      
+      // 2. Entre rutas del mismo tipo, más específicas primero (más segmentos)
+      const aSegments = aPath.split('/').filter(s => s.length > 0).length;
+      const bSegments = bPath.split('/').filter(s => s.length > 0).length;
+      
+      if (aSegments !== bSegments) {
+        return bSegments - aSegments; // Más segmentos = más específica
+      }
+      
+      // 3. Si tienen el mismo número de segmentos, más larga primero
+      return bPath.length - aPath.length;
+    });
     
-    return allRoutes.map((prop, key) => (
-      <Route
-        path={prop.layout + prop.path}
-        component={prop.component}
-        key={key}
-        exact
-      />
-    ));
+    return allRoutes.map((prop, key) => {
+      const hasParams = prop.path.includes(':');
+      return (
+        <Route
+          path={prop.layout + prop.path}
+          component={prop.component}
+          key={key}
+          exact={!hasParams} // Solo exact para rutas sin parámetros
+        />
+      );
+    });
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
