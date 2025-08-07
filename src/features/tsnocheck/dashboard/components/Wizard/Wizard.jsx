@@ -174,13 +174,14 @@ const Wizard = ({
   return (
     <Box
       bg={cardBg}
-      borderRadius="xl"
-      border="1px solid"
+      borderRadius={{ base: 0, md: "xl" }}
+      border={{ base: "none", md: "1px solid" }}
       borderColor={borderColor}
-      p={{ base: 4, md: 6 }}
+      p={{ base: 2, md: 6 }}
       shadow="sm"
       maxW="100%"
       overflow="hidden"
+      w="100%"
     >
       {/* Steps Header */}
       {/* Mobile: Solo paso actual */}

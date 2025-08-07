@@ -3461,10 +3461,15 @@ function WizardExample() {
   ];
 
   return (
-    <Box pt={{ base: '130px', md: '80px', xl: '80px' }} px={{ base: 2, md: 0 }}>
+    <Box pt={{ base: '130px', md: '80px', xl: '80px' }} px={{ base: 0, md: 0 }}>
       <VStack spacing={6} maxW="100%">
-        <Card w="100%" maxW="1200px" mx="auto">
-          <CardHeader pb={{ base: 4, md: 6 }}>
+        <Card 
+          w="100%" 
+          maxW={{ base: "100%", md: "1200px" }} 
+          mx={{ base: 0, md: "auto" }}
+          borderRadius={{ base: 0, md: "lg" }}
+        >
+          <CardHeader pb={{ base: 2, md: 6 }} px={{ base: 4, md: 6 }}>
             <VStack spacing={2} align="center" textAlign="center">
               <Text 
                 fontSize={{ base: "lg", md: "xl" }} 
@@ -3483,7 +3488,7 @@ function WizardExample() {
               </Text>
             </VStack>
           </CardHeader>
-          <CardBody px={{ base: 2, md: 6 }} py={{ base: 4, md: 6 }}>
+          <CardBody px={{ base: 0, md: 6 }} py={{ base: 2, md: 6 }}>
             <Wizard
               steps={wizardSteps}
               onStepChange={handleStepChange}
