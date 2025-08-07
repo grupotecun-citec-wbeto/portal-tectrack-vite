@@ -445,7 +445,7 @@ const TreeView = ({
   const filteredData = useMemo(() => {
     if (!searchTerm) return treeData;
 
-    const filterTree = (nodes) => {
+    const filterTree = (nodes, parentMatched = false) => {
       return nodes.reduce((acc, node) => {
         const matchesSearch = (node.title || node.name || '')
           .toLowerCase()
@@ -456,15 +456,26 @@ const TreeView = ({
           (searchType === 'sistemas' && node.type === 'Sistema') ||
           (searchType === 'servicios' && node.type === 'Servicio');
 
-        const filteredChildren = filterTree(node.children || []);
+        // El nodo actual coincide si cumple búsqueda Y tipo, O si su padre ya coincidió
+        const currentNodeMatches = (matchesSearch && matchesType) || parentMatched;
+
+        // Si el nodo actual coincide, incluir TODOS sus hijos sin filtrar
+        let childrenToInclude = [];
+        if (currentNodeMatches) {
+          // Si el nodo coincide, incluir todos sus hijos tal como están
+          childrenToInclude = node.children || [];
+        } else {
+          // Si el nodo no coincide, filtrar recursivamente los hijos
+          childrenToInclude = filterTree(node.children || [], false);
+        }
 
         // Incluir nodo si:
-        // 1. Coincide con búsqueda Y tipo
+        // 1. El nodo actual coincide (directamente o por herencia del padre)
         // 2. Tiene hijos que coinciden (para mostrar la jerarquía)
-        if ((matchesSearch && matchesType) || filteredChildren.length > 0) {
+        if (currentNodeMatches || childrenToInclude.length > 0) {
           acc.push({
             ...node,
-            children: filteredChildren
+            children: childrenToInclude
           });
         }
 
@@ -472,7 +483,7 @@ const TreeView = ({
       }, []);
     };
 
-    return filterTree(treeData);
+    return filterTree(treeData, false);
   }, [treeData, searchTerm, searchType]);
 
   // Aplicar auto-expansión cuando hay búsqueda
