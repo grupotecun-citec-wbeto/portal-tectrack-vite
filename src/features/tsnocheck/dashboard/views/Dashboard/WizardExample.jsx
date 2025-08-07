@@ -22,7 +22,7 @@ import {
   SimpleGrid,
   useToast,
 } from '@chakra-ui/react';
-import { FiUser, FiSettings, FiCheck, FiMail, FiShield, FiBell, FiMoon, FiZap, FiGlobe, FiLock, FiGitBranch, FiHeadphones, FiBookOpen, FiTool, FiStar, FiAlertTriangle, FiRefreshCw, FiSearch, FiGrid, FiList, FiEye, FiFilter } from 'react-icons/fi';
+import { FiUser, FiSettings, FiCheck, FiMail, FiShield, FiBell, FiMoon, FiZap, FiGlobe, FiLock, FiGitBranch, FiHeadphones, FiBookOpen, FiTool, FiStar, FiAlertTriangle, FiRefreshCw, FiSearch, FiGrid, FiList, FiEye, FiFilter, FiClipboard, FiEdit3, FiPlus } from 'react-icons/fi';
 import Card from '@dashboard/components/Card/Card';
 import CardHeader from '@dashboard/components/Card/CardHeader';
 import CardBody from '@dashboard/components/Card/CardBody';
@@ -45,6 +45,9 @@ function WizardExample() {
     searchTerm: '',
     selectedEquipment: [],
     viewMode: 'cards', // 'compact', 'normal', 'cards'
+    
+    // Step 3.5: Equipment Diagnostics
+    equipmentDiagnostics: {}, // { equipmentId: { diagnosticData } }
     
     // Step 4: Personal Info (moved from step 3)
     firstName: '',
@@ -2283,6 +2286,32 @@ function WizardExample() {
     updateFormData('selectedEquipment', []);
   };
 
+  // Funciones para diagnósticos de equipos
+  const updateEquipmentDiagnostic = (equipmentId, diagnosticData) => {
+    const updatedDiagnostics = {
+      ...formData.equipmentDiagnostics,
+      [equipmentId]: diagnosticData
+    };
+    updateFormData('equipmentDiagnostics', updatedDiagnostics);
+  };
+
+  const removeDiagnostic = (equipmentId) => {
+    const updatedDiagnostics = { ...formData.equipmentDiagnostics };
+    delete updatedDiagnostics[equipmentId];
+    updateFormData('equipmentDiagnostics', updatedDiagnostics);
+  };
+
+  const getSelectedEquipmentWithDiagnostics = () => {
+    return formData.selectedEquipment.map(equipId => {
+      const equipment = equipmentData.find(eq => eq.id === equipId);
+      const diagnostic = formData.equipmentDiagnostics[equipId];
+      return {
+        ...equipment,
+        diagnostic: diagnostic || null
+      };
+    });
+  };
+
   // Custom checkbox with icon component
   const IconCheckbox = ({ icon: Icon, title, description, isChecked, onChange, colorScheme = "blue" }) => {
     const borderColor = useColorModeValue('gray.200', 'gray.600');
@@ -2683,6 +2712,306 @@ function WizardExample() {
       </VStack>
     </Box>
   );
+
+  // Componente para mostrar equipo con opción de diagnóstico
+  const EquipmentDiagnosticCard = ({ equipment, diagnostic, onUpdateDiagnostic, onRemoveDiagnostic }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [localDiagnostic, setLocalDiagnostic] = useState(diagnostic || {
+      problema_reportado: '',
+      sintomas: '',
+      condiciones_operacion: '',
+      notas_adicionales: '',
+      prioridad: 'media',
+      fecha_reporte: new Date().toISOString().split('T')[0]
+    });
+
+    const handleSave = () => {
+      onUpdateDiagnostic(equipment.id, localDiagnostic);
+      setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+      setLocalDiagnostic(diagnostic || {
+        problema_reportado: '',
+        sintomas: '',
+        condiciones_operacion: '',
+        notas_adicionales: '',
+        prioridad: 'media',
+        fecha_reporte: new Date().toISOString().split('T')[0]
+      });
+      setIsEditing(false);
+    };
+
+    const getPriorityColor = (priority) => {
+      switch (priority) {
+        case 'alta': return 'red';
+        case 'media': return 'yellow';
+        case 'baja': return 'green';
+        default: return 'gray';
+      }
+    };
+
+    return (
+      <Box
+        p={5}
+        borderWidth="2px"
+        borderColor={diagnostic ? 'green.200' : 'gray.200'}
+        borderRadius="xl"
+        bg={diagnostic ? 'green.50' : 'white'}
+        transition="all 0.3s ease"
+        _hover={{
+          boxShadow: 'lg',
+          transform: 'translateY(-2px)',
+        }}
+      >
+        <VStack spacing={4} align="stretch">
+          {/* Header con información del equipo */}
+          <HStack justify="space-between" align="flex-start">
+            <VStack align="start" spacing={1}>
+              <Text fontSize="lg" fontWeight="bold" color="gray.800">
+                {equipment.modelo_name}
+              </Text>
+              <HStack spacing={3}>
+                <Text fontSize="sm" color="blue.600" fontWeight="medium">
+                  {equipment.categoria_name}
+                </Text>
+                <Text fontSize="sm" color="gray.600">
+                  {equipment.marca_name}
+                </Text>
+              </HStack>
+              <Text fontSize="xs" color="gray.500" fontFamily="mono">
+                {equipment.codigo_finca || equipment.serie || equipment.chasis || 'N/A'}
+              </Text>
+            </VStack>
+
+            <HStack spacing={2}>
+              {diagnostic && !isEditing && (
+                <Box
+                  px={3}
+                  py={1}
+                  bg={`${getPriorityColor(diagnostic.prioridad)}.100`}
+                  borderRadius="full"
+                  border="1px solid"
+                  borderColor={`${getPriorityColor(diagnostic.prioridad)}.200`}
+                >
+                  <Text
+                    fontSize="xs"
+                    color={`${getPriorityColor(diagnostic.prioridad)}.700`}
+                    fontWeight="bold"
+                    textTransform="uppercase"
+                  >
+                    {diagnostic.prioridad}
+                  </Text>
+                </Box>
+              )}
+              
+              {!isEditing ? (
+                <HStack spacing={2}>
+                  <Button
+                    size="sm"
+                    leftIcon={diagnostic ? <FiEdit3 /> : <FiPlus />}
+                    onClick={() => setIsEditing(true)}
+                    colorScheme="blue"
+                    variant={diagnostic ? "outline" : "solid"}
+                  >
+                    {diagnostic ? 'Editar' : 'Agregar'} Diagnóstico
+                  </Button>
+                  {diagnostic && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      colorScheme="red"
+                      onClick={() => onRemoveDiagnostic(equipment.id)}
+                    >
+                      Eliminar
+                    </Button>
+                  )}
+                </HStack>
+              ) : (
+                <HStack spacing={2}>
+                  <Button size="sm" colorScheme="green" onClick={handleSave}>
+                    Guardar
+                  </Button>
+                  <Button size="sm" variant="ghost" onClick={handleCancel}>
+                    Cancelar
+                  </Button>
+                </HStack>
+              )}
+            </HStack>
+          </HStack>
+
+          {/* Mostrar diagnóstico existente o formulario de edición */}
+          {diagnostic && !isEditing ? (
+            <Box
+              p={4}
+              bg="white"
+              borderRadius="lg"
+              border="1px solid"
+              borderColor="green.200"
+            >
+              <VStack align="start" spacing={3}>
+                <Text fontSize="sm" fontWeight="bold" color="gray.700">
+                  Diagnóstico Registrado
+                </Text>
+                
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={3} w="100%">
+                  <Box>
+                    <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={1}>
+                      Problema Reportado
+                    </Text>
+                    <Text fontSize="sm" color="gray.800">
+                      {diagnostic.problema_reportado || 'No especificado'}
+                    </Text>
+                  </Box>
+                  
+                  <Box>
+                    <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={1}>
+                      Síntomas
+                    </Text>
+                    <Text fontSize="sm" color="gray.800">
+                      {diagnostic.sintomas || 'No especificado'}
+                    </Text>
+                  </Box>
+                  
+                  <Box>
+                    <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={1}>
+                      Condiciones de Operación
+                    </Text>
+                    <Text fontSize="sm" color="gray.800">
+                      {diagnostic.condiciones_operacion || 'No especificado'}
+                    </Text>
+                  </Box>
+                  
+                  <Box>
+                    <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={1}>
+                      Fecha de Reporte
+                    </Text>
+                    <Text fontSize="sm" color="gray.800">
+                      {diagnostic.fecha_reporte || 'No especificado'}
+                    </Text>
+                  </Box>
+                </SimpleGrid>
+
+                {diagnostic.notas_adicionales && (
+                  <Box w="100%">
+                    <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={1}>
+                      Notas Adicionales
+                    </Text>
+                    <Text fontSize="sm" color="gray.800">
+                      {diagnostic.notas_adicionales}
+                    </Text>
+                  </Box>
+                )}
+              </VStack>
+            </Box>
+          ) : isEditing ? (
+            <Box
+              p={4}
+              bg="blue.50"
+              borderRadius="lg"
+              border="1px solid"
+              borderColor="blue.200"
+            >
+              <VStack spacing={4} align="stretch">
+                <Text fontSize="sm" fontWeight="bold" color="blue.700">
+                  {diagnostic ? 'Editar' : 'Agregar'} Diagnóstico
+                </Text>
+                
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                  <FormControl>
+                    <FormLabel fontSize="sm">Problema Reportado</FormLabel>
+                    <Textarea
+                      value={localDiagnostic.problema_reportado}
+                      onChange={(e) => setLocalDiagnostic({
+                        ...localDiagnostic,
+                        problema_reportado: e.target.value
+                      })}
+                      placeholder="Describe el problema principal..."
+                      size="sm"
+                      rows={3}
+                    />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel fontSize="sm">Síntomas Observados</FormLabel>
+                    <Textarea
+                      value={localDiagnostic.sintomas}
+                      onChange={(e) => setLocalDiagnostic({
+                        ...localDiagnostic,
+                        sintomas: e.target.value
+                      })}
+                      placeholder="Síntomas específicos..."
+                      size="sm"
+                      rows={3}
+                    />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel fontSize="sm">Condiciones de Operación</FormLabel>
+                    <Textarea
+                      value={localDiagnostic.condiciones_operacion}
+                      onChange={(e) => setLocalDiagnostic({
+                        ...localDiagnostic,
+                        condiciones_operacion: e.target.value
+                      })}
+                      placeholder="Condiciones cuando ocurrió el problema..."
+                      size="sm"
+                      rows={3}
+                    />
+                  </FormControl>
+
+                  <VStack spacing={3} align="stretch">
+                    <FormControl>
+                      <FormLabel fontSize="sm">Prioridad</FormLabel>
+                      <Select
+                        value={localDiagnostic.prioridad}
+                        onChange={(e) => setLocalDiagnostic({
+                          ...localDiagnostic,
+                          prioridad: e.target.value
+                        })}
+                        size="sm"
+                      >
+                        <option value="baja">Baja</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                      </Select>
+                    </FormControl>
+
+                    <FormControl>
+                      <FormLabel fontSize="sm">Fecha de Reporte</FormLabel>
+                      <Input
+                        type="date"
+                        value={localDiagnostic.fecha_reporte}
+                        onChange={(e) => setLocalDiagnostic({
+                          ...localDiagnostic,
+                          fecha_reporte: e.target.value
+                        })}
+                        size="sm"
+                      />
+                    </FormControl>
+                  </VStack>
+                </SimpleGrid>
+
+                <FormControl>
+                  <FormLabel fontSize="sm">Notas Adicionales</FormLabel>
+                  <Textarea
+                    value={localDiagnostic.notas_adicionales}
+                    onChange={(e) => setLocalDiagnostic({
+                      ...localDiagnostic,
+                      notas_adicionales: e.target.value
+                    })}
+                    placeholder="Información adicional relevante..."
+                    size="sm"
+                    rows={2}
+                  />
+                </FormControl>
+              </VStack>
+            </Box>
+          ) : null}
+        </VStack>
+      </Box>
+    );
+  };
 
   const handleStepChange = (stepIndex, step) => {
     console.log(`Changed to step ${stepIndex}:`, step.title);
@@ -3684,6 +4013,167 @@ function WizardExample() {
                   {formData.company && <Text>Empresa: {formData.company}</Text>}
                   {formData.role && <Text>Cargo: {formData.role}</Text>}
                   {formData.bio && <Text>Biografía: {formData.bio}</Text>}
+                </VStack>
+              </Box>
+            )}
+          </VStack>
+        </WizardStepContent>
+      ),
+    },
+    {
+      id: 3,
+      title: 'Diagnóstico de Equipos',
+      content: (
+        <WizardStepContent
+          title="Diagnóstico de Equipos"
+          description="Agrega información de diagnóstico a los equipos seleccionados"
+          icon={FiClipboard}
+        >
+          <VStack spacing={6} align="stretch">
+            {formData.selectedEquipment && formData.selectedEquipment.length > 0 ? (
+              <Box
+                maxH="600px"
+                overflowY="auto"
+                css={{
+                  '&::-webkit-scrollbar': {
+                    width: '8px',
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    background: '#f1f1f1',
+                    borderRadius: '10px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    background: '#c1c1c1',
+                    borderRadius: '10px',
+                  },
+                  '&::-webkit-scrollbar-thumb:hover': {
+                    background: '#a8a8a8',
+                  },
+                }}
+              >
+                <VStack spacing={4} align="stretch">
+                  {formData.selectedEquipment.map((equipmentId) => {
+                    const equipment = equipmentData.find(eq => eq.id === equipmentId);
+                    if (!equipment) return null;
+                    
+                    return (
+                      <EquipmentDiagnosticCard
+                        key={equipment.id}
+                        equipment={equipment}
+                        diagnostic={formData.equipmentDiagnostics[equipment.id]}
+                        onUpdateDiagnostic={updateEquipmentDiagnostic}
+                        onRemoveDiagnostic={removeDiagnostic}
+                      />
+                    );
+                  })}
+                </VStack>
+              </Box>
+            ) : (
+              <Box
+                p={8}
+                bg="gray.50"
+                borderRadius="xl"
+                border="2px dashed"
+                borderColor="gray.300"
+                textAlign="center"
+              >
+                <FiClipboard size={48} color="#A0AEC0" style={{ margin: '0 auto 16px' }} />
+                <Text fontSize="lg" color="gray.500" fontWeight="medium">
+                  No hay equipos seleccionados
+                </Text>
+                <Text fontSize="sm" color="gray.400" mt={2}>
+                  Regresa al paso anterior para seleccionar equipos
+                </Text>
+              </Box>
+            )}
+
+            {/* Resumen de diagnósticos */}
+            {formData.selectedEquipment && formData.selectedEquipment.length > 0 && (
+              <Box
+                p={4}
+                bg="blue.50"
+                borderRadius="lg"
+                border="1px solid"
+                borderColor="blue.200"
+              >
+                <VStack spacing={3} align="start">
+                  <Text fontSize="sm" fontWeight="bold" color="blue.700">
+                    Resumen de Diagnósticos
+                  </Text>
+                  <HStack spacing={6} wrap="wrap">
+                    <HStack spacing={2}>
+                      <Box w={3} h={3} bg="green.400" borderRadius="full" />
+                      <Text fontSize="sm" color="gray.700">
+                        Con diagnóstico: {Object.keys(formData.equipmentDiagnostics || {}).length}
+                      </Text>
+                    </HStack>
+                    <HStack spacing={2}>
+                      <Box w={3} h={3} bg="gray.300" borderRadius="full" />
+                      <Text fontSize="sm" color="gray.700">
+                        Pendientes: {(formData.selectedEquipment?.length || 0) - Object.keys(formData.equipmentDiagnostics || {}).length}
+                      </Text>
+                    </HStack>
+                    <HStack spacing={2}>
+                      <Box w={3} h={3} bg="blue.400" borderRadius="full" />
+                      <Text fontSize="sm" color="gray.700">
+                        Total equipos: {formData.selectedEquipment?.length || 0}
+                      </Text>
+                    </HStack>
+                  </HStack>
+                  
+                  {Object.keys(formData.equipmentDiagnostics || {}).length > 0 && (
+                    <VStack align="start" spacing={2} w="100%" mt={3}>
+                      <Text fontSize="xs" fontWeight="medium" color="gray.600">
+                        Equipos con diagnóstico:
+                      </Text>
+                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
+                        {Object.keys(formData.equipmentDiagnostics || {}).map(equipmentId => {
+                          const equipment = equipmentData.find(eq => eq.id === parseInt(equipmentId));
+                          const diagnostic = formData.equipmentDiagnostics[equipmentId];
+                          if (!equipment) return null;
+                          
+                          const getPriorityColor = (priority) => {
+                            switch (priority) {
+                              case 'alta': return 'red';
+                              case 'media': return 'yellow';
+                              case 'baja': return 'green';
+                              default: return 'gray';
+                            }
+                          };
+                          
+                          return (
+                            <HStack key={equipmentId} justify="space-between" p={2} bg="white" borderRadius="md" border="1px solid" borderColor="gray.200">
+                              <VStack align="start" spacing={0}>
+                                <Text fontSize="xs" fontWeight="medium" color="gray.800">
+                                  {equipment.modelo_name}
+                                </Text>
+                                <Text fontSize="xs" color="gray.500">
+                                  {equipment.codigo_finca || equipment.serie || 'N/A'}
+                                </Text>
+                              </VStack>
+                              <Box
+                                px={2}
+                                py={1}
+                                bg={`${getPriorityColor(diagnostic.prioridad)}.100`}
+                                borderRadius="full"
+                                border="1px solid"
+                                borderColor={`${getPriorityColor(diagnostic.prioridad)}.200`}
+                              >
+                                <Text
+                                  fontSize="xs"
+                                  color={`${getPriorityColor(diagnostic.prioridad)}.700`}
+                                  fontWeight="bold"
+                                  textTransform="uppercase"
+                                >
+                                  {diagnostic.prioridad}
+                                </Text>
+                              </Box>
+                            </HStack>
+                          );
+                        })}
+                      </SimpleGrid>
+                    </VStack>
+                  )}
                 </VStack>
               </Box>
             )}
