@@ -812,6 +812,1182 @@ function WizardExample() {
 		parentId : 63,
 		description : "2025-05-06 23:43:58",
 		
+	},
+	// ============ SERVICIOS BASADOS EN DATOS REALES ============
+	// Servicios para AUTO TURN (sistema_ID: 1)
+	{
+		id : 150,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 1,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 151,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 1,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 152,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 1,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 153,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 1,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	{
+		id : 154,
+		name : "EVALUACIÓN",
+		type: "Servicio",
+		parentId : 1,
+		description : "2025-06-18 21:34:40",
+		icon: "evaluate"
+	},
+	{
+		id : 155,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 1,
+		description : "2025-07-28 22:00:59",
+		icon: "update"
+	},
+	{
+		id : 156,
+		name : "INSTALACIÓN",
+		type: "Servicio",
+		parentId : 1,
+		description : "2025-07-28 22:02:33",
+		icon: "install"
+	},
+	
+	// Servicios para AUTO TRACKER (sistema_ID: 2)
+	{
+		id : 157,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 2,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 158,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 2,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 159,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 2,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 160,
+		name : "EVALUACIÓN",
+		type: "Servicio",
+		parentId : 2,
+		description : "2025-06-18 21:34:40",
+		icon: "evaluate"
+	},
+	{
+		id : 161,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 2,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	{
+		id : 162,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 2,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	{
+		id : 163,
+		name : "CAMBIO DE HARDWARE",
+		type: "Servicio",
+		parentId : 2,
+		description : "2025-06-18 21:34:40",
+		icon: "hardware"
+	},
+	
+	// Servicios para FIELD RATE CONTROL (sistema_ID: 3)
+	{
+		id : 164,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 3,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 165,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 3,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 166,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 3,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 167,
+		name : "EVALUACIÓN",
+		type: "Servicio",
+		parentId : 3,
+		description : "2025-06-18 21:34:40",
+		icon: "evaluate"
+	},
+	
+	// Servicios para SEÑAL DE CORRECCIÓN (sistema_ID: 4)
+	{
+		id : 168,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 4,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 169,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 4,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 170,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 4,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 171,
+		name : "EVALUACIÓN",
+		type: "Servicio",
+		parentId : 4,
+		description : "2025-06-18 21:34:40",
+		icon: "evaluate"
+	},
+	{
+		id : 172,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 4,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	{
+		id : 173,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 4,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	
+	// Servicios para EFICIENCIA (sistema_ID: 6)
+	{
+		id : 174,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 6,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 175,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 6,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 176,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 6,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 177,
+		name : "INSTALACIÓN",
+		type: "Servicio",
+		parentId : 6,
+		description : "2025-06-18 21:34:40",
+		icon: "install"
+	},
+	{
+		id : 178,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 6,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	{
+		id : 179,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 6,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	{
+		id : 180,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 6,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	{
+		id : 181,
+		name : "CAMBIO DE HARDWARE",
+		type: "Servicio",
+		parentId : 6,
+		description : "2025-06-18 21:34:40",
+		icon: "hardware"
+	},
+	
+	// Servicios para BALANZA DE PRODUCTIVIDAD (sistema_ID: 7)
+	{
+		id : 182,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 7,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 183,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 7,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 184,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 7,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 185,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 7,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// Servicios para DAÑOS (sistema_ID: 8)
+	{
+		id : 186,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 8,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 187,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 8,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 188,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 8,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 189,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 8,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	
+	// Servicios para SISTEMA ELÉCTRICO (sistema_ID: 9)
+	{
+		id : 190,
+		name : "INSTALACIÓN",
+		type: "Servicio",
+		parentId : 9,
+		description : "2025-06-18 21:34:40",
+		icon: "install"
+	},
+	{
+		id : 191,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 9,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	{
+		id : 192,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 9,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	{
+		id : 193,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 9,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	{
+		id : 194,
+		name : "CAMBIO DE HARDWARE",
+		type: "Servicio",
+		parentId : 9,
+		description : "2025-06-18 21:34:40",
+		icon: "hardware"
+	},
+	{
+		id : 195,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 9,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 196,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 9,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 197,
+		name : "EVALUACIÓN",
+		type: "Servicio",
+		parentId : 9,
+		description : "2025-06-18 21:34:40",
+		icon: "evaluate"
+	},
+	
+	// Servicios para SISTEMA HIDRÁULICO (sistema_ID: 10)
+	{
+		id : 198,
+		name : "INSTALACIÓN",
+		type: "Servicio",
+		parentId : 10,
+		description : "2025-06-18 21:34:40",
+		icon: "install"
+	},
+	{
+		id : 199,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 10,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 200,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 10,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	
+	// Servicios para SISTEMA MECÁNICO (sistema_ID: 11)
+	{
+		id : 201,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 11,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 202,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 11,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	
+	// Servicios para PILOTO AUTOMÁTICO (sistema_ID: 12)
+	{
+		id : 203,
+		name : "INSTALACIÓN",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "install"
+	},
+	{
+		id : 204,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	{
+		id : 205,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	{
+		id : 206,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	{
+		id : 207,
+		name : "CAMBIO DE HARDWARE",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "hardware"
+	},
+	{
+		id : 208,
+		name : "DOWNGRADE",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "downgrade"
+	},
+	{
+		id : 209,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 210,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 211,
+		name : "EVALUACIÓN",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "evaluate"
+	},
+	{
+		id : 212,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 12,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	
+	// Servicios para FIELD IQ (sistema_ID: 13)
+	{
+		id : 213,
+		name : "INSTALACIÓN",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "install"
+	},
+	{
+		id : 214,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	{
+		id : 215,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	{
+		id : 216,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	{
+		id : 217,
+		name : "CAMBIO DE HARDWARE",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "hardware"
+	},
+	{
+		id : 218,
+		name : "DOWNGRADE",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "downgrade"
+	},
+	{
+		id : 219,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 220,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 221,
+		name : "EVALUACIÓN",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "evaluate"
+	},
+	{
+		id : 222,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 13,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	
+	// Servicios para TELEMETRÍA (sistema_ID: 14)
+	{
+		id : 223,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 14,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	{
+		id : 224,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 14,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	{
+		id : 225,
+		name : "EVALUACIÓN",
+		type: "Servicio",
+		parentId : 14,
+		description : "2025-06-18 21:34:40",
+		icon: "evaluate"
+	},
+	{
+		id : 226,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 14,
+		description : "2025-07-28 22:02:02",
+		icon: "graduation"
+	},
+	{
+		id : 227,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 14,
+		description : "2025-07-28 22:03:26",
+		icon: "update"
+	},
+	
+	// Servicios para SOIL XPLORER (sistema_ID: 15)
+	{
+		id : 228,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 15,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	
+	// Servicios para AFS SOFTWARE (sistema_ID: 16)
+	{
+		id : 229,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 16,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	{
+		id : 230,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 16,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	{
+		id : 231,
+		name : "CAMBIO DE HARDWARE",
+		type: "Servicio",
+		parentId : 16,
+		description : "2025-06-18 21:34:40",
+		icon: "hardware"
+	},
+	{
+		id : 232,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 16,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	
+	// Servicios para IA TRIMBLE (sistema_ID: 17)
+	{
+		id : 233,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 17,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	{
+		id : 234,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 17,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 235,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 17,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	
+	// Servicios para PROGRAMA DE DESARROLLO (sistema_ID: 18)
+	{
+		id : 236,
+		name : "EVALUACIÓN",
+		type: "Servicio",
+		parentId : 18,
+		description : "2025-06-18 21:34:40",
+		icon: "evaluate"
+	},
+	{
+		id : 237,
+		name : "CAPACITACIÓN",
+		type: "Servicio",
+		parentId : 18,
+		description : "2025-06-18 21:34:40",
+		icon: "graduation"
+	},
+	{
+		id : 238,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 18,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	
+	// Servicios para AUTO TURN (sistema_ID: 19) - duplicado
+	{
+		id : 239,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 19,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	
+	// Servicios para AUTO TRACKER (sistema_ID: 20) - duplicado
+	{
+		id : 240,
+		name : "SEGUIMIENTO",
+		type: "Servicio",
+		parentId : 20,
+		description : "2025-06-18 21:34:40",
+		icon: "tracking"
+	},
+	
+	// Servicios para PILOTO AUTOMÁTICO (sistema_ID: 21) - duplicado
+	{
+		id : 241,
+		name : "INSPECCIÓN TÉCNICA",
+		type: "Servicio",
+		parentId : 21,
+		description : "2025-06-18 21:34:40",
+		icon: "inspect"
+	},
+	{
+		id : 242,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 21,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// Servicios para subsistemas específicos
+	// Servicios para SENSOR (sistema_ID: 27)
+	{
+		id : 243,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 27,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	
+	// Servicios para PRO 700 (sistema_ID: 62)
+	{
+		id : 244,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 62,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 245,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 62,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// Servicios para PRO 700+ (sistema_ID: 63)
+	{
+		id : 246,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 63,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 247,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 63,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// Servicios para XCN 2050 (sistema_ID: 64)
+	{
+		id : 248,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 64,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 249,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 64,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// Servicios para PRO 1200 (sistema_ID: 65)
+	{
+		id : 250,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 65,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 251,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 65,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// Servicios para módulos PILOTO AUTOMÁTICO
+	// SCM (sistema_ID: 66)
+	{
+		id : 252,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 66,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// TRASMISION (sistema_ID: 67)
+	{
+		id : 253,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 67,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// UCM (sistema_ID: 68)
+	{
+		id : 254,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 68,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// NAV 2 (sistema_ID: 69)
+	{
+		id : 255,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 69,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 256,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 69,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// NAV 3 (sistema_ID: 70)
+	{
+		id : 257,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 70,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 258,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 70,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// TM 200 (sistema_ID: 71)
+	{
+		id : 259,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 71,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 260,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 71,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// Servicios para antenas PILOTO AUTOMÁTICO
+	// 372 (sistema_ID: 72)
+	{
+		id : 261,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 72,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 262,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 72,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// 392 (sistema_ID: 73)
+	{
+		id : 263,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 73,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 264,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 73,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// AG 25 (sistema_ID: 74)
+	{
+		id : 265,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 74,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	{
+		id : 266,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 74,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// 450 (sistema_ID: 75)
+	{
+		id : 267,
+		name : "MEDICIÓN OHMIOS",
+		type: "Servicio",
+		parentId : 75,
+		description : "2025-06-18 21:34:40",
+		icon: "measure"
+	},
+	{
+		id : 268,
+		name : "CAMBIO DE HARDWARE",
+		type: "Servicio",
+		parentId : 75,
+		description : "2025-06-18 21:34:40",
+		icon: "hardware"
+	},
+	
+	// 470 (sistema_ID: 76)
+	{
+		id : 269,
+		name : "MEDICIÓN OHMIOS",
+		type: "Servicio",
+		parentId : 76,
+		description : "2025-06-18 21:34:40",
+		icon: "measure"
+	},
+	{
+		id : 270,
+		name : "CAMBIO DE HARDWARE",
+		type: "Servicio",
+		parentId : 76,
+		description : "2025-06-18 21:34:40",
+		icon: "hardware"
+	},
+	
+	// Servicios para CONTROL DE DIRECCION subsistemas
+	// RODADURA (sistema_ID: 77)
+	{
+		id : 271,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 77,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	
+	// ZONA MUERTA (sistema_ID: 78)
+	{
+		id : 272,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 78,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	
+	// P. GANANCIA (sistema_ID: 79)
+	{
+		id : 273,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 79,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	
+	// SENSOR DE DIRECCIÓN (sistema_ID: 80)
+	{
+		id : 274,
+		name : "CALIBRACIÓN",
+		type: "Servicio",
+		parentId : 80,
+		description : "2025-06-18 21:34:40",
+		icon: "calibrate"
+	},
+	
+	// Servicios para FIELD IQ pantallas
+	// XCN 750 (sistema_ID: 81)
+	{
+		id : 275,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 81,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 276,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 81,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// XCN 1050 (sistema_ID: 82)
+	{
+		id : 277,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 82,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 278,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 82,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// XCN 2050 (sistema_ID: 83)
+	{
+		id : 279,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 83,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 280,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 83,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// Servicios para FIELD IQ módulos
+	// CONTROL DE SECCIONES (sistema_ID: 84)
+	{
+		id : 281,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 84,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 282,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 84,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
+	},
+	
+	// MONITOREO DE SEMILLAS (sistema_ID: 85)
+	{
+		id : 283,
+		name : "CONFIGURACIÓN",
+		type: "Servicio",
+		parentId : 85,
+		description : "2025-06-18 21:34:40",
+		icon: "settings"
+	},
+	{
+		id : 284,
+		name : "ACTUALIZACIÓN",
+		type: "Servicio",
+		parentId : 85,
+		description : "2025-06-18 21:34:40",
+		icon: "update"
 	}
 ]
 ;
