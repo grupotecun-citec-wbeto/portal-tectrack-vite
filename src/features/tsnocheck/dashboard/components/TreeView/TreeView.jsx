@@ -25,8 +25,37 @@ import {
   FiSearch,
   FiFilter,
   FiPlus,
-  FiMinus
+  FiMinus,
+  FiSettings,
+  FiTool,
+  FiCheckCircle,
+  FiUpload,
+  FiHardDrive,
+  FiDownload,
+  FiBookOpen,
+  FiTarget,
+  FiTrendingUp,
+  FiActivity
 } from 'react-icons/fi';
+
+// Función para obtener el icono según el tipo de servicio
+const getServiceIcon = (iconType) => {
+  const iconMap = {
+    settings: FiSettings,
+    calibrate: FiTarget,
+    inspect: FiCheckCircle,
+    update: FiUpload,
+    hardware: FiHardDrive,
+    downgrade: FiDownload,
+    graduation: FiBookOpen,
+    tracking: FiActivity,
+    evaluate: FiTrendingUp,
+    install: FiTool,
+    measure: FiActivity
+  };
+  
+  return iconMap[iconType] || FiFile;
+};
 
 const TreeNode = ({ 
   node, 
@@ -99,8 +128,16 @@ const TreeNode = ({
               )}
               
               <Icon 
-                as={hasChildren ? FiFolder : FiFile} 
-                color={hasChildren ? 'blue.500' : 'gray.500'}
+                as={
+                  node.type === 'Servicio' && node.icon 
+                    ? getServiceIcon(node.icon)
+                    : hasChildren ? FiFolder : FiFile
+                } 
+                color={
+                  node.type === 'Servicio' 
+                    ? 'purple.500' 
+                    : hasChildren ? 'blue.500' : 'gray.500'
+                }
                 fontSize={isMobile ? "md" : "lg"}
                 flexShrink={0}
               />
@@ -123,7 +160,7 @@ const TreeNode = ({
                 <HStack spacing={1} flexWrap="wrap">
                   {node.type && (
                     <Badge 
-                      colorScheme="blue" 
+                      colorScheme={node.type === 'Servicio' ? 'purple' : 'blue'} 
                       size="sm"
                       fontSize={isMobile ? "10px" : "12px"}
                     >
@@ -240,8 +277,16 @@ const TreeNode = ({
 
         {/* Icon */}
         <Icon 
-          as={hasChildren ? FiFolder : FiFile} 
-          color={hasChildren ? 'blue.500' : 'gray.500'}
+          as={
+            node.type === 'Servicio' && node.icon 
+              ? getServiceIcon(node.icon)
+              : hasChildren ? FiFolder : FiFile
+          } 
+          color={
+            node.type === 'Servicio' 
+              ? 'purple.500' 
+              : hasChildren ? 'blue.500' : 'gray.500'
+          }
           fontSize={variant === 'compact' && !isMobile ? 'sm' : 'md'}
           flexShrink={0}
         />
@@ -268,7 +313,7 @@ const TreeNode = ({
         <HStack spacing={1} flexShrink={0}>
           {node.type && (
             <Badge 
-              colorScheme="blue" 
+              colorScheme={node.type === 'Servicio' ? 'purple' : 'blue'} 
               size="sm"
               fontSize={variant === 'compact' || isMobile ? '10px' : '12px'}
             >
@@ -324,6 +369,7 @@ const TreeView = ({
   const [expandedNodes, setExpandedNodes] = useState(new Set());
   const [selectedNodes, setSelectedNodes] = useState(new Set());
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchType, setSearchType] = useState('all'); // 'all', 'sistemas', 'servicios'
   
   // Detectar si es móvil
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -358,7 +404,39 @@ const TreeView = ({
     return buildTree(data);
   }, [data]);
 
-  // Filter tree based on search term
+  // Auto-expand nodes that contain search matches
+  const autoExpandMatches = useMemo(() => {
+    if (!searchTerm) return new Set();
+    
+    const matchingParents = new Set();
+    
+    const findMatchingNodes = (nodes, parents = []) => {
+      nodes.forEach(node => {
+        const matchesSearch = (node.title || node.name || '')
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+          (node.description || '').toLowerCase().includes(searchTerm.toLowerCase());
+        
+        const matchesType = searchType === 'all' || 
+          (searchType === 'sistemas' && node.type === 'Sistema') ||
+          (searchType === 'servicios' && node.type === 'Servicio');
+        
+        if (matchesSearch && matchesType) {
+          // Agregar todos los padres de este nodo para expandirlos
+          parents.forEach(parentId => matchingParents.add(parentId));
+        }
+        
+        if (node.children && node.children.length > 0) {
+          findMatchingNodes(node.children, [...parents, node.id]);
+        }
+      });
+    };
+    
+    findMatchingNodes(treeData);
+    return matchingParents;
+  }, [treeData, searchTerm, searchType]);
+
+  // Filter tree based on search term and type
   const filteredData = useMemo(() => {
     if (!searchTerm) return treeData;
 
@@ -369,9 +447,16 @@ const TreeView = ({
           .includes(searchTerm.toLowerCase()) ||
           (node.description || '').toLowerCase().includes(searchTerm.toLowerCase());
 
+        const matchesType = searchType === 'all' || 
+          (searchType === 'sistemas' && node.type === 'Sistema') ||
+          (searchType === 'servicios' && node.type === 'Servicio');
+
         const filteredChildren = filterTree(node.children || []);
 
-        if (matchesSearch || filteredChildren.length > 0) {
+        // Incluir nodo si:
+        // 1. Coincide con búsqueda Y tipo
+        // 2. Tiene hijos que coinciden (para mostrar la jerarquía)
+        if ((matchesSearch && matchesType) || filteredChildren.length > 0) {
           acc.push({
             ...node,
             children: filteredChildren
@@ -383,7 +468,18 @@ const TreeView = ({
     };
 
     return filterTree(treeData);
-  }, [treeData, searchTerm]);
+  }, [treeData, searchTerm, searchType]);
+
+  // Aplicar auto-expansión cuando hay búsqueda
+  React.useEffect(() => {
+    if (searchTerm && autoExpandMatches.size > 0) {
+      setExpandedNodes(prev => {
+        const newSet = new Set(prev);
+        autoExpandMatches.forEach(id => newSet.add(id));
+        return newSet;
+      });
+    }
+  }, [searchTerm, autoExpandMatches]);
 
   const handleToggle = (nodeId) => {
     setExpandedNodes(prev => {
@@ -479,27 +575,79 @@ const TreeView = ({
           </HStack>
 
           {/* Controls */}
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={3}>
+          <VStack spacing={3} align="stretch">
             {/* Search */}
             {searchable && (
-              <HStack>
-                <Icon as={FiSearch} color="gray.500" flexShrink={0} />
-                <Box flex="1">
-                  <input
-                    placeholder="Buscar en la estructura..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: isMobile ? '12px 14px' : '8px 12px',
-                      border: '1px solid #E2E8F0',
-                      borderRadius: '6px',
-                      fontSize: isMobile ? '16px' : '14px', // 16px previene zoom en iOS
-                      touchAction: 'manipulation' // Mejora la experiencia táctil
-                    }}
-                  />
-                </Box>
-              </HStack>
+              <VStack spacing={2} align="stretch">
+                <HStack>
+                  <Icon as={FiSearch} color="gray.500" flexShrink={0} />
+                  <Box flex="1">
+                    <input
+                      placeholder="Buscar en la estructura..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: isMobile ? '12px 14px' : '8px 12px',
+                        border: '1px solid #E2E8F0',
+                        borderRadius: '6px',
+                        fontSize: isMobile ? '16px' : '14px', // 16px previene zoom en iOS
+                        touchAction: 'manipulation' // Mejora la experiencia táctil
+                      }}
+                    />
+                  </Box>
+                </HStack>
+                
+                {/* Search Type Filter */}
+                <HStack spacing={2} justify="center" wrap="wrap">
+                  <Button
+                    size="xs"
+                    variant={searchType === 'all' ? 'solid' : 'outline'}
+                    colorScheme="blue"
+                    onClick={() => setSearchType('all')}
+                    leftIcon={<FiFilter />}
+                    fontSize="xs"
+                    minH="28px"
+                    px={2}
+                  >
+                    Todos
+                  </Button>
+                  <Button
+                    size="xs"
+                    variant={searchType === 'sistemas' ? 'solid' : 'outline'}
+                    colorScheme="green"
+                    onClick={() => setSearchType('sistemas')}
+                    leftIcon={<FiFolder />}
+                    fontSize="xs"
+                    minH="28px"
+                    px={2}
+                  >
+                    Sistemas
+                  </Button>
+                  <Button
+                    size="xs"
+                    variant={searchType === 'servicios' ? 'solid' : 'outline'}
+                    colorScheme="purple"
+                    onClick={() => setSearchType('servicios')}
+                    leftIcon={<FiFile />}
+                    fontSize="xs"
+                    minH="28px"
+                    px={2}
+                  >
+                    Servicios
+                  </Button>
+                </HStack>
+                
+                {/* Search Results Info */}
+                {searchTerm && (
+                  <HStack spacing={2} justify="center">
+                    <Text fontSize="xs" color="gray.500" textAlign="center">
+                      Buscando "{searchTerm}" en {searchType === 'all' ? 'todos los elementos' : searchType}
+                      {autoExpandMatches.size > 0 && ` • ${autoExpandMatches.size} nodo(s) expandido(s)`}
+                    </Text>
+                  </HStack>
+                )}
+              </VStack>
             )}
 
             {/* Expand/Collapse Controls */}
@@ -529,7 +677,7 @@ const TreeView = ({
                 </Button>
               </HStack>
             )}
-          </SimpleGrid>
+          </VStack>
         </VStack>
       </Box>
 
