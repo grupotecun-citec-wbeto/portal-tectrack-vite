@@ -175,10 +175,9 @@ const Wizard = ({
     <Box
       bg={cardBg}
       borderRadius={{ base: 0, md: "xl" }}
-      border={{ base: "none", md: "1px solid" }}
-      borderColor={borderColor}
+      border="none"
       p={{ base: 2, md: 6 }}
-      shadow="sm"
+      shadow="none"
       maxW="100%"
       overflow="hidden"
       w="100%"

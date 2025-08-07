@@ -8,6 +8,7 @@ import {
   Input,
   VStack,
   HStack,
+  Flex,
   Text,
   useColorModeValue,
   Alert,
@@ -2447,17 +2448,21 @@ function WizardExample() {
       position="relative"
     >
       <VStack spacing={3} align="stretch">
-        {/* Header con checkbox y imagen */}
-        <HStack justify="space-between" align="start">
+        {/* Header con checkbox */}
+        <HStack justify="flex-start" align="start">
           <Checkbox 
             isChecked={isSelected} 
             onChange={() => onSelect(equipment.id)}
             onClick={(e) => e.stopPropagation()}
           />
-          {equipment.catalogo_img && (
+        </HStack>
+
+        {/* Imagen centrada */}
+        {equipment.catalogo_img && (
+          <Flex justify="center" align="center" w="100%">
             <Box
-              w="60px"
-              h="60px"
+              w="80px"
+              h="80px"
               borderRadius="md"
               overflow="hidden"
               bg="gray.100"
@@ -2468,8 +2473,8 @@ function WizardExample() {
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </Box>
-          )}
-        </HStack>
+          </Flex>
+        )}
 
         {/* Información principal */}
         <VStack align="start" spacing={2}>
