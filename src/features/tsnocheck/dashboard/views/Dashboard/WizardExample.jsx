@@ -3542,6 +3542,167 @@ function WizardExample() {
     },
     {
       id: 3,
+      title: 'Diagnóstico de Equipos',
+      content: (
+        <WizardStepContent
+          title="Diagnóstico de Equipos"
+          description="Agrega información de diagnóstico a los equipos seleccionados"
+          icon={FiClipboard}
+        >
+          <VStack spacing={6} align="stretch">
+            {formData.selectedEquipment && formData.selectedEquipment.length > 0 ? (
+              <Box
+                maxH="600px"
+                overflowY="auto"
+                css={{
+                  '&::-webkit-scrollbar': {
+                    width: '8px',
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    background: '#f1f1f1',
+                    borderRadius: '10px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    background: '#c1c1c1',
+                    borderRadius: '10px',
+                  },
+                  '&::-webkit-scrollbar-thumb:hover': {
+                    background: '#a8a8a8',
+                  },
+                }}
+              >
+                <VStack spacing={4} align="stretch">
+                  {formData.selectedEquipment.map((equipmentId) => {
+                    const equipment = equipmentData.find(eq => eq.id === equipmentId);
+                    if (!equipment) return null;
+                    
+                    return (
+                      <EquipmentDiagnosticCard
+                        key={equipment.id}
+                        equipment={equipment}
+                        diagnostic={formData.equipmentDiagnostics[equipment.id]}
+                        onUpdateDiagnostic={updateEquipmentDiagnostic}
+                        onRemoveDiagnostic={removeDiagnostic}
+                      />
+                    );
+                  })}
+                </VStack>
+              </Box>
+            ) : (
+              <Box
+                p={8}
+                bg="gray.50"
+                borderRadius="xl"
+                border="2px dashed"
+                borderColor="gray.300"
+                textAlign="center"
+              >
+                <FiClipboard size={48} color="#A0AEC0" style={{ margin: '0 auto 16px' }} />
+                <Text fontSize="lg" color="gray.500" fontWeight="medium">
+                  No hay equipos seleccionados
+                </Text>
+                <Text fontSize="sm" color="gray.400" mt={2}>
+                  Regresa al paso anterior para seleccionar equipos
+                </Text>
+              </Box>
+            )}
+
+            {/* Resumen de diagnósticos */}
+            {formData.selectedEquipment && formData.selectedEquipment.length > 0 && (
+              <Box
+                p={4}
+                bg="blue.50"
+                borderRadius="lg"
+                border="1px solid"
+                borderColor="blue.200"
+              >
+                <VStack spacing={3} align="start">
+                  <Text fontSize="sm" fontWeight="bold" color="blue.700">
+                    Resumen de Diagnósticos
+                  </Text>
+                  <HStack spacing={6} wrap="wrap">
+                    <HStack spacing={2}>
+                      <Box w={3} h={3} bg="green.400" borderRadius="full" />
+                      <Text fontSize="sm" color="gray.700">
+                        Con diagnóstico: {Object.keys(formData.equipmentDiagnostics || {}).length}
+                      </Text>
+                    </HStack>
+                    <HStack spacing={2}>
+                      <Box w={3} h={3} bg="gray.300" borderRadius="full" />
+                      <Text fontSize="sm" color="gray.700">
+                        Pendientes: {(formData.selectedEquipment?.length || 0) - Object.keys(formData.equipmentDiagnostics || {}).length}
+                      </Text>
+                    </HStack>
+                    <HStack spacing={2}>
+                      <Box w={3} h={3} bg="blue.400" borderRadius="full" />
+                      <Text fontSize="sm" color="gray.700">
+                        Total equipos: {formData.selectedEquipment?.length || 0}
+                      </Text>
+                    </HStack>
+                  </HStack>
+                  
+                  {Object.keys(formData.equipmentDiagnostics || {}).length > 0 && (
+                    <VStack align="start" spacing={2} w="100%" mt={3}>
+                      <Text fontSize="xs" fontWeight="medium" color="gray.600">
+                        Equipos con diagnóstico:
+                      </Text>
+                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
+                        {Object.keys(formData.equipmentDiagnostics || {}).map(equipmentId => {
+                          const equipment = equipmentData.find(eq => eq.id === parseInt(equipmentId));
+                          const diagnostic = formData.equipmentDiagnostics[equipmentId];
+                          if (!equipment) return null;
+                          
+                          const getPriorityColor = (priority) => {
+                            switch (priority) {
+                              case 'alta': return 'red';
+                              case 'media': return 'yellow';
+                              case 'baja': return 'green';
+                              default: return 'gray';
+                            }
+                          };
+                          
+                          return (
+                            <HStack key={equipmentId} justify="space-between" p={2} bg="white" borderRadius="md" border="1px solid" borderColor="gray.200">
+                              <VStack align="start" spacing={0}>
+                                <Text fontSize="xs" fontWeight="medium" color="gray.800">
+                                  {equipment.modelo_name}
+                                </Text>
+                                <Text fontSize="xs" color="gray.500">
+                                  {equipment.codigo_finca || equipment.serie || 'N/A'}
+                                </Text>
+                              </VStack>
+                              <Box
+                                px={2}
+                                py={1}
+                                bg={`${getPriorityColor(diagnostic.prioridad)}.100`}
+                                borderRadius="full"
+                                border="1px solid"
+                                borderColor={`${getPriorityColor(diagnostic.prioridad)}.200`}
+                              >
+                                <Text
+                                  fontSize="xs"
+                                  color={`${getPriorityColor(diagnostic.prioridad)}.700`}
+                                  fontWeight="bold"
+                                  textTransform="uppercase"
+                                >
+                                  {diagnostic.prioridad}
+                                </Text>
+                              </Box>
+                            </HStack>
+                          );
+                        })}
+                      </SimpleGrid>
+                    </VStack>
+                  )}
+                </VStack>
+              </Box>
+            )}
+          </VStack>
+        </WizardStepContent>
+      ),
+    },
+    {
+      id: 4,
       title: 'Información Personal',
       content: (
         <WizardStepContent
@@ -3603,7 +3764,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 4,
+      id: 5,
       title: 'Preferencias',
       content: (
         <WizardStepContent
@@ -3656,7 +3817,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 5,
+      id: 6,
       title: 'Características',
       content: (
         <WizardStepContent
@@ -3732,7 +3893,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 6,
+      id: 7,
       title: 'Estructura Organizacional',
       content: (
         <WizardStepContent
@@ -3757,7 +3918,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 7,
+      id: 8,
       title: 'Información Adicional',
       content: (
         <WizardStepContent
@@ -3812,7 +3973,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 8,
+      id: 9,
       title: 'Confirmación',
       content: (
         <WizardStepContent
