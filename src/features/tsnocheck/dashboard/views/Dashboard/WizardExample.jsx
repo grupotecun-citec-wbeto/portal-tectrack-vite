@@ -3714,6 +3714,66 @@ function WizardExample() {
                 </VStack>
               </Box>
             )}
+
+            {/* Sección de Sistemas y Servicios */}
+            <Box
+              p={4}
+              bg="blue.50"
+              borderRadius="lg"
+              border="1px solid"
+              borderColor="blue.200"
+            >
+              <VStack spacing={4} align="stretch">
+                <Text fontSize="md" fontWeight="bold" color="blue.700">
+                  Sistemas y Servicios Relacionados
+                </Text>
+                <Text fontSize="sm" color="blue.600">
+                  Selecciona los sistemas y servicios que están relacionados con el diagnóstico de los equipos
+                </Text>
+                
+                <TreeView
+                  data={treeData}
+                  onSelect={handleTreeSelection}
+                  showCheckboxes={true}
+                  title="Sistemas y Servicios"
+                />
+                
+                {/* Resumen de elementos seleccionados */}
+                {formData.selectedTreeItems && formData.selectedTreeItems.length > 0 && (
+                  <Box
+                    p={3}
+                    bg="white"
+                    borderRadius="md"
+                    border="1px solid"
+                    borderColor="blue.200"
+                  >
+                    <VStack align="start" spacing={2}>
+                      <Text fontSize="sm" fontWeight="medium" color="blue.700">
+                        Elementos Seleccionados ({formData.selectedTreeItems.length}):
+                      </Text>
+                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
+                        {formData.selectedTreeItems.map(itemId => {
+                          const item = treeData.find(d => d.id === itemId);
+                          return item ? (
+                            <HStack key={itemId} p={2} bg="blue.50" borderRadius="md" border="1px solid" borderColor="blue.100">
+                              <Box w={2} h={2} bg="blue.400" borderRadius="full" />
+                              <VStack align="start" spacing={0} flex="1">
+                                <Text fontSize="xs" fontWeight="medium" color="blue.800">
+                                  {item.name}
+                                </Text>
+                                <Text fontSize="xs" color="blue.600">
+                                  {item.type}
+                                </Text>
+                              </VStack>
+                            </HStack>
+                          ) : null;
+                        })}
+                      </SimpleGrid>
+                    </VStack>
+                  </Box>
+                )}
+              </VStack>
+            </Box>
           </VStack>
         </WizardStepContent>
       ),
