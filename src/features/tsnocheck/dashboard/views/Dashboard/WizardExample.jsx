@@ -2148,23 +2148,28 @@ function WizardExample() {
                   <Box
                     key={segment.id}
                     p={6}
-                    borderWidth="2px"
+                    border="2px solid"
                     borderColor={isSelected ? `${segment.color}.500` : 'gray.200'}
                     borderRadius="xl"
                     cursor="pointer"
-                    transition="all 0.3s"
+                    transition="all 0.3s ease"
                     bg={isSelected ? `${segment.color}.50` : 'white'}
+                    position="relative"
                     _hover={{
                       borderColor: `${segment.color}.400`,
-                      transform: 'translateY(-2px)',
-                      boxShadow: 'lg'
+                      boxShadow: 'lg',
+                      bg: isSelected ? `${segment.color}.100` : `${segment.color}.50`
                     }}
                     _dark={{
                       bg: isSelected ? `${segment.color}.900` : 'gray.800',
-                      borderColor: isSelected ? `${segment.color}.400` : 'gray.600'
+                      borderColor: isSelected ? `${segment.color}.400` : 'gray.600',
+                      _hover: {
+                        borderColor: `${segment.color}.300`,
+                        bg: isSelected ? `${segment.color}.800` : 'gray.700',
+                        boxShadow: 'lg'
+                      }
                     }}
                     onClick={() => updateFormData('selectedSegment', segment.id)}
-                    position="relative"
                   >
                     {/* Indicador de selección */}
                     {isSelected && (
