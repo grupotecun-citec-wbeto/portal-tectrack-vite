@@ -2759,9 +2759,12 @@ function WizardExample() {
         borderRadius="xl"
         bg={diagnostic ? 'green.50' : 'white'}
         transition="all 0.3s ease"
+        position="relative"
+        overflow="hidden"
         _hover={{
+          borderColor: diagnostic ? 'green.400' : 'gray.400',
           boxShadow: 'lg',
-          transform: 'translateY(-2px)',
+          bg: diagnostic ? 'green.100' : 'gray.50',
         }}
       >
         <VStack spacing={4} align="stretch">
@@ -2847,7 +2850,14 @@ function WizardExample() {
               bg="white"
               borderRadius="lg"
               border="1px solid"
-              borderColor="green.200"
+              borderColor="green.100"
+              boxShadow="sm"
+              transition="all 0.2s ease"
+              _hover={{
+                borderColor: "green.200",
+                boxShadow: "md",
+                bg: "green.25"
+              }}
             >
               <VStack align="start" spacing={3}>
                 <Text fontSize="sm" fontWeight="bold" color="gray.700">
@@ -2910,7 +2920,14 @@ function WizardExample() {
               bg="blue.50"
               borderRadius="lg"
               border="1px solid"
-              borderColor="blue.200"
+              borderColor="blue.100"
+              boxShadow="sm"
+              transition="all 0.2s ease"
+              _hover={{
+                borderColor: "blue.200",
+                boxShadow: "md",
+                bg: "blue.75"
+              }}
             >
               <VStack spacing={4} align="stretch">
                 <Text fontSize="sm" fontWeight="bold" color="blue.700">
