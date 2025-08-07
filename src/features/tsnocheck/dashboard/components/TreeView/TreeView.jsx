@@ -368,7 +368,8 @@ const TreeView = ({
 }) => {
   const [expandedNodes, setExpandedNodes] = useState(new Set());
   const [selectedNodes, setSelectedNodes] = useState(new Set());
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchInput, setSearchInput] = useState(''); // Input inmediato del usuario
+  const [searchTerm, setSearchTerm] = useState(''); // Término de búsqueda con debounce
   const [searchType, setSearchType] = useState('all'); // 'all', 'sistemas', 'servicios'
   
   // Detectar si es móvil
@@ -377,6 +378,17 @@ const TreeView = ({
 
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
+
+  // Debounce hook para la búsqueda
+  React.useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      setSearchTerm(searchInput);
+    }, 300); // 300ms de delay
+
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [searchInput]);
 
   // Actualizar viewMode cuando cambie el variant inicial, pero mantener preferencia del usuario
   React.useEffect(() => {
@@ -635,20 +647,55 @@ const TreeView = ({
               <VStack spacing={2} align="stretch">
                 <HStack>
                   <Icon as={FiSearch} color="gray.500" flexShrink={0} />
-                  <Box flex="1">
+                  <Box flex="1" position="relative">
                     <input
                       placeholder="Buscar en la estructura..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
                       style={{
                         width: '100%',
                         padding: isMobile ? '12px 14px' : '8px 12px',
+                        paddingRight: searchInput ? '30px' : (isMobile ? '14px' : '12px'), // Espacio para el botón X
                         border: '1px solid #E2E8F0',
                         borderRadius: '6px',
                         fontSize: isMobile ? '16px' : '14px', // 16px previene zoom en iOS
                         touchAction: 'manipulation' // Mejora la experiencia táctil
                       }}
                     />
+                    {/* Botón para limpiar búsqueda */}
+                    {searchInput && (
+                      <IconButton
+                        icon={<Text fontSize="xs" fontWeight="bold">×</Text>}
+                        size="xs"
+                        variant="ghost"
+                        position="absolute"
+                        right="4px"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        onClick={() => {
+                          setSearchInput('');
+                          setSearchTerm('');
+                        }}
+                        aria-label="Limpiar búsqueda"
+                        minW="20px"
+                        h="20px"
+                        color="gray.400"
+                        _hover={{ color: 'gray.600' }}
+                      />
+                    )}
+                    {/* Indicador de búsqueda activa */}
+                    {searchInput && searchInput !== searchTerm && !searchInput && (
+                      <Box
+                        position="absolute"
+                        right="8px"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        color="gray.400"
+                        fontSize="xs"
+                      >
+                        ...
+                      </Box>
+                    )}
                   </Box>
                 </HStack>
                 
@@ -693,27 +740,35 @@ const TreeView = ({
                 </HStack>
                 
                 {/* Search Results Info */}
-                {searchTerm && (
+                {(searchInput || searchTerm) && (
                   <VStack spacing={2} align="center">
-                    <Text fontSize="xs" color="gray.500" textAlign="center">
-                      Buscando "{searchTerm}" en {searchType === 'all' ? 'todos los elementos' : searchType}
-                      {autoExpandMatches.size > 0 && ` • ${autoExpandMatches.size} elemento(s) expandido(s) automáticamente`}
-                    </Text>
-                    
-                    {/* Quick expand for found systems */}
-                    {searchType === 'sistemas' && filteredData.length > 0 && (
-                      <Button
-                        size="xs"
-                        variant="outline"
-                        colorScheme="green"
-                        onClick={expandAllFoundSystems}
-                        leftIcon={<FiChevronDown />}
-                        fontSize="xs"
-                        minH="24px"
-                        px={2}
-                      >
-                        Ver contenido de sistemas encontrados
-                      </Button>
+                    {searchInput && searchInput !== searchTerm ? (
+                      <Text fontSize="xs" color="gray.400" textAlign="center">
+                        Escribiendo... (búsqueda automática en 300ms)
+                      </Text>
+                    ) : searchTerm && (
+                      <>
+                        <Text fontSize="xs" color="gray.500" textAlign="center">
+                          Buscando "{searchTerm}" en {searchType === 'all' ? 'todos los elementos' : searchType}
+                          {autoExpandMatches.size > 0 && ` • ${autoExpandMatches.size} elemento(s) expandido(s) automáticamente`}
+                        </Text>
+                        
+                        {/* Quick expand for found systems */}
+                        {searchType === 'sistemas' && filteredData.length > 0 && (
+                          <Button
+                            size="xs"
+                            variant="outline"
+                            colorScheme="green"
+                            onClick={expandAllFoundSystems}
+                            leftIcon={<FiChevronDown />}
+                            fontSize="xs"
+                            minH="24px"
+                            px={2}
+                          >
+                            Ver contenido de sistemas encontrados
+                          </Button>
+                        )}
+                      </>
                     )}
                   </VStack>
                 )}
