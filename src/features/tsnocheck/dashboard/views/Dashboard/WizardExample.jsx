@@ -2554,19 +2554,19 @@ function WizardExample() {
           </HStack>
         </VStack>
 
-        {/* Información detallada mejorada */}
+        {/* Información detallada mejorada para mejor legibilidad */}
         <Box
-          p={3}
+          p={4}
           bg={isSelected ? 'blue.25' : 'gray.50'}
           borderRadius="lg"
           border="1px solid"
           borderColor={isSelected ? 'blue.100' : 'gray.200'}
         >
-          <VStack align="start" spacing={2} fontSize="sm">
+          <VStack align="start" spacing={3}>
             <Text 
-              fontSize="xs" 
+              fontSize="sm" 
               fontWeight="bold" 
-              color="gray.600" 
+              color="gray.700" 
               textTransform="uppercase"
               letterSpacing="wide"
               mb={1}
@@ -2574,53 +2574,110 @@ function WizardExample() {
               Detalles del Equipo
             </Text>
             
-            <SimpleGrid columns={1} spacing={2} w="100%">
-              <HStack justify="space-between" w="100%">
-                <Text color="gray.600" fontWeight="medium">Departamento:</Text>
-                <Text color="gray.800" fontWeight="semibold">{equipment.subdivision_name || 'N/A'}</Text>
-              </HStack>
-              <HStack justify="space-between" w="100%">
-                <Text color="gray.600" fontWeight="medium">Proyecto:</Text>
-                <Text color="gray.800" fontWeight="semibold" isTruncated maxW="120px">{equipment.proyecto_name || 'N/A'}</Text>
-              </HStack>
-              <HStack justify="space-between" w="100%">
-                <Text color="gray.600" fontWeight="medium">Cliente:</Text>
-                <Text color="gray.800" fontWeight="semibold">{equipment.cliente_name || 'N/A'}</Text>
-              </HStack>
-              <HStack justify="space-between" w="100%">
-                <Text color="gray.600" fontWeight="medium">Estado:</Text>
-                <Box 
-                  px={2} 
-                  py={1} 
-                  bg="green.100" 
-                  borderRadius="md"
-                  border="1px solid green.200"
-                >
-                  <Text color="green.700" fontSize="xs" fontWeight="bold">
-                    {equipment.estado_maquinaria || 'N/A'}
+            <VStack spacing={3} w="100%" align="stretch">
+              {/* Información básica */}
+              <VStack spacing={2} align="stretch">
+                <Box>
+                  <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={1}>
+                    Departamento
+                  </Text>
+                  <Text fontSize="sm" color="gray.800" fontWeight="semibold" lineHeight="1.3">
+                    {equipment.subdivision_name || 'N/A'}
                   </Text>
                 </Box>
-              </HStack>
-              <HStack justify="space-between" w="100%">
-                <Text color="gray.600" fontWeight="medium">Propietario:</Text>
-                <Text color="gray.800" fontWeight="semibold">{equipment.propietario_name || 'N/A'}</Text>
-              </HStack>
-              <HStack justify="space-between" w="100%">
-                <Text color="gray.600" fontWeight="medium">Código:</Text>
-                <Text 
-                  color="blue.600" 
-                  fontFamily="mono" 
-                  fontSize="xs"
-                  fontWeight="bold"
-                  bg="blue.50"
-                  px={2}
-                  py={1}
-                  borderRadius="md"
-                >
-                  {equipment.codigo_finca || equipment.serie || equipment.chasis || 'N/A'}
-                </Text>
-              </HStack>
-            </SimpleGrid>
+                
+                <Box>
+                  <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={1}>
+                    Proyecto
+                  </Text>
+                  <Text 
+                    fontSize="sm" 
+                    color="gray.800" 
+                    fontWeight="semibold"
+                    lineHeight="1.3"
+                    noOfLines={2}
+                  >
+                    {equipment.proyecto_name || 'N/A'}
+                  </Text>
+                </Box>
+                
+                <Box>
+                  <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={1}>
+                    Cliente
+                  </Text>
+                  <Text 
+                    fontSize="sm" 
+                    color="gray.800" 
+                    fontWeight="semibold"
+                    lineHeight="1.3"
+                    noOfLines={2}
+                  >
+                    {equipment.cliente_name || 'N/A'}
+                  </Text>
+                </Box>
+              </VStack>
+
+              {/* Estado y código en badges */}
+              <VStack spacing={2} align="stretch">
+                <Box>
+                  <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={2}>
+                    Estado
+                  </Text>
+                  <Box 
+                    px={3} 
+                    py={2} 
+                    bg="green.100" 
+                    borderRadius="lg"
+                    border="1px solid green.200"
+                    textAlign="center"
+                  >
+                    <Text color="green.700" fontSize="sm" fontWeight="bold" lineHeight="1.2">
+                      {equipment.estado_maquinaria || 'N/A'}
+                    </Text>
+                  </Box>
+                </Box>
+                
+                <Box>
+                  <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={2}>
+                    Propietario
+                  </Text>
+                  <Text 
+                    fontSize="sm" 
+                    color="gray.800" 
+                    fontWeight="semibold"
+                    lineHeight="1.3"
+                    noOfLines={2}
+                  >
+                    {equipment.propietario_name || 'N/A'}
+                  </Text>
+                </Box>
+                
+                <Box>
+                  <Text fontSize="xs" color="gray.500" fontWeight="medium" mb={2}>
+                    Código de Referencia
+                  </Text>
+                  <Box
+                    px={3}
+                    py={2}
+                    bg="blue.50"
+                    borderRadius="lg"
+                    border="1px solid blue.200"
+                    textAlign="center"
+                  >
+                    <Text 
+                      color="blue.700" 
+                      fontFamily="mono" 
+                      fontSize="sm"
+                      fontWeight="bold"
+                      lineHeight="1.2"
+                      wordBreak="break-all"
+                    >
+                      {equipment.codigo_finca || equipment.serie || equipment.chasis || 'N/A'}
+                    </Text>
+                  </Box>
+                </Box>
+              </VStack>
+            </VStack>
           </VStack>
         </Box>
       </VStack>
