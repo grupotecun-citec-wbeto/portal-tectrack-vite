@@ -3023,77 +3023,78 @@ function WizardExample() {
                     rows={2}
                   />
                 </FormControl>
+
+                {/* Sección de Sistemas y Servicios dentro del formulario de edición */}
+                <Box
+                  p={4}
+                  bg="white"
+                  borderRadius="lg"
+                  border="1px solid"
+                  borderColor="gray.200"
+                  mt={4}
+                >
+                  <VStack spacing={4} align="stretch">
+                    <Text fontSize="sm" fontWeight="bold" color="gray.700">
+                      Sistemas y Servicios Relacionados
+                    </Text>
+                    <Text fontSize="xs" color="gray.600">
+                      Selecciona los sistemas y servicios específicos para este equipo
+                    </Text>
+                    
+                    <TreeView
+                      data={treeData}
+                      onSelect={(node, selectedNodes) => {
+                        // Actualizar sistemas específicos para este equipo
+                        const currentEquipmentSystems = formData.equipmentSystems || {};
+                        updateFormData('equipmentSystems', {
+                          ...currentEquipmentSystems,
+                          [equipment.id]: Array.from(selectedNodes)
+                        });
+                      }}
+                      showCheckboxes={true}
+                      title={`Sistemas para ${equipment.modelo_name}`}
+                      selectedItems={formData.equipmentSystems?.[equipment.id] || []}
+                    />
+                    
+                    {/* Resumen de sistemas seleccionados para este equipo */}
+                    {formData.equipmentSystems?.[equipment.id] && formData.equipmentSystems[equipment.id].length > 0 && (
+                      <Box
+                        p={3}
+                        bg="gray.50"
+                        borderRadius="md"
+                        border="1px solid"
+                        borderColor="gray.200"
+                      >
+                        <VStack align="start" spacing={2}>
+                          <Text fontSize="xs" fontWeight="medium" color="gray.700">
+                            Sistemas Seleccionados ({formData.equipmentSystems[equipment.id].length}):
+                          </Text>
+                          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
+                            {formData.equipmentSystems[equipment.id].map(itemId => {
+                              const item = treeData.find(d => d.id === itemId);
+                              return item ? (
+                                <HStack key={itemId} p={2} bg="white" borderRadius="md" border="1px solid" borderColor="gray.100">
+                                  <Box w={2} h={2} bg="blue.400" borderRadius="full" />
+                                  <VStack align="start" spacing={0} flex="1">
+                                    <Text fontSize="xs" fontWeight="medium" color="gray.800">
+                                      {item.name}
+                                    </Text>
+                                    <Text fontSize="xs" color="gray.600">
+                                      {item.type}
+                                    </Text>
+                                  </VStack>
+                                </HStack>
+                              ) : null;
+                            })}
+                          </SimpleGrid>
+                        </VStack>
+                      </Box>
+                    )}
+                  </VStack>
+                </Box>
               </VStack>
             </Box>
           ) : null}
-
-          {/* Sección de Sistemas y Servicios para este equipo */}
-          <Box
-            p={4}
-            bg="blue.50"
-            borderRadius="lg"
-            border="1px solid"
-            borderColor="blue.200"
-          >
-            <VStack spacing={4} align="stretch">
-              <Text fontSize="sm" fontWeight="bold" color="blue.700">
-                Sistemas y Servicios Relacionados
-              </Text>
-              <Text fontSize="xs" color="blue.600">
-                Selecciona los sistemas y servicios específicos para este equipo
-              </Text>
-              
-              <TreeView
-                data={treeData}
-                onSelect={(node, selectedNodes) => {
-                  // Actualizar sistemas específicos para este equipo
-                  const currentEquipmentSystems = formData.equipmentSystems || {};
-                  updateFormData('equipmentSystems', {
-                    ...currentEquipmentSystems,
-                    [equipment.id]: Array.from(selectedNodes)
-                  });
-                }}
-                showCheckboxes={true}
-                title={`Sistemas para ${equipment.modelo_name}`}
-                selectedItems={formData.equipmentSystems?.[equipment.id] || []}
-              />
-              
-              {/* Resumen de sistemas seleccionados para este equipo */}
-              {formData.equipmentSystems?.[equipment.id] && formData.equipmentSystems[equipment.id].length > 0 && (
-                <Box
-                  p={3}
-                  bg="white"
-                  borderRadius="md"
-                  border="1px solid"
-                  borderColor="blue.200"
-                >
-                  <VStack align="start" spacing={2}>
-                    <Text fontSize="xs" fontWeight="medium" color="blue.700">
-                      Sistemas Seleccionados ({formData.equipmentSystems[equipment.id].length}):
-                    </Text>
-                    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
-                      {formData.equipmentSystems[equipment.id].map(itemId => {
-                        const item = treeData.find(d => d.id === itemId);
-                        return item ? (
-                          <HStack key={itemId} p={2} bg="blue.50" borderRadius="md" border="1px solid" borderColor="blue.100">
-                            <Box w={2} h={2} bg="blue.400" borderRadius="full" />
-                            <VStack align="start" spacing={0} flex="1">
-                              <Text fontSize="xs" fontWeight="medium" color="blue.800">
-                                {item.name}
-                              </Text>
-                              <Text fontSize="xs" color="blue.600">
-                                {item.type}
-                              </Text>
-                            </VStack>
-                          </HStack>
-                        ) : null;
-                      })}
-                    </SimpleGrid>
-                  </VStack>
-                </Box>
-              )}
-            </VStack>
-          </Box>
         </VStack>
       </Box>
     );
