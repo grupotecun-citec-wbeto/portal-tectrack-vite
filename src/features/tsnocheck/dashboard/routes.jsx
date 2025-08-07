@@ -7,6 +7,7 @@ import Billing from "./views/Dashboard/Billing.jsx";
 import Datos from "./views/Dashboard/Datos.jsx";
 import Datos2 from "./views/Dashboard/Datos2.jsx";
 import DatosWithId from "./views/Dashboard/DatosWithId.jsx";
+import WizardExample from "./views/Dashboard/WizardExample.jsx";
 import RTLPage from "./views/RTL/RTLPage.jsx";
 import Profile from "./views/Dashboard/Profile.jsx";
 import SignIn from "./views/Pages/SignIn.jsx";
@@ -44,6 +45,14 @@ var dashRoutes = [
         rtlName: "لوحة القيادة",
         icon: <PersonIcon color='inherit' />,
         component: Profile,
+        layout: "/admin",
+      },
+      {
+        path: "/wizard",
+        name: "Wizard",
+        rtlName: "المعالج",
+        icon: <StatsIcon color='inherit' />,
+        component: WizardExample,
         layout: "/admin",
       },
       {
