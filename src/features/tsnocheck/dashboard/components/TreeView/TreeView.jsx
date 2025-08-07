@@ -208,7 +208,7 @@ const TreeNode = ({
                   <TreeNode
                     key={child.id}
                     node={child}
-                    level={level + 1}
+                    level={child.level || (level + 1)} // Usar el nivel del hijo o calcular
                     onToggle={onToggle}
                     onSelect={onSelect}
                     expandedNodes={expandedNodes}
@@ -340,7 +340,7 @@ const TreeNode = ({
               <TreeNode
                 key={child.id}
                 node={child}
-                level={level + 1}
+                level={child.level || (level + 1)} // Usar el nivel del hijo o calcular
                 onToggle={onToggle}
                 onSelect={onSelect}
                 expandedNodes={expandedNodes}
@@ -404,12 +404,13 @@ const TreeView = ({
   const treeData = useMemo(() => {
     if (!data || !Array.isArray(data)) return [];
 
-    const buildTree = (items, parentId = null) => {
+    const buildTree = (items, parentId = null, level = 0) => {
       return items
         .filter(item => item.parentId === parentId)
         .map(item => ({
           ...item,
-          children: buildTree(items, item.id)
+          level: level, // Agregar el nivel al nodo
+          children: buildTree(items, item.id, level + 1)
         }));
     };
 
@@ -474,7 +475,7 @@ const TreeView = ({
         // Si el nodo actual coincide, incluir TODOS sus hijos sin filtrar
         let childrenToInclude = [];
         if (currentNodeMatches) {
-          // Si el nodo coincide, incluir todos sus hijos tal como están
+          // Si el nodo coincide, incluir todos sus hijos tal como están (preservando niveles)
           childrenToInclude = node.children || [];
         } else {
           // Si el nodo no coincide, filtrar recursivamente los hijos
@@ -488,6 +489,7 @@ const TreeView = ({
           acc.push({
             ...node,
             children: childrenToInclude
+            // Preservamos el nivel original del nodo
           });
         }
 
@@ -824,6 +826,7 @@ const TreeView = ({
               <TreeNode
                 key={node.id}
                 node={node}
+                level={node.level || 0} // Usar el nivel del nodo
                 onToggle={handleToggle}
                 onSelect={handleSelect}
                 expandedNodes={expandedNodes}
