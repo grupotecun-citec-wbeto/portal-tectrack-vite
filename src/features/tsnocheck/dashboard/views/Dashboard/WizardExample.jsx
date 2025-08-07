@@ -21,7 +21,7 @@ import {
   SimpleGrid,
   useToast,
 } from '@chakra-ui/react';
-import { FiUser, FiSettings, FiCheck, FiMail, FiShield, FiBell, FiMoon, FiZap, FiGlobe, FiLock, FiGitBranch } from 'react-icons/fi';
+import { FiUser, FiSettings, FiCheck, FiMail, FiShield, FiBell, FiMoon, FiZap, FiGlobe, FiLock, FiGitBranch, FiHeadphones, FiBookOpen, FiTool, FiStar } from 'react-icons/fi';
 import Card from '@dashboard/components/Card/Card';
 import CardHeader from '@dashboard/components/Card/CardHeader';
 import CardBody from '@dashboard/components/Card/CardBody';
@@ -34,18 +34,21 @@ function WizardExample() {
   
   // Form data state
   const [formData, setFormData] = useState({
-    // Step 1: Personal Info
+    // Step 1: Segment Selection
+    selectedSegment: '',
+    
+    // Step 2: Personal Info (moved from step 1)
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     
-    // Step 2: Preferences
+    // Step 3: Preferences
     notifications: false,
     theme: 'light',
     language: 'es',
     
-    // Step 3: Features Selection (Checkboxes with Icons)
+    // Step 4: Features Selection (Checkboxes with Icons)
     features: {
       security: false,
       notifications: false,
@@ -55,14 +58,42 @@ function WizardExample() {
       privacy: false,
     },
     
-    // Step 4: Tree Selection
+    // Step 5: Tree Selection
     selectedTreeItems: [],
     
-    // Step 5: Additional Info
+    // Step 6: Additional Info
     bio: '',
     company: '',
     role: '',
   });
+
+  // Definición de segmentos disponibles
+  const segments = [
+    {
+      id: 'soporte',
+      title: 'Soporte Técnico',
+      description: 'Asistencia técnica especializada, resolución de problemas y mantenimiento de equipos',
+      icon: FiHeadphones,
+      color: 'blue',
+      features: ['Asistencia 24/7', 'Diagnóstico remoto', 'Mantenimiento preventivo', 'Soporte en campo']
+    },
+    {
+      id: 'capacitacion',
+      title: 'Capacitación',
+      description: 'Programas de entrenamiento y desarrollo de habilidades técnicas',
+      icon: FiBookOpen,
+      color: 'green',
+      features: ['Cursos especializados', 'Certificaciones', 'Material didáctico', 'Prácticas en campo']
+    },
+    {
+      id: 'proyectos',
+      title: 'Proyectos',
+      description: 'Desarrollo e implementación de soluciones tecnológicas personalizadas',
+      icon: FiTool,
+      color: 'purple',
+      features: ['Consultoría técnica', 'Implementación', 'Integración de sistemas', 'Seguimiento']
+    }
+  ];
 
   // Datos de ejemplo para el árbol (simulando una estructura recursiva de la base de datos)
   const treeData = [
@@ -2099,6 +2130,131 @@ function WizardExample() {
   const wizardSteps = [
     {
       id: 0,
+      title: 'Selección de Segmento',
+      content: (
+        <WizardStepContent
+          title="Elige tu Segmento"
+          description="Selecciona el área de servicio que mejor se adapte a tus necesidades"
+          icon={FiStar}
+        >
+          <VStack spacing={6} align="stretch">
+            <SimpleGrid 
+              columns={{ base: 1, md: 3 }} 
+              spacing={6}
+            >
+              {segments.map((segment) => {
+                const isSelected = formData.selectedSegment === segment.id;
+                return (
+                  <Box
+                    key={segment.id}
+                    p={6}
+                    borderWidth="2px"
+                    borderColor={isSelected ? `${segment.color}.500` : 'gray.200'}
+                    borderRadius="xl"
+                    cursor="pointer"
+                    transition="all 0.3s"
+                    bg={isSelected ? `${segment.color}.50` : 'white'}
+                    _hover={{
+                      borderColor: `${segment.color}.400`,
+                      transform: 'translateY(-2px)',
+                      boxShadow: 'lg'
+                    }}
+                    _dark={{
+                      bg: isSelected ? `${segment.color}.900` : 'gray.800',
+                      borderColor: isSelected ? `${segment.color}.400` : 'gray.600'
+                    }}
+                    onClick={() => updateFormData('selectedSegment', segment.id)}
+                    position="relative"
+                  >
+                    {/* Indicador de selección */}
+                    {isSelected && (
+                      <Box
+                        position="absolute"
+                        top={3}
+                        right={3}
+                        bg={`${segment.color}.500`}
+                        color="white"
+                        borderRadius="full"
+                        p={1}
+                      >
+                        <FiCheck size={12} />
+                      </Box>
+                    )}
+                    
+                    {/* Icono */}
+                    <VStack spacing={4} align="center" textAlign="center">
+                      <Box
+                        p={4}
+                        borderRadius="full"
+                        bg={`${segment.color}.100`}
+                        color={`${segment.color}.600`}
+                        _dark={{
+                          bg: `${segment.color}.800`,
+                          color: `${segment.color}.200`
+                        }}
+                      >
+                        <segment.icon size={32} />
+                      </Box>
+                      
+                      {/* Título */}
+                      <Text
+                        fontSize="xl"
+                        fontWeight="bold"
+                        color={isSelected ? `${segment.color}.700` : 'gray.700'}
+                        _dark={{
+                          color: isSelected ? `${segment.color}.200` : 'white'
+                        }}
+                      >
+                        {segment.title}
+                      </Text>
+                      
+                      {/* Descripción */}
+                      <Text
+                        fontSize="sm"
+                        color="gray.600"
+                        _dark={{ color: 'gray.400' }}
+                        lineHeight="tall"
+                      >
+                        {segment.description}
+                      </Text>
+                      
+                      {/* Características */}
+                      <VStack spacing={1} align="stretch" w="100%">
+                        {segment.features.map((feature, index) => (
+                          <HStack key={index} spacing={2} justify="center">
+                            <Box w={1} h={1} bg="gray.400" borderRadius="full" />
+                            <Text fontSize="xs" color="gray.600" _dark={{ color: 'gray.400' }}>
+                              {feature}
+                            </Text>
+                          </HStack>
+                        ))}
+                      </VStack>
+                    </VStack>
+                  </Box>
+                );
+              })}
+            </SimpleGrid>
+            
+            {/* Información adicional */}
+            {formData.selectedSegment && (
+              <Alert status="info" borderRadius="md">
+                <AlertIcon />
+                <Box>
+                  <Text fontWeight="semibold">
+                    Has seleccionado: {segments.find(s => s.id === formData.selectedSegment)?.title}
+                  </Text>
+                  <Text fontSize="sm">
+                    Continuaremos con la configuración específica para este segmento.
+                  </Text>
+                </Box>
+              </Alert>
+            )}
+          </VStack>
+        </WizardStepContent>
+      ),
+    },
+    {
+      id: 1,
       title: 'Información Personal',
       content: (
         <WizardStepContent
@@ -2160,7 +2316,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 1,
+      id: 2,
       title: 'Preferencias',
       content: (
         <WizardStepContent
@@ -2213,7 +2369,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 2,
+      id: 3,
       title: 'Características',
       content: (
         <WizardStepContent
@@ -2289,7 +2445,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 3,
+      id: 4,
       title: 'Estructura Organizacional',
       content: (
         <WizardStepContent
@@ -2314,7 +2470,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 4,
+      id: 5,
       title: 'Información Adicional',
       content: (
         <WizardStepContent
@@ -2369,7 +2525,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 5,
+      id: 6,
       title: 'Confirmación',
       content: (
         <WizardStepContent
@@ -2389,6 +2545,31 @@ function WizardExample() {
               columns={{ base: 1, lg: 2 }}
               spacing={4}
             >
+              <Box 
+                p={{ base: 3, md: 4 }} 
+                borderWidth="1px" 
+                borderRadius="md" 
+                bg={useColorModeValue('gray.50', 'gray.700')}
+              >
+                <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
+                  Segmento Seleccionado:
+                </Text>
+                <VStack align="start" spacing={1} fontSize={{ base: "sm", md: "md" }}>
+                  {formData.selectedSegment ? (
+                    <>
+                      <Text fontWeight="semibold" color={`${segments.find(s => s.id === formData.selectedSegment)?.color}.600`}>
+                        {segments.find(s => s.id === formData.selectedSegment)?.title}
+                      </Text>
+                      <Text fontSize="sm" color="gray.600">
+                        {segments.find(s => s.id === formData.selectedSegment)?.description}
+                      </Text>
+                    </>
+                  ) : (
+                    <Text color="red.500">No seleccionado</Text>
+                  )}
+                </VStack>
+              </Box>
+
               <Box 
                 p={{ base: 3, md: 4 }} 
                 borderWidth="1px" 
