@@ -21,7 +21,7 @@ import {
   SimpleGrid,
   useToast,
 } from '@chakra-ui/react';
-import { FiUser, FiSettings, FiCheck, FiMail, FiShield, FiBell, FiMoon, FiZap, FiGlobe, FiLock, FiGitBranch, FiHeadphones, FiBookOpen, FiTool, FiStar, FiAlertTriangle, FiRefreshCw } from 'react-icons/fi';
+import { FiUser, FiSettings, FiCheck, FiMail, FiShield, FiBell, FiMoon, FiZap, FiGlobe, FiLock, FiGitBranch, FiHeadphones, FiBookOpen, FiTool, FiStar, FiAlertTriangle, FiRefreshCw, FiSearch, FiGrid, FiList, FiEye, FiFilter } from 'react-icons/fi';
 import Card from '@dashboard/components/Card/Card';
 import CardHeader from '@dashboard/components/Card/CardHeader';
 import CardBody from '@dashboard/components/Card/CardBody';
@@ -40,7 +40,12 @@ function WizardExample() {
     // Step 2: Case Type Selection
     selectedCaseType: '',
     
-    // Step 3: Personal Info (moved from step 2)
+    // Step 3: Equipment Search
+    searchTerm: '',
+    selectedEquipment: [],
+    viewMode: 'cards', // 'compact', 'normal', 'cards'
+    
+    // Step 4: Personal Info (moved from step 3)
     firstName: '',
     lastName: '',
     email: '',
@@ -115,6 +120,178 @@ function WizardExample() {
       icon: FiRefreshCw,
       color: 'green',
       features: ['Mantenimiento programado', 'Inspecciones regulares', 'Actualizaciones preventivas', 'Optimización continua']
+    }
+  ];
+
+  // Datos de equipos de ejemplo (simulando la consulta de la base de datos)
+  const equipmentData = [
+    {
+      id: 1,
+      catalogo_id: 7,
+      serie: null,
+      serie_extra: null,
+      chasis: "HCCZC140EPCN59011",
+      categoria_name: "TRACTOR",
+      catalogo_img: "https://storage.googleapis.com/images-tectrack/Puma_185.jpg",
+      modelo_name: "PUMA SPS 140",
+      marca_name: "CASE IH",
+      proyecto_name: "PROYECTO",
+      subdivision_name: null,
+      cliente_name: null,
+      estado_maquinaria: null,
+      estatus_maquinaria: null,
+      departamento_negocio: null,
+      unidad_negocio: null,
+      propietario_name: null,
+      contrato: null,
+      codigo_finca: "81268"
+    },
+    {
+      id: 2,
+      catalogo_id: 7,
+      serie: null,
+      serie_extra: null,
+      chasis: "HCCZC140CPCN59009",
+      categoria_name: "TRACTOR",
+      catalogo_img: "https://storage.googleapis.com/images-tectrack/Puma_185.jpg",
+      modelo_name: "PUMA SPS 140",
+      marca_name: "CASE IH",
+      proyecto_name: "PROYECTO",
+      subdivision_name: null,
+      cliente_name: null,
+      estado_maquinaria: null,
+      estatus_maquinaria: null,
+      departamento_negocio: null,
+      unidad_negocio: null,
+      propietario_name: null,
+      contrato: null,
+      codigo_finca: "81269"
+    },
+    {
+      id: 3,
+      catalogo_id: 7,
+      serie: null,
+      serie_extra: null,
+      chasis: "HCCZC140CPCN59043",
+      categoria_name: "TRACTOR",
+      catalogo_img: "https://storage.googleapis.com/images-tectrack/Puma_185.jpg",
+      modelo_name: "PUMA SPS 140",
+      marca_name: "CASE IH",
+      proyecto_name: "PROYECTO",
+      subdivision_name: null,
+      cliente_name: null,
+      estado_maquinaria: null,
+      estatus_maquinaria: null,
+      departamento_negocio: null,
+      unidad_negocio: null,
+      propietario_name: null,
+      contrato: null,
+      codigo_finca: "81270"
+    },
+    {
+      id: 4,
+      catalogo_id: 15,
+      serie: "FR1614241",
+      serie_extra: null,
+      chasis: null,
+      categoria_name: "TRACTOR",
+      catalogo_img: "https://storage.googleapis.com/images-tectrack/Farmall_90.jpg",
+      modelo_name: "JXM 90",
+      marca_name: "CASE IH",
+      proyecto_name: "ATLANTIDA Tecun Uman Farmall 90 (308)",
+      subdivision_name: "TECÚN UMÁN ATLÁNTIDA",
+      cliente_name: "ATLANTIDA",
+      estado_maquinaria: "ACTIVO",
+      estatus_maquinaria: "OPERATIVO",
+      departamento_negocio: "AGRICULTURA",
+      unidad_negocio: "TRACTORES",
+      propietario_name: "ATLANTIDA",
+      contrato: "ATLANTIDA Tecun Uman Farmall 90 (308)",
+      codigo_finca: "292299"
+    },
+    {
+      id: 5,
+      catalogo_id: 15,
+      serie: "FR1622603",
+      serie_extra: null,
+      chasis: null,
+      categoria_name: "TRACTOR",
+      catalogo_img: "https://storage.googleapis.com/images-tectrack/Farmall_90.jpg",
+      modelo_name: "JXM 90",
+      marca_name: "CASE IH",
+      proyecto_name: "ATLANTIDA Tecun Uman Farmall 90 (308)",
+      subdivision_name: "TECÚN UMÁN ATLÁNTIDA",
+      cliente_name: "ATLANTIDA",
+      estado_maquinaria: "ACTIVO",
+      estatus_maquinaria: "OPERATIVO",
+      departamento_negocio: "AGRICULTURA",
+      unidad_negocio: "TRACTORES",
+      propietario_name: "ATLANTIDA",
+      contrato: "ATLANTIDA Tecun Uman Farmall 90 (308)",
+      codigo_finca: "292300"
+    },
+    {
+      id: 6,
+      catalogo_id: 28,
+      serie: "PULV001",
+      serie_extra: null,
+      chasis: null,
+      categoria_name: "PULVERIZADOR",
+      catalogo_img: "https://storage.googleapis.com/images-tectrack/PATRIOT_250.jpg",
+      modelo_name: "PATRIOT 250",
+      marca_name: "CASE IH",
+      proyecto_name: "PROYECTO PULVERIZACION",
+      subdivision_name: "ESCUINTLA",
+      cliente_name: "AGRO CORP",
+      estado_maquinaria: "ACTIVO",
+      estatus_maquinaria: "MANTENIMIENTO",
+      departamento_negocio: "AGRICULTURA",
+      unidad_negocio: "PULVERIZADORES",
+      propietario_name: "AGRO CORP",
+      contrato: "CONTRATO PULV 2024",
+      codigo_finca: "PULV001"
+    },
+    {
+      id: 7,
+      catalogo_id: 31,
+      serie: "CX001",
+      serie_extra: null,
+      chasis: "CX220C001",
+      categoria_name: "EXCAVADORA",
+      catalogo_img: "https://storage.googleapis.com/images-tectrack/excabadora_cx220c.png",
+      modelo_name: "CX 220 C",
+      marca_name: "CASE",
+      proyecto_name: "PROYECTO CONSTRUCCION",
+      subdivision_name: "GUATEMALA",
+      cliente_name: "CONSTRUCTORA XYZ",
+      estado_maquinaria: "ACTIVO",
+      estatus_maquinaria: "OPERATIVO",
+      departamento_negocio: "CONSTRUCCION",
+      unidad_negocio: "EXCAVADORAS",
+      propietario_name: "CONSTRUCTORA XYZ",
+      contrato: "CONTRATO CONSTRUCCION 2024",
+      codigo_finca: "CONST001"
+    },
+    {
+      id: 8,
+      catalogo_id: 33,
+      serie: "PC621G001",
+      serie_extra: null,
+      chasis: "PC621G001",
+      categoria_name: "PALA CARGADORA",
+      catalogo_img: "https://storage.googleapis.com/images-tectrack/PALA%20CARGADORA%20621G%20view.png",
+      modelo_name: "PC 621 G",
+      marca_name: "CASE",
+      proyecto_name: "PROYECTO MINERIA",
+      subdivision_name: "QUETZALTENANGO",
+      cliente_name: "MINERA ABC",
+      estado_maquinaria: "ACTIVO",
+      estatus_maquinaria: "OPERATIVO",
+      departamento_negocio: "MINERIA",
+      unidad_negocio: "PALAS CARGADORAS",
+      propietario_name: "MINERA ABC",
+      contrato: "CONTRATO MINERIA 2024",
+      codigo_finca: "MIN001"
     }
   ];
 
@@ -2067,6 +2244,44 @@ function WizardExample() {
     updateFormData('selectedTreeItems', Array.from(selectedNodes));
   };
 
+  // Funciones para la búsqueda de equipos
+  const filteredEquipment = equipmentData.filter(equipment => {
+    if (!formData.searchTerm) return true;
+    
+    const searchTerm = formData.searchTerm.toLowerCase();
+    return (
+      equipment.serie?.toLowerCase().includes(searchTerm) ||
+      equipment.serie_extra?.toLowerCase().includes(searchTerm) ||
+      equipment.chasis?.toLowerCase().includes(searchTerm) ||
+      equipment.codigo_finca?.toLowerCase().includes(searchTerm) ||
+      equipment.cliente_name?.toLowerCase().includes(searchTerm) ||
+      equipment.proyecto_name?.toLowerCase().includes(searchTerm) ||
+      equipment.categoria_name?.toLowerCase().includes(searchTerm) ||
+      equipment.marca_name?.toLowerCase().includes(searchTerm) ||
+      equipment.modelo_name?.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  const handleEquipmentSelection = (equipmentId) => {
+    const currentSelection = formData.selectedEquipment;
+    const isSelected = currentSelection.includes(equipmentId);
+    
+    if (isSelected) {
+      updateFormData('selectedEquipment', currentSelection.filter(id => id !== equipmentId));
+    } else {
+      updateFormData('selectedEquipment', [...currentSelection, equipmentId]);
+    }
+  };
+
+  const selectAllVisibleEquipment = () => {
+    const visibleIds = filteredEquipment.map(eq => eq.id);
+    updateFormData('selectedEquipment', visibleIds);
+  };
+
+  const clearEquipmentSelection = () => {
+    updateFormData('selectedEquipment', []);
+  };
+
   // Custom checkbox with icon component
   const IconCheckbox = ({ icon: Icon, title, description, isChecked, onChange, colorScheme = "blue" }) => {
     const borderColor = useColorModeValue('gray.200', 'gray.600');
@@ -2133,6 +2348,182 @@ function WizardExample() {
       </Box>
     );
   };
+
+  // Componente para vista compacta de equipos
+  const CompactEquipmentView = ({ equipment, isSelected, onSelect }) => (
+    <HStack
+      p={2}
+      borderWidth="1px"
+      borderColor={isSelected ? 'blue.500' : 'gray.200'}
+      borderRadius="md"
+      bg={isSelected ? 'blue.50' : 'white'}
+      cursor="pointer"
+      _hover={{ bg: isSelected ? 'blue.100' : 'gray.50' }}
+      onClick={() => onSelect(equipment.id)}
+      spacing={3}
+    >
+      <Checkbox isChecked={isSelected} onChange={() => onSelect(equipment.id)} />
+      <Text fontSize="sm" fontWeight="medium" flex="1" isTruncated>
+        {equipment.modelo_name}
+      </Text>
+      <Text fontSize="xs" color="gray.600" minW="60px">
+        {equipment.codigo_finca || equipment.serie || equipment.chasis || 'N/A'}
+      </Text>
+      <Text fontSize="xs" color="gray.500" minW="80px" textAlign="right">
+        {equipment.marca_name}
+      </Text>
+    </HStack>
+  );
+
+  // Componente para vista normal de equipos
+  const NormalEquipmentView = ({ equipment, isSelected, onSelect }) => (
+    <Box
+      p={4}
+      borderWidth="1px"
+      borderColor={isSelected ? 'blue.500' : 'gray.200'}
+      borderRadius="md"
+      bg={isSelected ? 'blue.50' : 'white'}
+      cursor="pointer"
+      _hover={{ bg: isSelected ? 'blue.100' : 'gray.50', transform: 'translateY(-1px)', boxShadow: 'md' }}
+      onClick={() => onSelect(equipment.id)}
+      transition="all 0.2s"
+    >
+      <HStack spacing={4} align="start">
+        <Checkbox 
+          isChecked={isSelected} 
+          onChange={() => onSelect(equipment.id)}
+          onClick={(e) => e.stopPropagation()}
+        />
+        <VStack align="start" spacing={2} flex="1">
+          <HStack justify="space-between" w="100%">
+            <Text fontSize="md" fontWeight="bold">
+              {equipment.modelo_name}
+            </Text>
+            <Text fontSize="sm" color="gray.600">
+              {equipment.marca_name}
+            </Text>
+          </HStack>
+          <SimpleGrid columns={3} spacing={4} w="100%" fontSize="sm">
+            <Box>
+              <Text color="gray.500" fontSize="xs">Categoría</Text>
+              <Text>{equipment.categoria_name}</Text>
+            </Box>
+            <Box>
+              <Text color="gray.500" fontSize="xs">Finca</Text>
+              <Text>{equipment.codigo_finca || 'N/A'}</Text>
+            </Box>
+            <Box>
+              <Text color="gray.500" fontSize="xs">Cliente</Text>
+              <Text>{equipment.cliente_name || 'N/A'}</Text>
+            </Box>
+          </SimpleGrid>
+          {equipment.serie && (
+            <Text fontSize="xs" color="gray.600">
+              Serie: {equipment.serie}
+            </Text>
+          )}
+          {equipment.chasis && (
+            <Text fontSize="xs" color="gray.600">
+              Chasis: {equipment.chasis}
+            </Text>
+          )}
+        </VStack>
+      </HStack>
+    </Box>
+  );
+
+  // Componente para vista de tarjetas de equipos
+  const CardEquipmentView = ({ equipment, isSelected, onSelect }) => (
+    <Box
+      p={4}
+      borderWidth="1px"
+      borderColor={isSelected ? 'blue.500' : 'gray.200'}
+      borderRadius="lg"
+      bg={isSelected ? 'blue.50' : 'white'}
+      cursor="pointer"
+      _hover={{ bg: isSelected ? 'blue.100' : 'gray.50', transform: 'translateY(-2px)', boxShadow: 'lg' }}
+      onClick={() => onSelect(equipment.id)}
+      transition="all 0.3s"
+      position="relative"
+    >
+      <VStack spacing={3} align="stretch">
+        {/* Header con checkbox y imagen */}
+        <HStack justify="space-between" align="start">
+          <Checkbox 
+            isChecked={isSelected} 
+            onChange={() => onSelect(equipment.id)}
+            onClick={(e) => e.stopPropagation()}
+          />
+          {equipment.catalogo_img && (
+            <Box
+              w="60px"
+              h="60px"
+              borderRadius="md"
+              overflow="hidden"
+              bg="gray.100"
+            >
+              <img
+                src={equipment.catalogo_img}
+                alt={equipment.modelo_name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </Box>
+          )}
+        </HStack>
+
+        {/* Información principal */}
+        <VStack align="start" spacing={2}>
+          <Text fontSize="lg" fontWeight="bold" color="gray.800">
+            {equipment.modelo_name}
+          </Text>
+          <HStack justify="space-between" w="100%">
+            <Text fontSize="sm" color="blue.600" fontWeight="medium">
+              {equipment.categoria_name}
+            </Text>
+            <Text fontSize="sm" color="gray.600">
+              {equipment.marca_name}
+            </Text>
+          </HStack>
+        </VStack>
+
+        {/* Información detallada */}
+        <VStack align="start" spacing={1} fontSize="sm">
+          <HStack justify="space-between" w="100%">
+            <Text color="gray.500">Departamento:</Text>
+            <Text>{equipment.subdivision_name || 'N/A'}</Text>
+          </HStack>
+          <HStack justify="space-between" w="100%">
+            <Text color="gray.500">Proyecto:</Text>
+            <Text isTruncated maxW="120px">{equipment.proyecto_name || 'N/A'}</Text>
+          </HStack>
+          <HStack justify="space-between" w="100%">
+            <Text color="gray.500">Cliente:</Text>
+            <Text>{equipment.cliente_name || 'N/A'}</Text>
+          </HStack>
+          <HStack justify="space-between" w="100%">
+            <Text color="gray.500">Estado:</Text>
+            <Text>{equipment.estado_maquinaria || 'N/A'}</Text>
+          </HStack>
+          <HStack justify="space-between" w="100%">
+            <Text color="gray.500">Unidad Negocio:</Text>
+            <Text>{equipment.unidad_negocio || 'N/A'}</Text>
+          </HStack>
+          <HStack justify="space-between" w="100%">
+            <Text color="gray.500">Propietario:</Text>
+            <Text>{equipment.propietario_name || 'N/A'}</Text>
+          </HStack>
+          <HStack justify="space-between" w="100%">
+            <Text color="gray.500">Contrato:</Text>
+            <Text isTruncated maxW="120px">{equipment.contrato || 'N/A'}</Text>
+          </HStack>
+          <HStack justify="space-between" w="100%">
+            <Text color="gray.500">Finca:</Text>
+            <Text fontFamily="mono">{equipment.codigo_finca || equipment.serie || equipment.chasis || 'N/A'}</Text>
+          </HStack>
+        </VStack>
+      </VStack>
+    </Box>
+  );
 
   const handleStepChange = (stepIndex, step) => {
     console.log(`Changed to step ${stepIndex}:`, step.title);
@@ -2413,6 +2804,182 @@ function WizardExample() {
     },
     {
       id: 2,
+      title: 'Búsqueda de Equipos',
+      content: (
+        <WizardStepContent
+          title="Seleccionar Equipos"
+          description="Busca y selecciona los equipos que necesitas"
+          icon={FiSearch}
+        >
+          <VStack spacing={6} align="stretch">
+            {/* Barra de búsqueda y controles */}
+            <VStack spacing={4} align="stretch">
+              <HStack spacing={4}>
+                <FormControl flex="1">
+                  <Input
+                    placeholder="Buscar por serie, chasis, finca, cliente o proyecto..."
+                    value={formData.searchTerm}
+                    onChange={(e) => updateFormData('searchTerm', e.target.value)}
+                  />
+                </FormControl>
+                <Button
+                  size="md"
+                  variant="outline"
+                  onClick={clearEquipmentSelection}
+                  isDisabled={formData.selectedEquipment.length === 0}
+                >
+                  Limpiar
+                </Button>
+                <Button
+                  size="md"
+                  colorScheme="blue"
+                  onClick={selectAllVisibleEquipment}
+                  isDisabled={filteredEquipment.length === 0}
+                >
+                  Seleccionar Todos
+                </Button>
+              </HStack>
+
+              {/* Controles de vista */}
+              <HStack spacing={4} justify="space-between" align="center">
+                <HStack spacing={2}>
+                  <Text fontSize="sm" color="gray.600">
+                    Vista:
+                  </Text>
+                  <HStack spacing={1}>
+                    <Button
+                      size="sm"
+                      variant={formData.viewMode === 'compact' ? 'solid' : 'ghost'}
+                      colorScheme="blue"
+                      onClick={() => updateFormData('viewMode', 'compact')}
+                      leftIcon={<FiList />}
+                    >
+                      Compacto
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={formData.viewMode === 'normal' ? 'solid' : 'ghost'}
+                      colorScheme="blue"
+                      onClick={() => updateFormData('viewMode', 'normal')}
+                      leftIcon={<FiEye />}
+                    >
+                      Normal
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={formData.viewMode === 'cards' ? 'solid' : 'ghost'}
+                      colorScheme="blue"
+                      onClick={() => updateFormData('viewMode', 'cards')}
+                      leftIcon={<FiGrid />}
+                    >
+                      Tarjetas
+                    </Button>
+                  </HStack>
+                </HStack>
+
+                <HStack spacing={2}>
+                  <Text fontSize="sm" color="gray.600">
+                    {filteredEquipment.length} equipos encontrados
+                  </Text>
+                  {formData.selectedEquipment.length > 0 && (
+                    <Text fontSize="sm" color="blue.600" fontWeight="medium">
+                      ({formData.selectedEquipment.length} seleccionados)
+                    </Text>
+                  )}
+                </HStack>
+              </HStack>
+            </VStack>
+
+            {/* Lista de equipos */}
+            <Box
+              maxH="400px"
+              overflowY="auto"
+              border="1px solid"
+              borderColor="gray.200"
+              borderRadius="md"
+              p={2}
+            >
+              {filteredEquipment.length === 0 ? (
+                <VStack spacing={4} py={8}>
+                  <Text color="gray.500" textAlign="center">
+                    {formData.searchTerm 
+                      ? `No se encontraron equipos que coincidan con "${formData.searchTerm}"`
+                      : "No hay equipos disponibles"
+                    }
+                  </Text>
+                  {formData.searchTerm && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => updateFormData('searchTerm', '')}
+                    >
+                      Limpiar búsqueda
+                    </Button>
+                  )}
+                </VStack>
+              ) : (
+                <VStack spacing={formData.viewMode === 'compact' ? 1 : 3} align="stretch">
+                  {formData.viewMode === 'compact' && 
+                    filteredEquipment.map((equipment) => (
+                      <CompactEquipmentView
+                        key={equipment.id}
+                        equipment={equipment}
+                        isSelected={formData.selectedEquipment.includes(equipment.id)}
+                        onSelect={handleEquipmentSelection}
+                      />
+                    ))
+                  }
+                  
+                  {formData.viewMode === 'normal' && 
+                    filteredEquipment.map((equipment) => (
+                      <NormalEquipmentView
+                        key={equipment.id}
+                        equipment={equipment}
+                        isSelected={formData.selectedEquipment.includes(equipment.id)}
+                        onSelect={handleEquipmentSelection}
+                      />
+                    ))
+                  }
+                  
+                  {formData.viewMode === 'cards' && (
+                    <SimpleGrid 
+                      columns={{ base: 1, md: 2, lg: 3 }} 
+                      spacing={4}
+                    >
+                      {filteredEquipment.map((equipment) => (
+                        <CardEquipmentView
+                          key={equipment.id}
+                          equipment={equipment}
+                          isSelected={formData.selectedEquipment.includes(equipment.id)}
+                          onSelect={handleEquipmentSelection}
+                        />
+                      ))}
+                    </SimpleGrid>
+                  )}
+                </VStack>
+              )}
+            </Box>
+
+            {/* Información de selección */}
+            {formData.selectedEquipment.length > 0 && (
+              <Alert status="info" borderRadius="md">
+                <AlertIcon />
+                <Box>
+                  <Text fontWeight="semibold">
+                    {formData.selectedEquipment.length} equipo{formData.selectedEquipment.length !== 1 ? 's' : ''} seleccionado{formData.selectedEquipment.length !== 1 ? 's' : ''}
+                  </Text>
+                  <Text fontSize="sm">
+                    Puedes continuar al siguiente paso para ingresar más detalles.
+                  </Text>
+                </Box>
+              </Alert>
+            )}
+          </VStack>
+        </WizardStepContent>
+      ),
+    },
+    {
+      id: 3,
       title: 'Información Personal',
       content: (
         <WizardStepContent
@@ -2474,7 +3041,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 3,
+      id: 4,
       title: 'Preferencias',
       content: (
         <WizardStepContent
@@ -2527,7 +3094,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 4,
+      id: 5,
       title: 'Características',
       content: (
         <WizardStepContent
@@ -2603,7 +3170,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 5,
+      id: 6,
       title: 'Estructura Organizacional',
       content: (
         <WizardStepContent
@@ -2628,7 +3195,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 6,
+      id: 7,
       title: 'Información Adicional',
       content: (
         <WizardStepContent
@@ -2683,7 +3250,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 7,
+      id: 8,
       title: 'Confirmación',
       content: (
         <WizardStepContent
@@ -2749,6 +3316,46 @@ function WizardExample() {
                     </>
                   ) : (
                     <Text color="red.500">No seleccionado</Text>
+                  )}
+                </VStack>
+              </Box>
+
+              <Box 
+                p={{ base: 3, md: 4 }} 
+                borderWidth="1px" 
+                borderRadius="md" 
+                bg={useColorModeValue('gray.50', 'gray.700')}
+              >
+                <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
+                  Equipos Seleccionados:
+                </Text>
+                <VStack align="start" spacing={2} fontSize={{ base: "sm", md: "md" }}>
+                  {formData.selectedEquipment.length > 0 ? (
+                    <>
+                      <Text color="blue.600" fontWeight="medium">
+                        {formData.selectedEquipment.length} equipo{formData.selectedEquipment.length !== 1 ? 's' : ''} seleccionado{formData.selectedEquipment.length !== 1 ? 's' : ''}
+                      </Text>
+                      <VStack align="start" spacing={1} w="100%">
+                        {formData.selectedEquipment.slice(0, 3).map(equipId => {
+                          const equipment = equipmentData.find(eq => eq.id === equipId);
+                          return equipment ? (
+                            <HStack key={equipId} justify="space-between" w="100%">
+                              <Text fontSize="sm">{equipment.modelo_name}</Text>
+                              <Text fontSize="xs" color="gray.600">
+                                {equipment.codigo_finca || equipment.serie || equipment.chasis || 'N/A'}
+                              </Text>
+                            </HStack>
+                          ) : null;
+                        })}
+                        {formData.selectedEquipment.length > 3 && (
+                          <Text fontSize="xs" color="gray.500">
+                            y {formData.selectedEquipment.length - 3} más...
+                          </Text>
+                        )}
+                      </VStack>
+                    </>
+                  ) : (
+                    <Text color="red.500">Ningún equipo seleccionado</Text>
                   )}
                 </VStack>
               </Box>
