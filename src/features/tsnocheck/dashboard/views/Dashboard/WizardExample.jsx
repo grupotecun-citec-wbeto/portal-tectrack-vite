@@ -2436,96 +2436,193 @@ function WizardExample() {
   // Componente para vista de tarjetas de equipos
   const CardEquipmentView = ({ equipment, isSelected, onSelect }) => (
     <Box
-      p={4}
-      borderWidth="1px"
-      borderColor={isSelected ? 'blue.500' : 'gray.200'}
-      borderRadius="lg"
-      bg={isSelected ? 'blue.50' : 'white'}
+      p={5}
+      borderWidth="2px"
+      borderColor={isSelected ? 'blue.400' : 'gray.200'}
+      borderRadius="xl"
+      bg={isSelected ? 'linear-gradient(135deg, blue.50 0%, blue.100 100%)' : 'white'}
       cursor="pointer"
-      _hover={{ bg: isSelected ? 'blue.100' : 'gray.50', transform: 'translateY(-2px)', boxShadow: 'lg' }}
+      _hover={{ 
+        bg: isSelected ? 'linear-gradient(135deg, blue.100 0%, blue.200 100%)' : 'gray.50', 
+        transform: 'translateY(-4px)', 
+        boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15)',
+        borderColor: isSelected ? 'blue.500' : 'gray.300'
+      }}
       onClick={() => onSelect(equipment.id)}
-      transition="all 0.3s"
+      transition="all 0.3s ease"
       position="relative"
+      boxShadow={isSelected ? '0 8px 25px rgba(59, 130, 246, 0.15)' : '0 4px 15px rgba(0, 0, 0, 0.08)'}
     >
-      <VStack spacing={3} align="stretch">
-        {/* Header con checkbox */}
-        <HStack justify="flex-start" align="start">
+      <VStack spacing={4} align="stretch">
+        {/* Header con checkbox mejorado */}
+        <HStack justify="flex-start" align="center">
           <Checkbox 
             isChecked={isSelected} 
             onChange={() => onSelect(equipment.id)}
             onClick={(e) => e.stopPropagation()}
+            colorScheme="blue"
+            size="lg"
           />
+          {isSelected && (
+            <Text fontSize="xs" color="blue.600" fontWeight="bold">
+              SELECCIONADO
+            </Text>
+          )}
         </HStack>
 
-        {/* Imagen centrada */}
+        {/* Imagen centrada con efectos mejorados */}
         {equipment.catalogo_img && (
-          <Flex justify="center" align="center" w="100%">
+          <Flex justify="center" align="center" w="100%" py={2}>
             <Box
-              w="80px"
-              h="80px"
-              borderRadius="md"
+              w="120px"
+              h="120px"
+              borderRadius="xl"
               overflow="hidden"
-              bg="gray.100"
+              bg="gradient-to-br from-gray.50 to-gray.100"
+              boxShadow="0 8px 25px rgba(0, 0, 0, 0.1)"
+              border="3px solid"
+              borderColor={isSelected ? 'blue.400' : 'white'}
+              position="relative"
+              _hover={{
+                transform: 'scale(1.05)',
+                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15)',
+                borderColor: isSelected ? 'blue.500' : 'gray.200'
+              }}
+              transition="all 0.3s ease"
             >
               <img
                 src={equipment.catalogo_img}
                 alt={equipment.modelo_name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover',
+                  borderRadius: '8px'
+                }}
+              />
+              {/* Overlay sutil para mejorar contraste */}
+              <Box
+                position="absolute"
+                top={0}
+                left={0}
+                right={0}
+                bottom={0}
+                bg="linear-gradient(135deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.08) 100%)"
+                borderRadius="8px"
               />
             </Box>
           </Flex>
         )}
 
-        {/* Información principal */}
-        <VStack align="start" spacing={2}>
-          <Text fontSize="lg" fontWeight="bold" color="gray.800">
+        {/* Información principal mejorada */}
+        <VStack align="start" spacing={3}>
+          <Text 
+            fontSize="xl" 
+            fontWeight="bold" 
+            color={isSelected ? 'blue.700' : 'gray.800'}
+            textAlign="center"
+            w="100%"
+            noOfLines={2}
+          >
             {equipment.modelo_name}
           </Text>
-          <HStack justify="space-between" w="100%">
-            <Text fontSize="sm" color="blue.600" fontWeight="medium">
-              {equipment.categoria_name}
-            </Text>
-            <Text fontSize="sm" color="gray.600">
+          <HStack justify="space-between" w="100%" align="center">
+            <Box
+              px={3}
+              py={1}
+              bg={isSelected ? 'blue.100' : 'blue.50'}
+              borderRadius="full"
+              border="1px solid"
+              borderColor={isSelected ? 'blue.200' : 'blue.100'}
+            >
+              <Text 
+                fontSize="xs" 
+                color="blue.700" 
+                fontWeight="bold"
+                textTransform="uppercase"
+              >
+                {equipment.categoria_name}
+              </Text>
+            </Box>
+            <Text 
+              fontSize="sm" 
+              color="gray.600"
+              fontWeight="semibold"
+            >
               {equipment.marca_name}
             </Text>
           </HStack>
         </VStack>
 
-        {/* Información detallada */}
-        <VStack align="start" spacing={1} fontSize="sm">
-          <HStack justify="space-between" w="100%">
-            <Text color="gray.500">Departamento:</Text>
-            <Text>{equipment.subdivision_name || 'N/A'}</Text>
-          </HStack>
-          <HStack justify="space-between" w="100%">
-            <Text color="gray.500">Proyecto:</Text>
-            <Text isTruncated maxW="120px">{equipment.proyecto_name || 'N/A'}</Text>
-          </HStack>
-          <HStack justify="space-between" w="100%">
-            <Text color="gray.500">Cliente:</Text>
-            <Text>{equipment.cliente_name || 'N/A'}</Text>
-          </HStack>
-          <HStack justify="space-between" w="100%">
-            <Text color="gray.500">Estado:</Text>
-            <Text>{equipment.estado_maquinaria || 'N/A'}</Text>
-          </HStack>
-          <HStack justify="space-between" w="100%">
-            <Text color="gray.500">Unidad Negocio:</Text>
-            <Text>{equipment.unidad_negocio || 'N/A'}</Text>
-          </HStack>
-          <HStack justify="space-between" w="100%">
-            <Text color="gray.500">Propietario:</Text>
-            <Text>{equipment.propietario_name || 'N/A'}</Text>
-          </HStack>
-          <HStack justify="space-between" w="100%">
-            <Text color="gray.500">Contrato:</Text>
-            <Text isTruncated maxW="120px">{equipment.contrato || 'N/A'}</Text>
-          </HStack>
-          <HStack justify="space-between" w="100%">
-            <Text color="gray.500">Finca:</Text>
-            <Text fontFamily="mono">{equipment.codigo_finca || equipment.serie || equipment.chasis || 'N/A'}</Text>
-          </HStack>
-        </VStack>
+        {/* Información detallada mejorada */}
+        <Box
+          p={3}
+          bg={isSelected ? 'blue.25' : 'gray.50'}
+          borderRadius="lg"
+          border="1px solid"
+          borderColor={isSelected ? 'blue.100' : 'gray.200'}
+        >
+          <VStack align="start" spacing={2} fontSize="sm">
+            <Text 
+              fontSize="xs" 
+              fontWeight="bold" 
+              color="gray.600" 
+              textTransform="uppercase"
+              letterSpacing="wide"
+              mb={1}
+            >
+              Detalles del Equipo
+            </Text>
+            
+            <SimpleGrid columns={1} spacing={2} w="100%">
+              <HStack justify="space-between" w="100%">
+                <Text color="gray.600" fontWeight="medium">Departamento:</Text>
+                <Text color="gray.800" fontWeight="semibold">{equipment.subdivision_name || 'N/A'}</Text>
+              </HStack>
+              <HStack justify="space-between" w="100%">
+                <Text color="gray.600" fontWeight="medium">Proyecto:</Text>
+                <Text color="gray.800" fontWeight="semibold" isTruncated maxW="120px">{equipment.proyecto_name || 'N/A'}</Text>
+              </HStack>
+              <HStack justify="space-between" w="100%">
+                <Text color="gray.600" fontWeight="medium">Cliente:</Text>
+                <Text color="gray.800" fontWeight="semibold">{equipment.cliente_name || 'N/A'}</Text>
+              </HStack>
+              <HStack justify="space-between" w="100%">
+                <Text color="gray.600" fontWeight="medium">Estado:</Text>
+                <Box 
+                  px={2} 
+                  py={1} 
+                  bg="green.100" 
+                  borderRadius="md"
+                  border="1px solid green.200"
+                >
+                  <Text color="green.700" fontSize="xs" fontWeight="bold">
+                    {equipment.estado_maquinaria || 'N/A'}
+                  </Text>
+                </Box>
+              </HStack>
+              <HStack justify="space-between" w="100%">
+                <Text color="gray.600" fontWeight="medium">Propietario:</Text>
+                <Text color="gray.800" fontWeight="semibold">{equipment.propietario_name || 'N/A'}</Text>
+              </HStack>
+              <HStack justify="space-between" w="100%">
+                <Text color="gray.600" fontWeight="medium">Código:</Text>
+                <Text 
+                  color="blue.600" 
+                  fontFamily="mono" 
+                  fontSize="xs"
+                  fontWeight="bold"
+                  bg="blue.50"
+                  px={2}
+                  py={1}
+                  borderRadius="md"
+                >
+                  {equipment.codigo_finca || equipment.serie || equipment.chasis || 'N/A'}
+                </Text>
+              </HStack>
+            </SimpleGrid>
+          </VStack>
+        </Box>
       </VStack>
     </Box>
   );
