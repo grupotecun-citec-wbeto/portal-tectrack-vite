@@ -2914,9 +2914,43 @@ function WizardExample() {
           icon={FiSearch}
         >
           <VStack spacing={6} align="stretch">
-            {/* Barra de búsqueda y controles */}
+            {/* Barra de búsqueda y controles - layout responsive */}
             <VStack spacing={4} align="stretch">
-              <HStack spacing={4}>
+              {/* Layout móvil: input separado */}
+              <VStack spacing={4} align="stretch" display={{ base: "flex", md: "none" }}>
+                <FormControl>
+                  <Input
+                    placeholder="Buscar por serie, chasis, finca, cliente o proyecto..."
+                    value={formData.searchTerm}
+                    onChange={(e) => updateFormData('searchTerm', e.target.value)}
+                    size="lg"
+                  />
+                </FormControl>
+                
+                <HStack spacing={2}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={clearEquipmentSelection}
+                    isDisabled={formData.selectedEquipment.length === 0}
+                    flex="1"
+                  >
+                    Limpiar
+                  </Button>
+                  <Button
+                    size="sm"
+                    colorScheme="blue"
+                    onClick={selectAllVisibleEquipment}
+                    isDisabled={filteredEquipment.length === 0}
+                    flex="1"
+                  >
+                    Seleccionar Todos
+                  </Button>
+                </HStack>
+              </VStack>
+
+              {/* Layout desktop: input y botones en línea */}
+              <HStack spacing={4} display={{ base: "none", md: "flex" }}>
                 <FormControl flex="1">
                   <Input
                     placeholder="Buscar por serie, chasis, finca, cliente o proyecto..."
@@ -2942,12 +2976,41 @@ function WizardExample() {
                 </Button>
               </HStack>
 
-              {/* Controles de vista */}
-              <HStack spacing={4} justify="space-between" align="center">
-                <HStack spacing={2}>
-                  <Text fontSize="sm" color="gray.600">
+              {/* Controles de vista - layout responsive */}
+              <Stack 
+                direction={{ base: "column", md: "row" }}
+                spacing={{ base: 3, md: 4 }} 
+                justify="space-between"
+                align={{ base: "stretch", md: "center" }}
+              >
+                {/* Solo en móvil: título separado */}
+                <Box display={{ base: "block", md: "none" }}>
+                  <Text 
+                    fontSize="sm" 
+                    color="gray.600" 
+                    fontWeight="medium"
+                    textAlign="center"
+                    mb={2}
+                  >
+                    Modo de Vista:
+                  </Text>
+                </Box>
+
+                {/* Layout original para desktop, centrado para móvil */}
+                <HStack 
+                  spacing={{ base: 0, md: 2 }}
+                  justify={{ base: "center", md: "flex-start" }}
+                  align="center"
+                >
+                  {/* Título para desktop */}
+                  <Text 
+                    fontSize="sm" 
+                    color="gray.600"
+                    display={{ base: "none", md: "block" }}
+                  >
                     Vista:
                   </Text>
+                  
                   <HStack spacing={1}>
                     <Button
                       size="sm"
@@ -2955,6 +3018,8 @@ function WizardExample() {
                       colorScheme="blue"
                       onClick={() => updateFormData('viewMode', 'compact')}
                       leftIcon={<FiList />}
+                      flex={{ base: "1", md: "none" }}
+                      minW={{ base: "90px", md: "auto" }}
                     >
                       Compacto
                     </Button>
@@ -2964,6 +3029,8 @@ function WizardExample() {
                       colorScheme="blue"
                       onClick={() => updateFormData('viewMode', 'normal')}
                       leftIcon={<FiEye />}
+                      flex={{ base: "1", md: "none" }}
+                      minW={{ base: "90px", md: "auto" }}
                     >
                       Normal
                     </Button>
@@ -2973,13 +3040,20 @@ function WizardExample() {
                       colorScheme="blue"
                       onClick={() => updateFormData('viewMode', 'cards')}
                       leftIcon={<FiGrid />}
+                      flex={{ base: "1", md: "none" }}
+                      minW={{ base: "90px", md: "auto" }}
                     >
                       Tarjetas
                     </Button>
                   </HStack>
                 </HStack>
-
-                <HStack spacing={2}>
+                
+                {/* Contador de equipos - mantiene posición original en desktop */}
+                <HStack 
+                  spacing={2} 
+                  justify={{ base: "center", md: "flex-end" }}
+                  align="center"
+                >
                   <Text fontSize="sm" color="gray.600">
                     {filteredEquipment.length} equipos encontrados
                   </Text>
@@ -2989,7 +3063,7 @@ function WizardExample() {
                     </Text>
                   )}
                 </HStack>
-              </HStack>
+              </Stack>
             </VStack>
 
             {/* Lista de equipos */}
