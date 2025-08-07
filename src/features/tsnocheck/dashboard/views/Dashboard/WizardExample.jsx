@@ -66,126 +66,755 @@ function WizardExample() {
 
   // Datos de ejemplo para el árbol (simulando una estructura recursiva de la base de datos)
   const treeData = [
-    {
-      id: 1,
-      name: 'Departamento de TI',
-      type: 'Departamento',
-      description: 'Departamento principal de tecnología',
-      parentId: null
-    },
-    {
-      id: 2,
-      name: 'Desarrollo Frontend',
-      type: 'Área',
-      description: 'Equipo de desarrollo de interfaces',
-      parentId: 1
-    },
-    {
-      id: 3,
-      name: 'Desarrollo Backend',
-      type: 'Área',
-      description: 'Equipo de desarrollo de servicios',
-      parentId: 1
-    },
-    {
-      id: 4,
-      name: 'DevOps',
-      type: 'Área',
-      description: 'Infraestructura y despliegue',
-      parentId: 1
-    },
-    {
-      id: 5,
-      name: 'React.js Team',
-      type: 'Equipo',
-      description: 'Especialistas en React y componentes',
-      parentId: 2
-    },
-    {
-      id: 6,
-      name: 'Vue.js Team',
-      type: 'Equipo',
-      description: 'Especialistas en Vue.js',
-      parentId: 2
-    },
-    {
-      id: 7,
-      name: 'API Team',
-      type: 'Equipo',
-      description: 'Desarrollo de APIs REST y GraphQL',
-      parentId: 3
-    },
-    {
-      id: 8,
-      name: 'Database Team',
-      type: 'Equipo',
-      description: 'Administración de bases de datos',
-      parentId: 3
-    },
-    {
-      id: 9,
-      name: 'Juan Pérez',
-      type: 'Desarrollador',
-      description: 'Senior Frontend Developer',
-      parentId: 5
-    },
-    {
-      id: 10,
-      name: 'María García',
-      type: 'Desarrolladora',
-      description: 'React Specialist',
-      parentId: 5
-    },
-    {
-      id: 11,
-      name: 'Carlos López',
-      type: 'Desarrollador',
-      description: 'Vue.js Expert',
-      parentId: 6
-    },
-    {
-      id: 12,
-      name: 'Ana Martínez',
-      type: 'Desarrolladora',
-      description: 'API Architect',
-      parentId: 7
-    },
-    {
-      id: 13,
-      name: 'Luis Rodríguez',
-      type: 'DBA',
-      description: 'Database Administrator',
-      parentId: 8
-    },
-    {
-      id: 14,
-      name: 'Recursos Humanos',
-      type: 'Departamento',
-      description: 'Gestión de personal y talento',
-      parentId: null
-    },
-    {
-      id: 15,
-      name: 'Reclutamiento',
-      type: 'Área',
-      description: 'Atracción y selección de talento',
-      parentId: 14
-    },
-    {
-      id: 16,
-      name: 'Capacitación',
-      type: 'Área',
-      description: 'Desarrollo y formación de empleados',
-      parentId: 14
-    },
-    {
-      id: 17,
-      name: 'Technical Recruiter',
-      type: 'Especialista',
-      description: 'Reclutador técnico senior',
-      parentId: 15
-    }
-  ];
+	{
+		id : 1,
+		name : "AUTO TURN",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 2,
+		name : "AUTO TRACKER",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 3,
+		name : "FIELD RATE CONTROL",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 4,
+		name : "SEÑAL DE CORRECCIÓN",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 6,
+		name : "EFICIENCIA",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 7,
+		name : "BALANZA DE PRODUCTIVIDAD",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 8,
+		name : "DAÑOS",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 9,
+		name : "SISTEMA ELÉCTRICO",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 10,
+		name : "SISTEMA HIDRÁULICO",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 11,
+		name : "SISTEMA MECANICO",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 12,
+		name : "PILOTO AUTOMÁTICO",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 13,
+		name : "FIELD IQ",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 14,
+		name : "TELEMETRÍA",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 15,
+		name : "SOIL XPLORER",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 16,
+		name : "AFS SOFTWARE",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 17,
+		name : "IA TRIMBLE",
+		type: "Sistema",
+		description : "2024-12-16 16:48:44",
+		parentId : null
+	},
+	{
+		id : 18,
+		name : "PROGRAMA DE DESARROLLO",
+		type: "Sistema",
+		description : "2025-01-16 15:30:29",
+		parentId : null
+	},
+	{
+		id : 19,
+		name : "AUTO TURN",
+		type: "Sistema",
+		description : "2025-03-21 13:39:48",
+		parentId : null
+	},
+	{
+		id : 20,
+		name : "AUTO TRACKER",
+		type: "Sistema",
+		description : "2025-03-21 13:39:49",
+		parentId : null
+	},
+	{
+		id : 21,
+		name : "PILOTO AUTOMÁTICO",
+		type: "Sistema",
+		description : "2025-03-21 13:39:49",
+		parentId : null
+	},
+	{
+		id : 22,
+		name : "CONTROL CRUSERO",
+		type: "Sistema",
+		description : "2025-03-21 13:39:49",
+		parentId : null
+	},
+	{
+		id : 23,
+		name : "PANTALLA",
+		type: "Sistema",
+		parentId : 9,
+		description : "2025-05-06 23:43:48",
+		
+	},
+	{
+		id : 24,
+		name : "MODULO",
+		type: "Sistema",
+		parentId : 9,
+		description : "2025-05-06 23:43:48",
+		
+	},
+	{
+		id : 25,
+		name : "ANTENA",
+		type: "Sistema",
+		parentId : 9,
+		description : "2025-05-06 23:43:48",
+		
+	},
+	{
+		id : 26,
+		name : "ARNES",
+		type: "Sistema",
+		parentId : 9,
+		description : "2025-05-06 23:43:48",
+		
+	},
+	{
+		id : 27,
+		name : "SENSOR",
+		type: "Sistema",
+		parentId : 9,
+		description : "2025-05-06 23:43:48",
+		
+	},
+	{
+		id : 28,
+		name : "BOBINA",
+		type: "Sistema",
+		parentId : 9,
+		description : "2025-05-06 23:43:48",
+		
+	},
+	{
+		id : 29,
+		name : "INTERRUPTOR",
+		type: "Sistema",
+		parentId : 9,
+		description : "2025-05-06 23:43:49",
+		
+	},
+	{
+		id : 30,
+		name : "BOMBA",
+		type: "Sistema",
+		parentId : 10,
+		description : "2025-05-06 23:43:49",
+		
+	},
+	{
+		id : 31,
+		name : "MOTOR HIDRÁULICO",
+		type: "Sistema",
+		parentId : 10,
+		description : "2025-05-06 23:43:49",
+		
+	},
+	{
+		id : 32,
+		name : "MAGUERAS",
+		type: "Sistema",
+		parentId : 10,
+		description : "2025-05-06 23:43:49",
+		
+	},
+	{
+		id : 33,
+		name : "BLOQUE HIDRÁULICO",
+		type: "Sistema",
+		parentId : 10,
+		description : "2025-05-06 23:43:49",
+		
+	},
+	{
+		id : 34,
+		name : "VALVULAS",
+		type: "Sistema",
+		parentId : 10,
+		description : "2025-05-06 23:43:49",
+		
+	},
+	{
+		id : 35,
+		name : "CILINDROS",
+		type: "Sistema",
+		parentId : 10,
+		description : "2025-05-06 23:43:49",
+		
+	},
+	{
+		id : 36,
+		name : "PICADOR",
+		type: "Sistema",
+		parentId : 11,
+		description : "2025-05-06 23:43:50",
+		
+	},
+	{
+		id : 37,
+		name : "TREN DE MOLINOS",
+		type: "Sistema",
+		parentId : 11,
+		description : "2025-05-06 23:43:50",
+		
+	},
+	{
+		id : 38,
+		name : "CORTE BASE",
+		type: "Sistema",
+		parentId : 11,
+		description : "2025-05-06 23:43:50",
+		
+	},
+	{
+		id : 39,
+		name : "DIVISOR",
+		type: "Sistema",
+		parentId : 11,
+		description : "2025-05-06 23:43:50",
+		
+	},
+	{
+		id : 40,
+		name : "RODAJE",
+		type: "Sistema",
+		parentId : 11,
+		description : "2025-05-06 23:43:50",
+		
+	},
+	{
+		id : 41,
+		name : "ELEVADOR",
+		type: "Sistema",
+		parentId : 11,
+		description : "2025-05-06 23:43:51",
+		
+	},
+	{
+		id : 42,
+		name : "IMPLEMENTO",
+		type: "Sistema",
+		parentId : 11,
+		description : "2025-05-06 23:43:51",
+		
+	},
+	{
+		id : 43,
+		name : "CONECTOR",
+		type: "Sistema",
+		parentId : 23,
+		description : "2025-05-06 23:43:51",
+		
+	},
+	{
+		id : 44,
+		name : "FUSIBLE",
+		type: "Sistema",
+		parentId : 23,
+		description : "2025-05-06 23:43:51",
+		
+	},
+	{
+		id : 45,
+		name : "TERMINALES",
+		type: "Sistema",
+		parentId : 23,
+		description : "2025-05-06 23:43:51",
+		
+	},
+	{
+		id : 46,
+		name : "CONECTOR",
+		type: "Sistema",
+		parentId : 24,
+		description : "2025-05-06 23:43:51",
+		
+	},
+	{
+		id : 47,
+		name : "FUSIBLE",
+		type: "Sistema",
+		parentId : 24,
+		description : "2025-05-06 23:43:51",
+		
+	},
+	{
+		id : 48,
+		name : "TERMINALES",
+		type: "Sistema",
+		parentId : 24,
+		description : "2025-05-06 23:43:52",
+		
+	},
+	{
+		id : 49,
+		name : "BASE MAGNETICA",
+		type: "Sistema",
+		parentId : 25,
+		description : "2025-05-06 23:43:52",
+		
+	},
+	{
+		id : 50,
+		name : "CONECTOR",
+		type: "Sistema",
+		parentId : 25,
+		description : "2025-05-06 23:43:52",
+		
+	},
+	{
+		id : 51,
+		name : "CORTO CIRCUITO",
+		type: "Sistema",
+		parentId : 26,
+		description : "2025-05-06 23:43:52",
+		
+	},
+	{
+		id : 52,
+		name : "CONECTOR",
+		type: "Sistema",
+		parentId : 26,
+		description : "2025-05-06 23:43:52",
+		
+	},
+	{
+		id : 53,
+		name : "TERMINALES",
+		type: "Sistema",
+		parentId : 26,
+		description : "2025-05-06 23:43:52",
+		
+	},
+	{
+		id : 54,
+		name : "PANTALLA",
+		type: "Sistema",
+		parentId : 12,
+		description : "2025-05-06 23:43:52",
+		
+	},
+	{
+		id : 55,
+		name : "MODULO",
+		type: "Sistema",
+		parentId : 12,
+		description : "2025-05-06 23:43:53",
+		
+	},
+	{
+		id : 56,
+		name : "ANTENA",
+		type: "Sistema",
+		parentId : 12,
+		description : "2025-05-06 23:43:53",
+		
+	},
+	{
+		id : 57,
+		name : "CONTROL DE DIRECCION",
+		type: "Sistema",
+		parentId : 12,
+		description : "2025-05-06 23:43:53",
+		
+	},
+	{
+		id : 58,
+		name : "PANTALLA",
+		type: "Sistema",
+		parentId : 13,
+		description : "2025-05-06 23:43:53",
+		
+	},
+	{
+		id : 59,
+		name : "MODULO",
+		type: "Sistema",
+		parentId : 13,
+		description : "2025-05-06 23:43:53",
+		
+	},
+	{
+		id : 60,
+		name : "ELECTRICO",
+		type: "Sistema",
+		parentId : 13,
+		description : "2025-05-06 23:43:53",
+		
+	},
+	{
+		id : 61,
+		name : "HIDRAULICO",
+		type: "Sistema",
+		parentId : 13,
+		description : "2025-05-06 23:43:53",
+		
+	},
+	{
+		id : 62,
+		name : "PRO 700",
+		type: "Sistema",
+		parentId : 54,
+		description : "2025-05-06 23:43:54",
+		
+	},
+	{
+		id : 63,
+		name : "PRO 700+",
+		type: "Sistema",
+		parentId : 54,
+		description : "2025-05-06 23:43:54",
+		
+	},
+	{
+		id : 64,
+		name : "XCN 2050",
+		type: "Sistema",
+		parentId : 54,
+		description : "2025-05-06 23:43:54",
+		
+	},
+	{
+		id : 65,
+		name : "PRO 1200",
+		type: "Sistema",
+		parentId : 54,
+		description : "2025-05-06 23:43:54",
+		
+	},
+	{
+		id : 66,
+		name : "SCM",
+		type: "Sistema",
+		parentId : 55,
+		description : "2025-05-06 23:43:54",
+		
+	},
+	{
+		id : 67,
+		name : "TRASMISION",
+		type: "Sistema",
+		parentId : 55,
+		description : "2025-05-06 23:43:54",
+		
+	},
+	{
+		id : 68,
+		name : "UCM",
+		type: "Sistema",
+		parentId : 55,
+		description : "2025-05-06 23:43:54",
+		
+	},
+	{
+		id : 69,
+		name : "NAV 2",
+		type: "Sistema",
+		parentId : 55,
+		description : "2025-05-06 23:43:55",
+		
+	},
+	{
+		id : 70,
+		name : "NAV 3",
+		type: "Sistema",
+		parentId : 55,
+		description : "2025-05-06 23:43:55",
+		
+	},
+	{
+		id : 71,
+		name : "TM 200",
+		type: "Sistema",
+		parentId : 55,
+		description : "2025-05-06 23:43:55",
+		
+	},
+	{
+		id : 72,
+		name : "372",
+		type: "Sistema",
+		parentId : 56,
+		description : "2025-05-06 23:43:55",
+		
+	},
+	{
+		id : 73,
+		name : "392",
+		type: "Sistema",
+		parentId : 56,
+		description : "2025-05-06 23:43:55",
+		
+	},
+	{
+		id : 74,
+		name : "AG 25",
+		type: "Sistema",
+		parentId : 56,
+		description : "2025-05-06 23:43:55",
+		
+	},
+	{
+		id : 75,
+		name : "450",
+		type: "Sistema",
+		parentId : 56,
+		description : "2025-05-06 23:43:55",
+		
+	},
+	{
+		id : 76,
+		name : "470",
+		type: "Sistema",
+		parentId : 56,
+		description : "2025-05-06 23:43:56",
+		
+	},
+	{
+		id : 77,
+		name : "RODADURA",
+		type: "Sistema",
+		parentId : 57,
+		description : "2025-05-06 23:43:56",
+		
+	},
+	{
+		id : 78,
+		name : "ZONA MUERTA",
+		type: "Sistema",
+		parentId : 57,
+		description : "2025-05-06 23:43:56",
+		
+	},
+	{
+		id : 79,
+		name : "P. GANANCIA",
+		type: "Sistema",
+		parentId : 57,
+		description : "2025-05-06 23:43:56",
+		
+	},
+	{
+		id : 80,
+		name : "SENSOR DE DIRECCIÓN",
+		type: "Sistema",
+		parentId : 57,
+		description : "2025-05-06 23:43:56",
+		
+	},
+	{
+		id : 81,
+		name : "XCN 750",
+		type: "Sistema",
+		parentId : 58,
+		description : "2025-05-06 23:43:56",
+		
+	},
+	{
+		id : 82,
+		name : "XCN 1050",
+		type: "Sistema",
+		parentId : 58,
+		description : "2025-05-06 23:43:56",
+		
+	},
+	{
+		id : 83,
+		name : "XCN 2050",
+		type: "Sistema",
+		parentId : 58,
+		description : "2025-05-06 23:43:57",
+		
+	},
+	{
+		id : 84,
+		name : "COTROL DE SECCIONES",
+		type: "Sistema",
+		parentId : 59,
+		description : "2025-05-06 23:43:57",
+		
+	},
+	{
+		id : 85,
+		name : "MONITOREO DE SEMILLAS",
+		type: "Sistema",
+		parentId : 59,
+		description : "2025-05-06 23:43:57",
+		
+	},
+	{
+		id : 86,
+		name : "SENSOR",
+		type: "Sistema",
+		parentId : 60,
+		description : "2025-05-06 23:43:57",
+		
+	},
+	{
+		id : 87,
+		name : "BOBINA",
+		type: "Sistema",
+		parentId : 60,
+		description : "2025-05-06 23:43:57",
+		
+	},
+	{
+		id : 88,
+		name : "ARNES",
+		type: "Sistema",
+		parentId : 60,
+		description : "2025-05-06 23:43:57",
+		
+	},
+	{
+		id : 89,
+		name : "CONECTOR",
+		type: "Sistema",
+		parentId : 60,
+		description : "2025-05-06 23:43:57",
+		
+	},
+	{
+		id : 90,
+		name : "MOTOR",
+		type: "Sistema",
+		parentId : 61,
+		description : "2025-05-06 23:43:58",
+		
+	},
+	{
+		id : 91,
+		name : "BLOQUE",
+		type: "Sistema",
+		parentId : 61,
+		description : "2025-05-06 23:43:58",
+		
+	},
+	{
+		id : 92,
+		name : "MANGUERAS",
+		type: "Sistema",
+		parentId : 61,
+		description : "2025-05-06 23:43:58",
+		
+	},
+	{
+		id : 93,
+		name : "TOUCH",
+		type: "Sistema",
+		parentId : 62,
+		description : "2025-05-06 23:43:58",
+		
+	},
+	{
+		id : 94,
+		name : "PANTALLA",
+		type: "Sistema",
+		parentId : 8,
+		description : "2025-05-06 23:43:58",
+		
+	},
+	{
+		id : 95,
+		name : "MODULO",
+		type: "Sistema",
+		parentId : 8,
+		description : "2025-05-06 23:43:58",
+		
+	},
+	{
+		id : 96,
+		name : "ANTENA",
+		type: "Sistema",
+		parentId : 8,
+		description : "2025-05-06 23:43:58",
+		
+	},
+	{
+		id : 97,
+		name : "TOUCH",
+		type: "Sistema",
+		parentId : 63,
+		description : "2025-05-06 23:43:58",
+		
+	}
+]
+;
 
   const updateFormData = (field, value) => {
     setFormData(prev => ({
