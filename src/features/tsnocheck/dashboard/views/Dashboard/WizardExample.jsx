@@ -48,6 +48,7 @@ function WizardExample() {
     
     // Step 3.5: Equipment Diagnostics
     equipmentDiagnostics: {}, // { equipmentId: { diagnosticData } }
+    equipmentSystems: {}, // { equipmentId: [systemIds] }
     
     // Step 4: Personal Info (moved from step 3)
     firstName: '',
@@ -3025,6 +3026,74 @@ function WizardExample() {
               </VStack>
             </Box>
           ) : null}
+
+          {/* Sección de Sistemas y Servicios para este equipo */}
+          <Box
+            p={4}
+            bg="blue.50"
+            borderRadius="lg"
+            border="1px solid"
+            borderColor="blue.200"
+          >
+            <VStack spacing={4} align="stretch">
+              <Text fontSize="sm" fontWeight="bold" color="blue.700">
+                Sistemas y Servicios Relacionados
+              </Text>
+              <Text fontSize="xs" color="blue.600">
+                Selecciona los sistemas y servicios específicos para este equipo
+              </Text>
+              
+              <TreeView
+                data={treeData}
+                onSelect={(node, selectedNodes) => {
+                  // Actualizar sistemas específicos para este equipo
+                  const currentEquipmentSystems = formData.equipmentSystems || {};
+                  updateFormData('equipmentSystems', {
+                    ...currentEquipmentSystems,
+                    [equipment.id]: Array.from(selectedNodes)
+                  });
+                }}
+                showCheckboxes={true}
+                title={`Sistemas para ${equipment.modelo_name}`}
+                selectedItems={formData.equipmentSystems?.[equipment.id] || []}
+              />
+              
+              {/* Resumen de sistemas seleccionados para este equipo */}
+              {formData.equipmentSystems?.[equipment.id] && formData.equipmentSystems[equipment.id].length > 0 && (
+                <Box
+                  p={3}
+                  bg="white"
+                  borderRadius="md"
+                  border="1px solid"
+                  borderColor="blue.200"
+                >
+                  <VStack align="start" spacing={2}>
+                    <Text fontSize="xs" fontWeight="medium" color="blue.700">
+                      Sistemas Seleccionados ({formData.equipmentSystems[equipment.id].length}):
+                    </Text>
+                    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
+                      {formData.equipmentSystems[equipment.id].map(itemId => {
+                        const item = treeData.find(d => d.id === itemId);
+                        return item ? (
+                          <HStack key={itemId} p={2} bg="blue.50" borderRadius="md" border="1px solid" borderColor="blue.100">
+                            <Box w={2} h={2} bg="blue.400" borderRadius="full" />
+                            <VStack align="start" spacing={0} flex="1">
+                              <Text fontSize="xs" fontWeight="medium" color="blue.800">
+                                {item.name}
+                              </Text>
+                              <Text fontSize="xs" color="blue.600">
+                                {item.type}
+                              </Text>
+                            </VStack>
+                          </HStack>
+                        ) : null;
+                      })}
+                    </SimpleGrid>
+                  </VStack>
+                </Box>
+              )}
+            </VStack>
+          </Box>
         </VStack>
       </Box>
     );
@@ -3624,66 +3693,6 @@ function WizardExample() {
               </Box>
             )}
 
-            {/* Sección de Sistemas y Servicios */}
-            <Box
-              p={4}
-              bg="blue.50"
-              borderRadius="lg"
-              border="1px solid"
-              borderColor="blue.200"
-            >
-              <VStack spacing={4} align="stretch">
-                <Text fontSize="md" fontWeight="bold" color="blue.700">
-                  Sistemas y Servicios Relacionados
-                </Text>
-                <Text fontSize="sm" color="blue.600">
-                  Selecciona los sistemas y servicios que están relacionados con el diagnóstico de los equipos
-                </Text>
-                
-                <TreeView
-                  data={treeData}
-                  onSelect={handleTreeSelection}
-                  showCheckboxes={true}
-                  title="Sistemas y Servicios"
-                />
-                
-                {/* Resumen de elementos seleccionados */}
-                {formData.selectedTreeItems && formData.selectedTreeItems.length > 0 && (
-                  <Box
-                    p={3}
-                    bg="white"
-                    borderRadius="md"
-                    border="1px solid"
-                    borderColor="blue.200"
-                  >
-                    <VStack align="start" spacing={2}>
-                      <Text fontSize="sm" fontWeight="medium" color="blue.700">
-                        Elementos Seleccionados ({formData.selectedTreeItems.length}):
-                      </Text>
-                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
-                        {formData.selectedTreeItems.map(itemId => {
-                          const item = treeData.find(d => d.id === itemId);
-                          return item ? (
-                            <HStack key={itemId} p={2} bg="blue.50" borderRadius="md" border="1px solid" borderColor="blue.100">
-                              <Box w={2} h={2} bg="blue.400" borderRadius="full" />
-                              <VStack align="start" spacing={0} flex="1">
-                                <Text fontSize="xs" fontWeight="medium" color="blue.800">
-                                  {item.name}
-                                </Text>
-                                <Text fontSize="xs" color="blue.600">
-                                  {item.type}
-                                </Text>
-                              </VStack>
-                            </HStack>
-                          ) : null;
-                        })}
-                      </SimpleGrid>
-                    </VStack>
-                  </Box>
-                )}
-              </VStack>
-            </Box>
-
             {/* Resumen de diagnósticos */}
             {formData.selectedEquipment && formData.selectedEquipment.length > 0 && (
               <Box
@@ -4159,6 +4168,47 @@ function WizardExample() {
                   )}
                 </VStack>
               </Box>
+
+              {/* Sistemas por Equipo */}
+              {formData.equipmentSystems && Object.keys(formData.equipmentSystems).length > 0 && (
+                <Box 
+                  p={{ base: 3, md: 4 }} 
+                  borderWidth="1px" 
+                  borderRadius="md" 
+                  bg={useColorModeValue('gray.50', 'gray.700')}
+                >
+                  <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
+                    Sistemas Asignados por Equipo:
+                  </Text>
+                  <VStack align="start" spacing={3} fontSize={{ base: "sm", md: "md" }}>
+                    {Object.keys(formData.equipmentSystems).map(equipId => {
+                      const equipment = equipmentData.find(eq => eq.id === parseInt(equipId));
+                      const systemIds = formData.equipmentSystems[equipId];
+                      if (!equipment || !systemIds || systemIds.length === 0) return null;
+                      
+                      return (
+                        <Box key={equipId} w="100%" p={3} bg="white" borderRadius="md" border="1px solid" borderColor="gray.200">
+                          <VStack align="start" spacing={2}>
+                            <Text fontSize="sm" fontWeight="medium" color="blue.700">
+                              {equipment.modelo_name} ({systemIds.length} sistema{systemIds.length !== 1 ? 's' : ''})
+                            </Text>
+                            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={1} w="100%">
+                              {systemIds.map(systemId => {
+                                const system = treeData.find(d => d.id === systemId);
+                                return system ? (
+                                  <Text key={systemId} fontSize="xs" color="gray.600">
+                                    • {system.name} ({system.type})
+                                  </Text>
+                                ) : null;
+                              })}
+                            </SimpleGrid>
+                          </VStack>
+                        </Box>
+                      );
+                    })}
+                  </VStack>
+                </Box>
+              )}
 
               <Box 
                 p={{ base: 3, md: 4 }} 
