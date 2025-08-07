@@ -424,6 +424,11 @@ const TreeView = ({
         if (matchesSearch && matchesType) {
           // Agregar todos los padres de este nodo para expandirlos
           parents.forEach(parentId => matchingParents.add(parentId));
+          
+          // Si el nodo que coincide tiene hijos, también expandirlo para mostrar sus contenidos
+          if (node.children && node.children.length > 0) {
+            matchingParents.add(node.id);
+          }
         }
         
         if (node.children && node.children.length > 0) {
@@ -480,6 +485,44 @@ const TreeView = ({
       });
     }
   }, [searchTerm, autoExpandMatches]);
+
+  // Función para expandir todos los sistemas encontrados cuando se buscan sistemas
+  const expandAllFoundSystems = () => {
+    if (searchTerm && searchType === 'sistemas') {
+      const systemsToExpand = new Set();
+      
+      const findSystems = (nodes) => {
+        nodes.forEach(node => {
+          const matchesSearch = (node.title || node.name || '')
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
+          
+          if (matchesSearch && node.type === 'Sistema' && node.children && node.children.length > 0) {
+            systemsToExpand.add(node.id);
+          }
+          
+          if (node.children && node.children.length > 0) {
+            findSystems(node.children);
+          }
+        });
+      };
+      
+      findSystems(filteredData);
+      
+      setExpandedNodes(prev => {
+        const newSet = new Set(prev);
+        systemsToExpand.forEach(id => newSet.add(id));
+        return newSet;
+      });
+    }
+  };
+
+  // Auto-expandir sistemas cuando se cambia el tipo de búsqueda a 'sistemas'
+  React.useEffect(() => {
+    if (searchTerm && searchType === 'sistemas') {
+      setTimeout(expandAllFoundSystems, 100); // Pequeño delay para asegurar que el filtrado esté listo
+    }
+  }, [searchTerm, searchType]);
 
   const handleToggle = (nodeId) => {
     setExpandedNodes(prev => {
@@ -640,12 +683,28 @@ const TreeView = ({
                 
                 {/* Search Results Info */}
                 {searchTerm && (
-                  <HStack spacing={2} justify="center">
+                  <VStack spacing={2} align="center">
                     <Text fontSize="xs" color="gray.500" textAlign="center">
                       Buscando "{searchTerm}" en {searchType === 'all' ? 'todos los elementos' : searchType}
-                      {autoExpandMatches.size > 0 && ` • ${autoExpandMatches.size} nodo(s) expandido(s)`}
+                      {autoExpandMatches.size > 0 && ` • ${autoExpandMatches.size} elemento(s) expandido(s) automáticamente`}
                     </Text>
-                  </HStack>
+                    
+                    {/* Quick expand for found systems */}
+                    {searchType === 'sistemas' && filteredData.length > 0 && (
+                      <Button
+                        size="xs"
+                        variant="outline"
+                        colorScheme="green"
+                        onClick={expandAllFoundSystems}
+                        leftIcon={<FiChevronDown />}
+                        fontSize="xs"
+                        minH="24px"
+                        px={2}
+                      >
+                        Ver contenido de sistemas encontrados
+                      </Button>
+                    )}
+                  </VStack>
                 )}
               </VStack>
             )}
