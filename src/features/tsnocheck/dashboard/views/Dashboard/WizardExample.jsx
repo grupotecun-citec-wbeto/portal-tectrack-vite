@@ -3123,9 +3123,9 @@ function WizardExample() {
               </Stack>
             </VStack>
 
-            {/* Lista de equipos */}
+            {/* Lista de equipos con altura aumentada */}
             <Box
-              maxH="400px"
+              maxH={{ base: "500px", md: "600px" }}
               overflowY="auto"
               border="1px solid"
               borderColor="gray.200"
