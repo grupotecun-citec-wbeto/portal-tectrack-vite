@@ -21,7 +21,7 @@ import {
   SimpleGrid,
   useToast,
 } from '@chakra-ui/react';
-import { FiUser, FiSettings, FiCheck, FiMail, FiShield, FiBell, FiMoon, FiZap, FiGlobe, FiLock, FiGitBranch, FiHeadphones, FiBookOpen, FiTool, FiStar } from 'react-icons/fi';
+import { FiUser, FiSettings, FiCheck, FiMail, FiShield, FiBell, FiMoon, FiZap, FiGlobe, FiLock, FiGitBranch, FiHeadphones, FiBookOpen, FiTool, FiStar, FiAlertTriangle, FiRefreshCw } from 'react-icons/fi';
 import Card from '@dashboard/components/Card/Card';
 import CardHeader from '@dashboard/components/Card/CardHeader';
 import CardBody from '@dashboard/components/Card/CardBody';
@@ -37,18 +37,21 @@ function WizardExample() {
     // Step 1: Segment Selection
     selectedSegment: '',
     
-    // Step 2: Personal Info (moved from step 1)
+    // Step 2: Case Type Selection
+    selectedCaseType: '',
+    
+    // Step 3: Personal Info (moved from step 2)
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     
-    // Step 3: Preferences
+    // Step 4: Preferences
     notifications: false,
     theme: 'light',
     language: 'es',
     
-    // Step 4: Features Selection (Checkboxes with Icons)
+    // Step 5: Features Selection (Checkboxes with Icons)
     features: {
       security: false,
       notifications: false,
@@ -58,10 +61,10 @@ function WizardExample() {
       privacy: false,
     },
     
-    // Step 5: Tree Selection
+    // Step 6: Tree Selection
     selectedTreeItems: [],
     
-    // Step 6: Additional Info
+    // Step 7: Additional Info
     bio: '',
     company: '',
     role: '',
@@ -92,6 +95,26 @@ function WizardExample() {
       icon: FiTool,
       color: 'purple',
       features: ['Consultoría técnica', 'Implementación', 'Integración de sistemas', 'Seguimiento']
+    }
+  ];
+
+  // Definición de tipos de casos disponibles
+  const caseTypes = [
+    {
+      id: 'correctivos',
+      title: 'Casos Correctivos',
+      description: 'Resolución de problemas existentes, reparaciones y correcciones de fallas',
+      icon: FiAlertTriangle,
+      color: 'red',
+      features: ['Diagnóstico de fallas', 'Reparaciones urgentes', 'Corrección de errores', 'Restauración del servicio']
+    },
+    {
+      id: 'preventivos',
+      title: 'Casos Preventivos',
+      description: 'Mantenimiento programado y acciones para prevenir problemas futuros',
+      icon: FiRefreshCw,
+      color: 'green',
+      features: ['Mantenimiento programado', 'Inspecciones regulares', 'Actualizaciones preventivas', 'Optimización continua']
     }
   ];
 
@@ -2260,6 +2283,136 @@ function WizardExample() {
     },
     {
       id: 1,
+      title: 'Tipo de Caso',
+      content: (
+        <WizardStepContent
+          title="Selecciona el Tipo de Caso"
+          description="Elige el tipo de caso según la naturaleza de tu solicitud"
+          icon={FiSettings}
+        >
+          <VStack spacing={6} align="stretch">
+            <SimpleGrid 
+              columns={{ base: 1, md: 2 }} 
+              spacing={6}
+            >
+              {caseTypes.map((caseType) => {
+                const isSelected = formData.selectedCaseType === caseType.id;
+                return (
+                  <Box
+                    key={caseType.id}
+                    p={6}
+                    border="2px solid"
+                    borderColor={isSelected ? `${caseType.color}.500` : 'gray.200'}
+                    borderRadius="xl"
+                    cursor="pointer"
+                    transition="all 0.3s ease"
+                    bg={isSelected ? `${caseType.color}.50` : 'white'}
+                    position="relative"
+                    _hover={{
+                      borderColor: `${caseType.color}.400`,
+                      boxShadow: 'lg',
+                      bg: isSelected ? `${caseType.color}.100` : `${caseType.color}.50`
+                    }}
+                    _dark={{
+                      bg: isSelected ? `${caseType.color}.900` : 'gray.800',
+                      borderColor: isSelected ? `${caseType.color}.400` : 'gray.600',
+                      _hover: {
+                        borderColor: `${caseType.color}.300`,
+                        bg: isSelected ? `${caseType.color}.800` : 'gray.700',
+                        boxShadow: 'lg'
+                      }
+                    }}
+                    onClick={() => updateFormData('selectedCaseType', caseType.id)}
+                  >
+                    {/* Indicador de selección */}
+                    {isSelected && (
+                      <Box
+                        position="absolute"
+                        top={3}
+                        right={3}
+                        bg={`${caseType.color}.500`}
+                        color="white"
+                        borderRadius="full"
+                        p={1}
+                      >
+                        <FiCheck size={12} />
+                      </Box>
+                    )}
+                    
+                    {/* Icono */}
+                    <VStack spacing={4} align="center" textAlign="center">
+                      <Box
+                        p={4}
+                        borderRadius="full"
+                        bg={`${caseType.color}.100`}
+                        color={`${caseType.color}.600`}
+                        _dark={{
+                          bg: `${caseType.color}.800`,
+                          color: `${caseType.color}.200`
+                        }}
+                      >
+                        <caseType.icon size={32} />
+                      </Box>
+                      
+                      {/* Título */}
+                      <Text
+                        fontSize="xl"
+                        fontWeight="bold"
+                        color={isSelected ? `${caseType.color}.700` : 'gray.700'}
+                        _dark={{
+                          color: isSelected ? `${caseType.color}.200` : 'white'
+                        }}
+                      >
+                        {caseType.title}
+                      </Text>
+                      
+                      {/* Descripción */}
+                      <Text
+                        fontSize="sm"
+                        color="gray.600"
+                        _dark={{ color: 'gray.400' }}
+                        lineHeight="tall"
+                      >
+                        {caseType.description}
+                      </Text>
+                      
+                      {/* Características */}
+                      <VStack spacing={1} align="stretch" w="100%">
+                        {caseType.features.map((feature, index) => (
+                          <HStack key={index} spacing={2} justify="center">
+                            <Box w={1} h={1} bg="gray.400" borderRadius="full" />
+                            <Text fontSize="xs" color="gray.600" _dark={{ color: 'gray.400' }}>
+                              {feature}
+                            </Text>
+                          </HStack>
+                        ))}
+                      </VStack>
+                    </VStack>
+                  </Box>
+                );
+              })}
+            </SimpleGrid>
+            
+            {/* Información adicional */}
+            {formData.selectedCaseType && (
+              <Alert status="info" borderRadius="md">
+                <AlertIcon />
+                <Box>
+                  <Text fontWeight="semibold">
+                    Has seleccionado: {caseTypes.find(c => c.id === formData.selectedCaseType)?.title}
+                  </Text>
+                  <Text fontSize="sm">
+                    Los siguientes pasos se adaptarán según el tipo de caso seleccionado.
+                  </Text>
+                </Box>
+              </Alert>
+            )}
+          </VStack>
+        </WizardStepContent>
+      ),
+    },
+    {
+      id: 2,
       title: 'Información Personal',
       content: (
         <WizardStepContent
@@ -2321,7 +2474,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 2,
+      id: 3,
       title: 'Preferencias',
       content: (
         <WizardStepContent
@@ -2374,7 +2527,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 3,
+      id: 4,
       title: 'Características',
       content: (
         <WizardStepContent
@@ -2450,7 +2603,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 4,
+      id: 5,
       title: 'Estructura Organizacional',
       content: (
         <WizardStepContent
@@ -2475,7 +2628,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 5,
+      id: 6,
       title: 'Información Adicional',
       content: (
         <WizardStepContent
@@ -2530,7 +2683,7 @@ function WizardExample() {
       ),
     },
     {
-      id: 6,
+      id: 7,
       title: 'Confirmación',
       content: (
         <WizardStepContent
@@ -2567,6 +2720,31 @@ function WizardExample() {
                       </Text>
                       <Text fontSize="sm" color="gray.600">
                         {segments.find(s => s.id === formData.selectedSegment)?.description}
+                      </Text>
+                    </>
+                  ) : (
+                    <Text color="red.500">No seleccionado</Text>
+                  )}
+                </VStack>
+              </Box>
+
+              <Box 
+                p={{ base: 3, md: 4 }} 
+                borderWidth="1px" 
+                borderRadius="md" 
+                bg={useColorModeValue('gray.50', 'gray.700')}
+              >
+                <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
+                  Tipo de Caso:
+                </Text>
+                <VStack align="start" spacing={1} fontSize={{ base: "sm", md: "md" }}>
+                  {formData.selectedCaseType ? (
+                    <>
+                      <Text fontWeight="semibold" color={`${caseTypes.find(c => c.id === formData.selectedCaseType)?.color}.600`}>
+                        {caseTypes.find(c => c.id === formData.selectedCaseType)?.title}
+                      </Text>
+                      <Text fontSize="sm" color="gray.600">
+                        {caseTypes.find(c => c.id === formData.selectedCaseType)?.description}
                       </Text>
                     </>
                   ) : (
