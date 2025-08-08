@@ -49,38 +49,11 @@ function WizardCreateCaso() {
     selectedEquipment: [],
     viewMode: 'cards', // 'compact', 'normal', 'cards'
     
-    // Step 3.5: Equipment Diagnostics
+    // Step 4: Equipment Diagnostics
     equipmentDiagnostics: {}, // { equipmentId: { diagnosticData } }
     equipmentSystems: {}, // { equipmentId: [systemIds] }
     
-    // Step 4: Personal Info (moved from step 3)
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    
-    // Step 4: Preferences
-    notifications: false,
-    theme: 'light',
-    language: 'es',
-    
-    // Step 5: Features Selection (Checkboxes with Icons)
-    features: {
-      security: false,
-      notifications: false,
-      darkMode: false,
-      performance: false,
-      multilingual: false,
-      privacy: false,
-    },
-    
-    // Step 6: Tree Selection
-    selectedTreeItems: [],
-    
-    // Step 7: Additional Info
-    bio: '',
-    company: '',
-    role: '',
+    // Removed steps 5-9: Personal Info, Preferences, Features, Tree Selection, Additional Info
   });
 
 
@@ -92,22 +65,6 @@ function WizardCreateCaso() {
       [field]: value
     }));
   }, []);
-
-  // Memoizar updateFeature para mejor rendimiento  
-  const updateFeature = useCallback((featureName, value) => {
-    setFormData(prev => ({
-      ...prev,
-      features: {
-        ...prev.features,
-        [featureName]: value
-      }
-    }));
-  }, []);
-
-  // Memoizar handleTreeSelection para mejor rendimiento
-  const handleTreeSelection = useCallback((node, selectedNodes) => {
-    updateFormData('selectedTreeItems', Array.from(selectedNodes));
-  }, [updateFormData]);
 
   // Funciones para la búsqueda de equipos
   const filteredEquipment = equipmentData.filter(equipment => {
@@ -379,73 +336,6 @@ function WizardCreateCaso() {
 
     return Object.values(organized);
   }, [treeData]);
-
-  // Custom checkbox with icon component
-  const IconCheckbox = ({ icon: Icon, title, description, isChecked, onChange, colorScheme = "blue" }) => {
-    const borderColor = useColorModeValue('gray.200', 'gray.600');
-    const hoverBorderColor = useColorModeValue('blue.300', 'blue.400');
-    const checkedBg = useColorModeValue('blue.50', 'blue.900');
-    const checkedBorderColor = useColorModeValue('blue.500', 'blue.400');
-    
-    return (
-      <Box
-        borderWidth="2px"
-        borderColor={isChecked ? checkedBorderColor : borderColor}
-        borderRadius="lg"
-        p={4}
-        cursor="pointer"
-        transition="all 0.2s"
-        bg={isChecked ? checkedBg : 'transparent'}
-        _hover={{
-          borderColor: hoverBorderColor,
-          transform: 'translateY(-2px)',
-          shadow: 'md'
-        }}
-        onClick={onChange}
-        position="relative"
-      >
-        <VStack spacing={3} align="center" textAlign="center">
-          <Box
-            p={3}
-            borderRadius="full"
-            bg={isChecked ? `${colorScheme}.500` : useColorModeValue('gray.100', 'gray.700')}
-            color={isChecked ? 'white' : useColorModeValue('gray.600', 'gray.300')}
-            transition="all 0.2s"
-          >
-            <Icon size={24} />
-          </Box>
-          <Box>
-            <Text fontWeight="bold" fontSize="md" mb={1}>
-              {title}
-            </Text>
-            <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.400')}>
-              {description}
-            </Text>
-          </Box>
-        </VStack>
-        
-        {/* Checkbox indicator */}
-        <Box
-          position="absolute"
-          top={2}
-          right={2}
-          w={5}
-          h={5}
-          borderRadius="sm"
-          borderWidth="2px"
-          borderColor={isChecked ? `${colorScheme}.500` : borderColor}
-          bg={isChecked ? `${colorScheme}.500` : 'transparent'}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          {isChecked && (
-            <FiCheck color="white" size={12} />
-          )}
-        </Box>
-      </Box>
-    );
-  };
 
   // Componente para vista compacta de equipos
   const CompactEquipmentView = ({ equipment, isSelected, onSelect }) => (
@@ -2704,277 +2594,6 @@ function WizardCreateCaso() {
     },
     {
       id: 4,
-      title: 'Información Personal',
-      content: (
-        <WizardStepContent
-          title="Datos Personales"
-          description="Por favor, ingresa tu información personal básica"
-          icon={FiUser}
-        >
-          <VStack spacing={4} align="stretch">
-            <SimpleGrid 
-              columns={{ base: 1, md: 2 }} 
-              spacing={4}
-            >
-              <FormControl>
-                <FormLabel>Nombre</FormLabel>
-                <Input
-                  value={formData.firstName}
-                  onChange={(e) => updateFormData('firstName', e.target.value)}
-                  placeholder="Tu nombre"
-                  size={{ base: 'md', md: 'md' }}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Apellido</FormLabel>
-                <Input
-                  value={formData.lastName}
-                  onChange={(e) => updateFormData('lastName', e.target.value)}
-                  placeholder="Tu apellido"
-                  size={{ base: 'md', md: 'md' }}
-                />
-              </FormControl>
-            </SimpleGrid>
-            <SimpleGrid 
-              columns={{ base: 1, md: 2 }} 
-              spacing={4}
-            >
-              <FormControl>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => updateFormData('email', e.target.value)}
-                  placeholder="tu@email.com"
-                  size={{ base: 'md', md: 'md' }}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Teléfono</FormLabel>
-                <Input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => updateFormData('phone', e.target.value)}
-                  placeholder="+1 234 567 8900"
-                  size={{ base: 'md', md: 'md' }}
-                />
-              </FormControl>
-            </SimpleGrid>
-          </VStack>
-        </WizardStepContent>
-      ),
-    },
-    {
-      id: 5,
-      title: 'Preferencias',
-      content: (
-        <WizardStepContent
-          title="Configuración de Preferencias"
-          description="Personaliza tu experiencia en la plataforma"
-          icon={FiSettings}
-        >
-          <VStack spacing={6} align="stretch">
-            <FormControl>
-              <FormLabel>Idioma preferido</FormLabel>
-              <Select
-                value={formData.language}
-                onChange={(e) => updateFormData('language', e.target.value)}
-                size={{ base: 'md', md: 'md' }}
-              >
-                <option value="es">Español</option>
-                <option value="en">English</option>
-                <option value="fr">Français</option>
-              </Select>
-            </FormControl>
-            
-            <FormControl>
-              <FormLabel>Tema</FormLabel>
-              <RadioGroup
-                value={formData.theme}
-                onChange={(value) => updateFormData('theme', value)}
-              >
-                <SimpleGrid 
-                  columns={{ base: 1, md: 3 }} 
-                  spacing={4}
-                  alignItems="center"
-                >
-                  <Radio value="light" size="lg">Claro</Radio>
-                  <Radio value="dark" size="lg">Oscuro</Radio>
-                  <Radio value="auto" size="lg">Automático</Radio>
-                </SimpleGrid>
-              </RadioGroup>
-            </FormControl>
-            
-            <FormControl>
-              <Checkbox
-                isChecked={formData.notifications}
-                onChange={(e) => updateFormData('notifications', e.target.checked)}
-              >
-                Recibir notificaciones por email
-              </Checkbox>
-            </FormControl>
-          </VStack>
-        </WizardStepContent>
-      ),
-    },
-    {
-      id: 6,
-      title: 'Características',
-      content: (
-        <WizardStepContent
-          title="Selecciona las Características"
-          description="Elige las funcionalidades que deseas activar en tu cuenta"
-          icon={FiZap}
-        >
-          <VStack spacing={6} align="stretch">
-            <Text fontSize="md" color={useColorModeValue('gray.600', 'gray.400')} textAlign="center">
-              Selecciona todas las características que te gustaría usar
-            </Text>
-            
-            <SimpleGrid 
-              columns={{ base: 1, md: 2, lg: 3 }} 
-              spacing={4}
-            >
-              <IconCheckbox
-                icon={FiShield}
-                title="Seguridad Avanzada"
-                description="Autenticación de dos factores y encriptación"
-                isChecked={formData.features.security}
-                onChange={() => updateFeature('security', !formData.features.security)}
-                colorScheme="green"
-              />
-              
-              <IconCheckbox
-                icon={FiBell}
-                title="Notificaciones Push"
-                description="Recibe alertas en tiempo real"
-                isChecked={formData.features.notifications}
-                onChange={() => updateFeature('notifications', !formData.features.notifications)}
-                colorScheme="blue"
-              />
-              
-              <IconCheckbox
-                icon={FiMoon}
-                title="Modo Oscuro"
-                description="Tema oscuro para mejor experiencia"
-                isChecked={formData.features.darkMode}
-                onChange={() => updateFeature('darkMode', !formData.features.darkMode)}
-                colorScheme="purple"
-              />
-              
-              <IconCheckbox
-                icon={FiZap}
-                title="Alto Rendimiento"
-                description="Optimizaciones para velocidad"
-                isChecked={formData.features.performance}
-                onChange={() => updateFeature('performance', !formData.features.performance)}
-                colorScheme="orange"
-              />
-              
-              <IconCheckbox
-                icon={FiGlobe}
-                title="Multiidioma"
-                description="Soporte para múltiples idiomas"
-                isChecked={formData.features.multilingual}
-                onChange={() => updateFeature('multilingual', !formData.features.multilingual)}
-                colorScheme="teal"
-              />
-              
-              <IconCheckbox
-                icon={FiLock}
-                title="Privacidad Avanzada"
-                description="Control total sobre tus datos"
-                isChecked={formData.features.privacy}
-                onChange={() => updateFeature('privacy', !formData.features.privacy)}
-                colorScheme="red"
-              />
-            </SimpleGrid>
-          </VStack>
-        </WizardStepContent>
-      ),
-    },
-    {
-      id: 7,
-      title: 'Estructura Organizacional',
-      content: (
-        <WizardStepContent
-          title="Selecciona Elementos de la Estructura"
-          description="Explora y selecciona los elementos de la estructura organizacional que te interesan"
-          icon={FiGitBranch}
-        >
-          <VStack spacing={4} align="stretch">
-            <Text fontSize="md" color={useColorModeValue('gray.600', 'gray.400')} textAlign="center">
-              Esta es una demostración de cómo mostrar datos recursivos en forma de árbol.
-              Puedes expandir/contraer nodos y seleccionar múltiples elementos.
-            </Text>
-            
-            <TreeView
-              data={treeData}
-              onSelect={handleTreeSelection}
-              showCheckboxes={true}
-              title="Estructura Organizacional"
-            />
-          </VStack>
-        </WizardStepContent>
-      ),
-    },
-    {
-      id: 8,
-      title: 'Información Adicional',
-      content: (
-        <WizardStepContent
-          title="Detalles Adicionales"
-          description="Información opcional sobre tu perfil profesional"
-          icon={FiMail}
-        >
-          <VStack spacing={4} align="stretch">
-            <SimpleGrid 
-              columns={{ base: 1, md: 2 }}
-              spacing={4}
-            >
-              <FormControl>
-                <FormLabel>Empresa</FormLabel>
-                <Input
-                  value={formData.company}
-                  onChange={(e) => updateFormData('company', e.target.value)}
-                  placeholder="Nombre de tu empresa"
-                  size={{ base: 'md', md: 'md' }}
-                />
-              </FormControl>
-              
-              <FormControl>
-                <FormLabel>Cargo</FormLabel>
-                <Select
-                  value={formData.role}
-                  onChange={(e) => updateFormData('role', e.target.value)}
-                  placeholder="Selecciona tu cargo"
-                  size={{ base: 'md', md: 'md' }}
-                >
-                  <option value="developer">Desarrollador</option>
-                  <option value="designer">Diseñador</option>
-                  <option value="manager">Gerente</option>
-                  <option value="analyst">Analista</option>
-                  <option value="other">Otro</option>
-                </Select>
-              </FormControl>
-            </SimpleGrid>
-            
-            <FormControl>
-              <FormLabel>Biografía</FormLabel>
-              <Textarea
-                value={formData.bio}
-                onChange={(e) => updateFormData('bio', e.target.value)}
-                placeholder="Cuéntanos un poco sobre ti..."
-                rows={{ base: 3, md: 4 }}
-                resize="vertical"
-              />
-            </FormControl>
-          </VStack>
-        </WizardStepContent>
-      ),
-    },
-    {
-      id: 9,
       title: 'Confirmación',
       content: (
         <WizardStepContent
@@ -3084,6 +2703,44 @@ function WizardCreateCaso() {
                 </VStack>
               </Box>
 
+              {/* Diagnósticos de Equipos */}
+              {formData.equipmentDiagnostics && Object.keys(formData.equipmentDiagnostics).length > 0 && (
+                <Box 
+                  p={{ base: 3, md: 4 }} 
+                  borderWidth="1px" 
+                  borderRadius="md" 
+                  bg={useColorModeValue('gray.50', 'gray.700')}
+                >
+                  <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
+                    Diagnósticos de Equipos:
+                  </Text>
+                  <VStack align="start" spacing={2} fontSize={{ base: "sm", md: "md" }}>
+                    <Text color="green.600" fontWeight="medium">
+                      {Object.keys(formData.equipmentDiagnostics).length} equipo{Object.keys(formData.equipmentDiagnostics).length !== 1 ? 's' : ''} con diagnóstico
+                    </Text>
+                    <VStack align="start" spacing={1} w="100%">
+                      {Object.keys(formData.equipmentDiagnostics).slice(0, 3).map(equipId => {
+                        const equipment = equipmentData.find(eq => eq.id === parseInt(equipId));
+                        const diagnostic = formData.equipmentDiagnostics[equipId];
+                        return equipment ? (
+                          <HStack key={equipId} justify="space-between" w="100%">
+                            <Text fontSize="sm">{equipment.modelo_name}</Text>
+                            <Text fontSize="xs" color={diagnostic.prioridad === 'alta' ? 'red.600' : diagnostic.prioridad === 'media' ? 'yellow.600' : 'green.600'}>
+                              Prioridad: {diagnostic.prioridad}
+                            </Text>
+                          </HStack>
+                        ) : null;
+                      })}
+                      {Object.keys(formData.equipmentDiagnostics).length > 3 && (
+                        <Text fontSize="xs" color="gray.500">
+                          y {Object.keys(formData.equipmentDiagnostics).length - 3} más...
+                        </Text>
+                      )}
+                    </VStack>
+                  </VStack>
+                </Box>
+              )}
+
               {/* Sistemas por Equipo */}
               {formData.equipmentSystems && Object.keys(formData.equipmentSystems).length > 0 && (
                 <Box 
@@ -3124,101 +2781,7 @@ function WizardCreateCaso() {
                   </VStack>
                 </Box>
               )}
-
-              <Box 
-                p={{ base: 3, md: 4 }} 
-                borderWidth="1px" 
-                borderRadius="md" 
-                bg={useColorModeValue('gray.50', 'gray.700')}
-              >
-                <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
-                  Información Personal:
-                </Text>
-                <VStack align="start" spacing={1} fontSize={{ base: "sm", md: "md" }}>
-                  <Text>Nombre: {formData.firstName} {formData.lastName}</Text>
-                  <Text>Email: {formData.email}</Text>
-                  <Text>Teléfono: {formData.phone}</Text>
-                </VStack>
-              </Box>
-              
-              <Box 
-                p={{ base: 3, md: 4 }} 
-                borderWidth="1px" 
-                borderRadius="md" 
-                bg={useColorModeValue('gray.50', 'gray.700')}
-              >
-                <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
-                  Preferencias:
-                </Text>
-                <VStack align="start" spacing={1} fontSize={{ base: "sm", md: "md" }}>
-                  <Text>Idioma: {formData.language}</Text>
-                  <Text>Tema: {formData.theme}</Text>
-                  <Text>Notificaciones: {formData.notifications ? 'Activadas' : 'Desactivadas'}</Text>
-                </VStack>
-              </Box>
             </SimpleGrid>
-            
-            {/* Features Selected */}
-            {Object.values(formData.features).some(Boolean) && (
-              <Box 
-                p={{ base: 3, md: 4 }} 
-                borderWidth="1px" 
-                borderRadius="md"
-                bg={useColorModeValue('gray.50', 'gray.700')}
-              >
-                <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
-                  Características Seleccionadas:
-                </Text>
-                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} fontSize={{ base: "sm", md: "md" }}>
-                  {formData.features.security && <Text>✅ Seguridad Avanzada</Text>}
-                  {formData.features.notifications && <Text>✅ Notificaciones Push</Text>}
-                  {formData.features.darkMode && <Text>✅ Modo Oscuro</Text>}
-                  {formData.features.performance && <Text>✅ Alto Rendimiento</Text>}
-                  {formData.features.multilingual && <Text>✅ Multiidioma</Text>}
-                  {formData.features.privacy && <Text>✅ Privacidad Avanzada</Text>}
-                </SimpleGrid>
-              </Box>
-            )}
-            
-            {/* Tree Selection */}
-            {formData.selectedTreeItems.length > 0 && (
-              <Box 
-                p={{ base: 3, md: 4 }} 
-                borderWidth="1px" 
-                borderRadius="md"
-                bg={useColorModeValue('gray.50', 'gray.700')}
-              >
-                <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
-                  Elementos Seleccionados:
-                </Text>
-                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} fontSize={{ base: "sm", md: "md" }}>
-                  {formData.selectedTreeItems.map(itemId => {
-                    const item = treeData.find(d => d.id === itemId);
-                    return item ? (
-                      <Text key={itemId}>✅ {item.name} ({item.type})</Text>
-                    ) : null;
-                  })}
-                </SimpleGrid>
-              </Box>
-            )}
-            
-            {(formData.company || formData.role || formData.bio) && (
-              <Box 
-                p={{ base: 3, md: 4 }} 
-                borderWidth="1px" 
-                borderRadius="md"
-                bg={useColorModeValue('gray.50', 'gray.700')}
-              >
-                <Text fontWeight="bold" mb={2} fontSize={{ base: "sm", md: "md" }}>
-                  Información Adicional:
-                </Text>
-                <VStack align="start" spacing={1} fontSize={{ base: "sm", md: "md" }}>
-                  {formData.company && <Text>Empresa: {formData.company}</Text>}
-                  {formData.role && <Text>Cargo: {formData.role}</Text>}
-                  {formData.bio && <Text>Biografía: {formData.bio}</Text>}
-                </VStack>
-              </Box>
-            )}
           </VStack>
         </WizardStepContent>
       ),
