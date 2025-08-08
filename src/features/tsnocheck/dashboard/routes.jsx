@@ -9,6 +9,7 @@ import Datos2 from "./views/Dashboard/Datos2.jsx";
 import DatosWithId from "./views/Dashboard/DatosWithId.jsx";
 import WizardExample from "./views/Dashboard/WizardCreateCaso.jsx";
 import WizardBasico from "./views/Dashboard/WizardBasico.jsx";
+import CasosList from "./views/Dashboard/CasosList.jsx";
 import RTLPage from "./views/RTL/RTLPage.jsx";
 import Profile from "./views/Dashboard/Profile.jsx";
 import SignIn from "./views/Pages/SignIn.jsx";
@@ -31,6 +32,14 @@ var dashRoutes = [
     rtlName: "لوحة القيادة",
     icon: <HomeIcon color='inherit' />,
     component: Dashboard,
+    layout: "/admin",
+  },
+  {
+    path: "/casos",
+    name: "Casos",
+    rtlName: "الحالات",
+    icon: <SupportIcon color='inherit' />,
+    component: CasosList,
     layout: "/admin",
   },
   {
