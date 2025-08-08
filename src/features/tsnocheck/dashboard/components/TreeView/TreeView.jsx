@@ -77,7 +77,7 @@ const TreeNode = ({
   const subtextColor = useColorModeValue('gray.600', 'gray.400');
 
   const hasChildren = node.children && node.children.length > 0;
-  const indentSize = variant === 'compact' ? 16 : 24;
+  const indentSize = variant === 'compact' ? 4 : 8; // Tamaño de indentación para vista compacta vs normal
   
   // Determinar el estado basado en los Sets del componente padre
   const isExpanded = expandedNodes?.has(node.id) || false;
@@ -228,10 +228,13 @@ const TreeNode = ({
 
   // Vista compacta/normal optimizada para móvil
   return (
-    <VStack spacing={variant === 'compact' && !isMobile ? 0 : 1} align="stretch" w="100%">
+    <VStack 
+        spacing={variant === 'compact' && !isMobile ? 0 : 1} 
+        align="stretch" 
+        w="100%" 
+        pl={isMobile ? level * 12 : level * indentSize}>
       <HStack
         spacing={2}
-        pl={isMobile ? level * 12 : level * indentSize}
         py={variant === 'compact' && !isMobile ? 1 : (isMobile ? 3 : 2)}
         px={isMobile ? 3 : 2}
         bg={isSelected ? selectedBg : 'transparent'}
