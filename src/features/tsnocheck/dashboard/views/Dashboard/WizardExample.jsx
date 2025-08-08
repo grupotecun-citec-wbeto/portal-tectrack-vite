@@ -3002,12 +3002,15 @@ function WizardExample() {
     useEffect(() => {
       const externalSelection = formData.equipmentSystems?.[equipment.id] || [];
       // Solo actualizar si es diferente del estado local actual para evitar loops
-      // Usar una comparación más robusta sin depender del estado local en las dependencias
+      // Usar una comparación más eficiente
       setLocalSelectedSystems(current => {
-        if (JSON.stringify(externalSelection) !== JSON.stringify(current)) {
+        // Comparación rápida por longitud primero
+        if (externalSelection.length !== current.length) {
           return externalSelection;
         }
-        return current;
+        // Si tienen la misma longitud, comparar contenido
+        const hasChanges = externalSelection.some((id, index) => id !== current[index]);
+        return hasChanges ? externalSelection : current;
       });
     }, [formData.equipmentSystems, equipment.id]);
 
@@ -3029,13 +3032,6 @@ function WizardExample() {
       title: `Sistemas para ${equipment.modelo_name}`,
       selectedItems: localSelectedSystems
     }), [treeData, handleTreeViewSelection, equipment.modelo_name, localSelectedSystems]);
-
-    // Debug: Verificar qué se está pasando al TreeView
-    console.log(`[DEBUG] TreeView props for ${equipment.modelo_name}:`, {
-      selectedItemsLength: localSelectedSystems.length,
-      selectedItems: localSelectedSystems,
-      formDataSystems: formData.equipmentSystems?.[equipment.id]
-    });
 
     // Handlers ultra-optimizados individuales para cada campo - máximo rendimiento
     const handleProblemaChange = useCallback((e) => {

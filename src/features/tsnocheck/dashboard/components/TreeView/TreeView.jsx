@@ -83,17 +83,17 @@ const TreeNode = ({
   const isExpanded = expandedNodes?.has(node.id) || false;
   const isSelected = selectedNodes?.has(node.id) || false;
 
-  const handleToggle = (e) => {
+  const handleToggle = React.useCallback((e) => {
     e.stopPropagation();
     if (hasChildren) {
       onToggle?.(node.id);
     }
-  };
+  }, [hasChildren, onToggle, node.id]);
 
-  const handleSelect = (e) => {
+  const handleSelect = React.useCallback((e) => {
     e.stopPropagation();
     onSelect?.(node);
-  };
+  }, [onSelect, node]);
 
   // Vista optimizada para móvil (tarjetas)
   if (variant === 'cards' || (isMobile && variant !== 'compact')) {
@@ -398,24 +398,18 @@ const TreeView = ({
   React.useEffect(() => {
     const externalSelection = new Set(selectedItems || []);
     
-    // Debug: Verificar sincronización
-    console.log('[DEBUG TreeView] Sincronizando selectedItems:', {
-      externalSelectionSize: externalSelection.size,
-      externalSelection: Array.from(externalSelection),
-      currentSelectedSize: selectedNodes.size,
-      currentSelected: Array.from(selectedNodes)
-    });
+    // Comparación optimizada - primero por tamaño, luego por contenido
+    if (externalSelection.size !== selectedNodes.size) {
+      setSelectedNodes(externalSelection);
+      return;
+    }
     
-    // Comparación más robusta
-    const externalArray = Array.from(externalSelection).sort();
-    const currentArray = Array.from(selectedNodes).sort();
-    const isDifferent = JSON.stringify(externalArray) !== JSON.stringify(currentArray);
-    
-    if (isDifferent) {
-      console.log('[DEBUG TreeView] Actualizando selectedNodes:', externalArray);
+    // Si tienen el mismo tamaño, verificar si el contenido es diferente
+    const hasChanges = Array.from(externalSelection).some(id => !selectedNodes.has(id));
+    if (hasChanges) {
       setSelectedNodes(externalSelection);
     }
-  }, [selectedItems, selectedNodes]);
+  }, [selectedItems]); // Eliminar selectedNodes de las dependencias para evitar loops
 
   // Actualizar viewMode cuando cambie el variant inicial, pero mantener preferencia del usuario
   React.useEffect(() => {
@@ -599,10 +593,8 @@ const TreeView = ({
           newSet.add(node.id);
         }
         
-        // Llamar onSelect con el nuevo estado inmediatamente
-        setTimeout(() => {
-          onSelect?.(node, newSet);
-        }, 0);
+        // Llamar onSelect inmediatamente sin setTimeout para mejor rendimiento
+        onSelect?.(node, newSet);
         
         return newSet;
       });
