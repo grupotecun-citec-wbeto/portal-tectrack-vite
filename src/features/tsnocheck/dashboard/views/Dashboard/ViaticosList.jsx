@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Box,
   VStack,
@@ -59,10 +59,9 @@ import {
   getTipoCombustibleInfo,
   formatMoneda,
   formatFechaViatico,
-  calcularTotalViaticos,
-  getViaticosPorEstado,
-  getViaticosPorFecha
+  calcularTotalViaticos
 } from '@dashboard/data/viaticosMockData';
+import viaticoStore from '@dashboard/data/viaticoStore';
 
 const ViaticosList = () => {
   const [viewMode, setViewMode] = useState('cards'); // 'compact', 'normal', 'cards'
@@ -71,6 +70,7 @@ const ViaticosList = () => {
   const [filterTecnico, setFilterTecnico] = useState('');
   const [filterFechaInicio, setFilterFechaInicio] = useState('');
   const [filterFechaFin, setFilterFechaFin] = useState('');
+  const [allViaticos, setAllViaticos] = useState([]);
 
   const textColor = useColorModeValue('gray.700', 'white');
   const bgColor = useColorModeValue('white', 'gray.800');
@@ -78,6 +78,21 @@ const ViaticosList = () => {
 
   // Responsive columns
   const cardColumns = useBreakpointValue({ base: 1, md: 2, lg: 3, xl: 4 });
+
+  // Cargar datos del store y suscribirse a cambios
+  useEffect(() => {
+    const loadViaticos = () => {
+      setAllViaticos(viaticoStore.getAll());
+    };
+
+    // Cargar datos iniciales
+    loadViaticos();
+
+    // Suscribirse a cambios
+    const unsubscribe = viaticoStore.subscribe(loadViaticos);
+
+    return unsubscribe;
+  }, []);
 
   // Iconos para diferentes elementos
   const iconMap = {
@@ -88,7 +103,7 @@ const ViaticosList = () => {
 
   // Filtrar viáticos
   const filteredViaticos = useMemo(() => {
-    return viaticosMockData.filter(viatico => {
+    return allViaticos.filter(viatico => {
       const matchesSearch = searchTerm === '' || 
         viatico.caso_numero.toLowerCase().includes(searchTerm.toLowerCase()) ||
         viatico.tecnico_name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -106,7 +121,7 @@ const ViaticosList = () => {
 
       return matchesSearch && matchesEstado && matchesTecnico && matchesFecha;
     });
-  }, [searchTerm, filterEstado, filterTecnico, filterFechaInicio, filterFechaFin]);
+  }, [allViaticos, searchTerm, filterEstado, filterTecnico, filterFechaInicio, filterFechaFin]);
 
   // Estadísticas
   const totalViaticos = calcularTotalViaticos(filteredViaticos);
@@ -114,18 +129,20 @@ const ViaticosList = () => {
   const viaticosAprobados = filteredViaticos.filter(v => v.estado === 'Aprobado').length;
   const viaticosRechazados = filteredViaticos.filter(v => v.estado === 'Rechazado').length;
 
-  // Obtener técnicos únicos
-  const tecnicos = [...new Set(viaticosMockData.map(v => ({ 
-    id: v.tecnico_ID, 
-    name: v.tecnico_name 
-  })))].reduce((acc, current) => {
-    const x = acc.find(item => item.id === current.id);
-    if (!x) {
-      return acc.concat([current]);
-    } else {
-      return acc;
-    }
-  }, []);
+  // Obtener técnicos únicos del store actualizado
+  const tecnicos = useMemo(() => {
+    return [...new Set(allViaticos.map(v => ({ 
+      id: v.tecnico_ID, 
+      name: v.tecnico_name 
+    })))].reduce((acc, current) => {
+      const x = acc.find(item => item.id === current.id);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
+      }
+    }, []);
+  }, [allViaticos]);
 
   // Componente para vista compacta
   const CompactViaticoView = ({ viatico }) => {
@@ -397,6 +414,18 @@ const ViaticosList = () => {
               onClick={() => console.log('Exportar viáticos')}
             >
               Exportar
+            </Button>
+
+            <Button
+              variant="outline"
+              colorScheme="red"
+              onClick={() => {
+                viaticoStore.reset();
+                console.log('Store reseteado a datos originales');
+              }}
+              size="sm"
+            >
+              Reset Demo
             </Button>
             
             <ButtonGroup isAttached>

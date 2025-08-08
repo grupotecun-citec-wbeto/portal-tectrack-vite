@@ -49,13 +49,13 @@ import {
 import ViaticoForm from './ViaticoForm';
 import { 
   viaticosMockData,
-  getViaticosPorCaso,
   getEstadoViaticoInfo,
   getTipoCombustibleInfo,
   formatMoneda,
   formatFechaViatico,
   calcularTotalViaticos
 } from '@dashboard/data/viaticosMockData';
+import viaticoStore from '@dashboard/data/viaticoStore';
 
 const ViaticosCasoDetalle = ({ caso }) => {
   const [viaticos, setViaticos] = useState([]);
@@ -71,10 +71,22 @@ const ViaticosCasoDetalle = ({ caso }) => {
   const toast = useToast();
   const cancelRef = React.useRef();
 
-  useEffect(() => {
-    // Cargar viáticos del caso
-    const viaticosCaso = getViaticosPorCaso(caso.ID);
+  // Función para cargar viáticos del store
+  const loadViaticos = () => {
+    const viaticosCaso = viaticoStore.getByCaso(caso.ID);
     setViaticos(viaticosCaso);
+  };
+
+  useEffect(() => {
+    // Cargar viáticos del caso desde el store
+    loadViaticos();
+    
+    // Suscribirse a cambios en el store
+    const unsubscribe = viaticoStore.subscribe(() => {
+      loadViaticos();
+    });
+
+    return unsubscribe;
   }, [caso.ID]);
 
   const handleCreateViatico = () => {
@@ -93,8 +105,8 @@ const ViaticosCasoDetalle = ({ caso }) => {
   };
 
   const confirmDelete = () => {
-    // Simulación de eliminación
-    setViaticos(prev => prev.filter(v => v.ID !== viaticoToDelete.ID));
+    // Eliminar del store
+    viaticoStore.delete(viaticoToDelete.ID);
     
     toast({
       title: "Viático eliminado",
@@ -110,13 +122,11 @@ const ViaticosCasoDetalle = ({ caso }) => {
 
   const handleSaveViatico = (viaticoData) => {
     if (selectedViatico) {
-      // Editar viático existente
-      setViaticos(prev => prev.map(v => 
-        v.ID === selectedViatico.ID ? viaticoData : v
-      ));
+      // Editar viático existente en el store
+      viaticoStore.update(selectedViatico.ID, viaticoData);
     } else {
-      // Crear nuevo viático
-      setViaticos(prev => [...prev, viaticoData]);
+      // Crear nuevo viático en el store
+      viaticoStore.add(viaticoData);
     }
   };
 
