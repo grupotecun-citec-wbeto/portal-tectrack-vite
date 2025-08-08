@@ -27,8 +27,10 @@ steps:
 images:
   - 'gcr.io/$PROJECT_ID/portal-tectrack-vite:$COMMIT_SHA'
 
+# Configuración de logging para resolver el error
 options:
   substitution_option: 'ALLOW_LOOSE'
   machineType: 'E2_HIGHCPU_8'
   diskSizeGb: '100'
   dynamic_substitutions: true
+  logging: 'CLOUD_LOGGING_ONLY'
