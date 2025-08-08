@@ -2335,6 +2335,62 @@ function WizardExample() {
     return stats;
   }, [treeData]);
 
+  // Nueva función para obtener la ruta completa de navegación
+  const getFullPath = useCallback((itemId) => {
+    const path = [];
+    let currentItem = treeData.find(item => item.id === itemId);
+    
+    while (currentItem) {
+      path.unshift({
+        id: currentItem.id,
+        name: currentItem.name,
+        type: currentItem.type,
+        description: currentItem.description,
+        icon: currentItem.icon
+      });
+      
+      if (currentItem.parentId) {
+        currentItem = treeData.find(item => item.id === currentItem.parentId);
+      } else {
+        currentItem = null;
+      }
+    }
+    
+    return path;
+  }, [treeData]);
+
+  // Nueva función para organizar las selecciones con rutas completas
+  const organizeTreeSelectionWithPaths = useCallback((selectedIds) => {
+    if (!selectedIds || selectedIds.length === 0) return [];
+
+    const selectedItems = selectedIds.map(id => treeData.find(item => item.id === id)).filter(Boolean);
+    const selectionPaths = [];
+
+    selectedItems.forEach(item => {
+      const fullPath = getFullPath(item.id);
+      selectionPaths.push({
+        selectedItem: item,
+        fullPath: fullPath,
+        pathString: fullPath.map(p => p.name).join(' > ')
+      });
+    });
+
+    // Agrupar por sistema padre para una mejor organización
+    const groupedBySystem = {};
+    selectionPaths.forEach(selection => {
+      const systemId = selection.fullPath[0].id;
+      if (!groupedBySystem[systemId]) {
+        groupedBySystem[systemId] = {
+          sistema: selection.fullPath[0],
+          selections: []
+        };
+      }
+      groupedBySystem[systemId].selections.push(selection);
+    });
+
+    return Object.values(groupedBySystem);
+  }, [treeData, getFullPath]);
+
   const organizeTreeSelection = useCallback((selectedIds) => {
     if (!selectedIds || selectedIds.length === 0) return [];
 
@@ -3409,9 +3465,9 @@ function WizardExample() {
                             </HStack>
                           </HStack>
                           
-                          {/* Mostrar información organizada por sistema */}
+                          {/* Mostrar rutas completas de selección */}
                           <VStack spacing={3} w="100%" align="stretch">
-                            {organizeTreeSelection(localSelectedSystems).map(systemGroup => (
+                            {organizeTreeSelectionWithPaths(localSelectedSystems).map(systemGroup => (
                               <Box 
                                 key={systemGroup.sistema.id} 
                                 p={3} 
@@ -3440,79 +3496,89 @@ function WizardExample() {
                                     </VStack>
                                   </HStack>
 
-                                  {/* Subsistemas */}
-                                  {systemGroup.subsistemas.length > 0 && (
-                                    <Box pl={4} w="100%">
-                                      <Text fontSize="xs" fontWeight="medium" color="gray.600" mb={2}>
-                                        Subsistemas ({systemGroup.subsistemas.length}):
-                                      </Text>
-                                      <VStack spacing={1} w="100%" align="stretch">
-                                        {systemGroup.subsistemas.map(subsistema => (
-                                          <Box key={subsistema.id} pl={2}>
-                                            <HStack spacing={2}>
-                                              <Box w={2} h={2} bg="green.400" borderRadius="full" />
-                                              <VStack align="start" spacing={0} flex="1">
-                                                <Text fontSize="xs" fontWeight="medium" color="green.700">
-                                                  {subsistema.name}
-                                                </Text>
-                                                <Text fontSize="xs" color="gray.500">
-                                                  ID: {subsistema.id}
-                                                </Text>
-                                              </VStack>
+                                  {/* Lista de selecciones con rutas completas */}
+                                  <Box pl={4} w="100%">
+                                    <Text fontSize="xs" fontWeight="medium" color="gray.600" mb={2}>
+                                      Elementos Seleccionados ({systemGroup.selections.length}):
+                                    </Text>
+                                    <VStack spacing={2} w="100%" align="stretch">
+                                      {systemGroup.selections.map((selection, index) => (
+                                        <Box 
+                                          key={`${selection.selectedItem.id}-${index}`}
+                                          p={3}
+                                          bg="gray.50"
+                                          borderRadius="md"
+                                          border="1px solid"
+                                          borderColor="gray.200"
+                                        >
+                                          {/* Ruta completa de navegación */}
+                                          <VStack align="start" spacing={2}>
+                                            <HStack spacing={1} flexWrap="wrap">
+                                              {selection.fullPath.map((pathItem, pathIndex) => (
+                                                <React.Fragment key={pathItem.id}>
+                                                  {pathIndex > 0 && (
+                                                    <Text fontSize="xs" color="gray.400" mx={1}>
+                                                      →
+                                                    </Text>
+                                                  )}
+                                                  <HStack spacing={1}>
+                                                    <Box 
+                                                      w={2} 
+                                                      h={2} 
+                                                      bg={
+                                                        pathItem.type === "Sistema" && pathIndex === 0 ? "blue.500" :
+                                                        pathItem.type === "Sistema" ? "green.400" :
+                                                        "orange.400"
+                                                      } 
+                                                      borderRadius="full" 
+                                                    />
+                                                    <Text 
+                                                      fontSize="xs" 
+                                                      fontWeight={pathIndex === selection.fullPath.length - 1 ? "bold" : "medium"}
+                                                      color={
+                                                        pathItem.type === "Sistema" && pathIndex === 0 ? "blue.700" :
+                                                        pathItem.type === "Sistema" ? "green.700" :
+                                                        "orange.700"
+                                                      }
+                                                    >
+                                                      {pathItem.name}
+                                                    </Text>
+                                                    <Badge 
+                                                      size="xs" 
+                                                      colorScheme={
+                                                        pathItem.type === "Sistema" && pathIndex === 0 ? "blue" :
+                                                        pathItem.type === "Sistema" ? "green" :
+                                                        "orange"
+                                                      }
+                                                    >
+                                                      {pathItem.type}
+                                                    </Badge>
+                                                  </HStack>
+                                                </React.Fragment>
+                                              ))}
                                             </HStack>
                                             
-                                            {/* Servicios del subsistema */}
-                                            {subsistema.servicios.length > 0 && (
-                                              <Box pl={4} mt={1}>
-                                                <Text fontSize="xs" color="gray.500" mb={1}>
-                                                  Servicios ({subsistema.servicios.length}):
+                                            {/* Información del elemento seleccionado */}
+                                            <Box pl={4} pt={1} borderLeft="2px solid" borderColor="gray.300">
+                                              <VStack align="start" spacing={1}>
+                                                <Text fontSize="xs" color="gray.600">
+                                                  <strong>Elemento Seleccionado:</strong> {selection.selectedItem.name}
                                                 </Text>
-                                                <VStack spacing={1} align="stretch">
-                                                  {subsistema.servicios.map(servicio => (
-                                                    <HStack key={servicio.id} spacing={2} pl={2}>
-                                                      <Box w={1.5} h={1.5} bg="orange.400" borderRadius="full" />
-                                                      <VStack align="start" spacing={0} flex="1">
-                                                        <Text fontSize="xs" color="orange.700">
-                                                          {servicio.name}
-                                                        </Text>
-                                                        <Text fontSize="xs" color="gray.400">
-                                                          ID: {servicio.id}
-                                                        </Text>
-                                                      </VStack>
-                                                    </HStack>
-                                                  ))}
-                                                </VStack>
-                                              </Box>
-                                            )}
-                                          </Box>
-                                        ))}
-                                      </VStack>
-                                    </Box>
-                                  )}
-
-                                  {/* Servicios directos del sistema principal */}
-                                  {systemGroup.servicios.length > 0 && (
-                                    <Box pl={4} w="100%">
-                                      <Text fontSize="xs" fontWeight="medium" color="gray.600" mb={2}>
-                                        Servicios Directos ({systemGroup.servicios.length}):
-                                      </Text>
-                                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
-                                        {systemGroup.servicios.map(servicio => (
-                                          <HStack key={servicio.id} spacing={2} p={2} bg="orange.50" borderRadius="md" border="1px solid" borderColor="orange.100">
-                                            <Box w={2} h={2} bg="orange.400" borderRadius="full" />
-                                            <VStack align="start" spacing={0} flex="1">
-                                              <Text fontSize="xs" fontWeight="medium" color="orange.700">
-                                                {servicio.name}
-                                              </Text>
-                                              <Text fontSize="xs" color="gray.500">
-                                                ID: {servicio.id}
-                                              </Text>
-                                            </VStack>
-                                          </HStack>
-                                        ))}
-                                      </SimpleGrid>
-                                    </Box>
-                                  )}
+                                                <Text fontSize="xs" color="gray.500">
+                                                  ID: {selection.selectedItem.id}
+                                                </Text>
+                                                {selection.selectedItem.description && (
+                                                  <Text fontSize="xs" color="gray.500" fontStyle="italic">
+                                                    {selection.selectedItem.description}
+                                                  </Text>
+                                                )}
+                                              </VStack>
+                                            </Box>
+                                          </VStack>
+                                        </Box>
+                                      ))}
+                                    </VStack>
+                                  </Box>
                                 </VStack>
                               </Box>
                             ))}
@@ -3725,9 +3791,9 @@ function WizardExample() {
                             </HStack>
                           </HStack>
                           
-                          {/* Mostrar información organizada por sistema */}
+                          {/* Mostrar rutas completas de selección */}
                           <VStack spacing={4} w="100%" align="stretch">
-                            {organizeTreeSelection(localSelectedSystems).map(systemGroup => (
+                            {organizeTreeSelectionWithPaths(localSelectedSystems).map(systemGroup => (
                               <Box 
                                 key={systemGroup.sistema.id} 
                                 p={4} 
@@ -3759,89 +3825,151 @@ function WizardExample() {
                                     </VStack>
                                   </HStack>
 
-                                  {/* Subsistemas */}
-                                  {systemGroup.subsistemas.length > 0 && (
-                                    <Box pl={6} w="100%">
-                                      <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={3}>
-                                        Subsistemas ({systemGroup.subsistemas.length}):
-                                      </Text>
-                                      <VStack spacing={3} w="100%" align="stretch">
-                                        {systemGroup.subsistemas.map(subsistema => (
-                                          <Box key={subsistema.id} p={3} bg="white" borderRadius="lg" border="1px solid" borderColor="green.200">
-                                            <HStack spacing={3}>
-                                              <Box w={3} h={3} bg="green.500" borderRadius="full" />
-                                              <VStack align="start" spacing={1} flex="1">
-                                                <Text fontSize="md" fontWeight="medium" color="green.700">
-                                                  {subsistema.name}
-                                                </Text>
-                                                <HStack spacing={2}>
-                                                  <Text fontSize="sm" color="gray.500">
-                                                    ID: {subsistema.id}
-                                                  </Text>
-                                                  <Badge size="sm" colorScheme="green">
-                                                    {subsistema.type}
-                                                  </Badge>
-                                                </HStack>
-                                              </VStack>
+                                  {/* Lista de selecciones con rutas completas */}
+                                  <Box pl={6} w="100%">
+                                    <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={3}>
+                                      Elementos Seleccionados ({systemGroup.selections.length}):
+                                    </Text>
+                                    <VStack spacing={3} w="100%" align="stretch">
+                                      {systemGroup.selections.map((selection, index) => (
+                                        <Box 
+                                          key={`${selection.selectedItem.id}-${index}`}
+                                          p={4}
+                                          bg="white"
+                                          borderRadius="lg"
+                                          border="1px solid"
+                                          borderColor="gray.300"
+                                          boxShadow="sm"
+                                        >
+                                          {/* Ruta completa de navegación */}
+                                          <VStack align="start" spacing={3}>
+                                            <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={1}>
+                                              Ruta Jerárquica:
+                                            </Text>
+                                            <HStack spacing={2} flexWrap="wrap" pl={2}>
+                                              {selection.fullPath.map((pathItem, pathIndex) => (
+                                                <React.Fragment key={pathItem.id}>
+                                                  {pathIndex > 0 && (
+                                                    <Text fontSize="sm" color="gray.400" mx={2}>
+                                                      →
+                                                    </Text>
+                                                  )}
+                                                  <HStack 
+                                                    spacing={2} 
+                                                    p={2} 
+                                                    bg={
+                                                      pathItem.type === "Sistema" && pathIndex === 0 ? "blue.100" :
+                                                      pathItem.type === "Sistema" ? "green.100" :
+                                                      "orange.100"
+                                                    }
+                                                    borderRadius="md"
+                                                    border="1px solid"
+                                                    borderColor={
+                                                      pathItem.type === "Sistema" && pathIndex === 0 ? "blue.300" :
+                                                      pathItem.type === "Sistema" ? "green.300" :
+                                                      "orange.300"
+                                                    }
+                                                  >
+                                                    <Box 
+                                                      w={3} 
+                                                      h={3} 
+                                                      bg={
+                                                        pathItem.type === "Sistema" && pathIndex === 0 ? "blue.500" :
+                                                        pathItem.type === "Sistema" ? "green.500" :
+                                                        "orange.500"
+                                                      } 
+                                                      borderRadius="full" 
+                                                    />
+                                                    <VStack align="start" spacing={0}>
+                                                      <Text 
+                                                        fontSize="sm" 
+                                                        fontWeight={pathIndex === selection.fullPath.length - 1 ? "bold" : "medium"}
+                                                        color={
+                                                          pathItem.type === "Sistema" && pathIndex === 0 ? "blue.800" :
+                                                          pathItem.type === "Sistema" ? "green.800" :
+                                                          "orange.800"
+                                                        }
+                                                      >
+                                                        {pathItem.name}
+                                                      </Text>
+                                                      <HStack spacing={1}>
+                                                        <Badge 
+                                                          size="xs" 
+                                                          colorScheme={
+                                                            pathItem.type === "Sistema" && pathIndex === 0 ? "blue" :
+                                                            pathItem.type === "Sistema" ? "green" :
+                                                            "orange"
+                                                          }
+                                                        >
+                                                          {pathItem.type}
+                                                        </Badge>
+                                                        <Text fontSize="xs" color="gray.500">
+                                                          {pathItem.id}
+                                                        </Text>
+                                                      </HStack>
+                                                    </VStack>
+                                                  </HStack>
+                                                </React.Fragment>
+                                              ))}
                                             </HStack>
                                             
-                                            {/* Servicios del subsistema */}
-                                            {subsistema.servicios.length > 0 && (
-                                              <Box pl={6} mt={3}>
-                                                <Text fontSize="sm" color="gray.600" mb={2}>
-                                                  Servicios ({subsistema.servicios.length}):
+                                            {/* Información detallada del elemento seleccionado */}
+                                            <Box 
+                                              p={3} 
+                                              bg="gray.50" 
+                                              borderRadius="md" 
+                                              border="1px solid" 
+                                              borderColor="gray.300"
+                                              w="100%"
+                                            >
+                                              <VStack align="start" spacing={2}>
+                                                <Text fontSize="sm" fontWeight="bold" color="gray.700">
+                                                  📍 Elemento Final Seleccionado:
                                                 </Text>
-                                                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
-                                                  {subsistema.servicios.map(servicio => (
-                                                    <HStack key={servicio.id} spacing={2} p={2} bg="orange.50" borderRadius="md" border="1px solid" borderColor="orange.200">
-                                                      <Box w={2.5} h={2.5} bg="orange.500" borderRadius="full" />
-                                                      <VStack align="start" spacing={0} flex="1">
-                                                        <Text fontSize="sm" fontWeight="medium" color="orange.700">
-                                                          {servicio.name}
-                                                        </Text>
-                                                        <Text fontSize="xs" color="gray.500">
-                                                          ID: {servicio.id}
-                                                        </Text>
-                                                      </VStack>
+                                                <HStack spacing={3} w="100%">
+                                                  <Box 
+                                                    w={4} 
+                                                    h={4} 
+                                                    bg={
+                                                      selection.selectedItem.type === "Sistema" ? "blue.500" :
+                                                      selection.selectedItem.type === "Subsistema" ? "green.500" :
+                                                      "orange.500"
+                                                    } 
+                                                    borderRadius="full" 
+                                                  />
+                                                  <VStack align="start" spacing={1} flex="1">
+                                                    <Text fontSize="md" fontWeight="bold">
+                                                      {selection.selectedItem.name}
+                                                    </Text>
+                                                    <HStack spacing={2}>
+                                                      <Text fontSize="sm" color="gray.600">
+                                                        ID: {selection.selectedItem.id}
+                                                      </Text>
+                                                      <Badge 
+                                                        size="sm" 
+                                                        colorScheme={
+                                                          selection.selectedItem.type === "Sistema" ? "blue" :
+                                                          selection.selectedItem.type === "Subsistema" ? "green" :
+                                                          "orange"
+                                                        }
+                                                      >
+                                                        {selection.selectedItem.type}
+                                                      </Badge>
                                                     </HStack>
-                                                  ))}
-                                                </SimpleGrid>
-                                              </Box>
-                                            )}
-                                          </Box>
-                                        ))}
-                                      </VStack>
-                                    </Box>
-                                  )}
-
-                                  {/* Servicios directos del sistema principal */}
-                                  {systemGroup.servicios.length > 0 && (
-                                    <Box pl={6} w="100%">
-                                      <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={3}>
-                                        Servicios Directos ({systemGroup.servicios.length}):
-                                      </Text>
-                                      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={3} w="100%">
-                                        {systemGroup.servicios.map(servicio => (
-                                          <HStack key={servicio.id} spacing={3} p={3} bg="orange.50" borderRadius="lg" border="1px solid" borderColor="orange.200">
-                                            <Box w={3} h={3} bg="orange.500" borderRadius="full" />
-                                            <VStack align="start" spacing={1} flex="1">
-                                              <Text fontSize="sm" fontWeight="medium" color="orange.700">
-                                                {servicio.name}
-                                              </Text>
-                                              <HStack spacing={2}>
-                                                <Text fontSize="xs" color="gray.500">
-                                                  ID: {servicio.id}
-                                                </Text>
-                                                <Badge size="sm" colorScheme="orange">
-                                                  {servicio.type}
-                                                </Badge>
-                                              </HStack>
-                                            </VStack>
-                                          </HStack>
-                                        ))}
-                                      </SimpleGrid>
-                                    </Box>
-                                  )}
+                                                    {selection.selectedItem.description && (
+                                                      <Text fontSize="sm" color="gray.600" fontStyle="italic">
+                                                        {selection.selectedItem.description}
+                                                      </Text>
+                                                    )}
+                                                  </VStack>
+                                                </HStack>
+                                              </VStack>
+                                            </Box>
+                                          </VStack>
+                                        </Box>
+                                      ))}
+                                    </VStack>
+                                  </Box>
                                 </VStack>
                               </Box>
                             ))}
