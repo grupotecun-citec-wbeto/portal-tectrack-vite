@@ -44,6 +44,51 @@ function Sidebar(props) {
   let location = useLocation();
   // this is for the rest of the collapses
   const [state, setState] = React.useState({});
+  
+  // Auto-expand sidebar based on current route
+  React.useEffect(() => {
+    const currentPath = location.pathname;
+    const newState = {};
+    
+    // Function to check if a route contains the current path
+    const checkRouteMatch = (routes) => {
+      for (const route of routes) {
+        if (route.collapse && route.views) {
+          // Check if any view in this collapse matches current path
+          if (hasMatchingRoute(route.views, currentPath)) {
+            newState[route.state] = true;
+            // Recursively check nested collapses
+            checkRouteMatch(route.views);
+          }
+        } else if (route.category && route.views) {
+          checkRouteMatch(route.views);
+        }
+      }
+    };
+    
+    // Helper function to check if routes contain current path
+    const hasMatchingRoute = (routes, path) => {
+      return routes.some(route => {
+        if (route.layout && route.path) {
+          const fullPath = route.layout + route.path;
+          // For routes with parameters, check if current path starts with base path
+          if (route.path.includes(':')) {
+            const basePath = route.layout + route.path.split('/:')[0];
+            return path.startsWith(basePath);
+          }
+          return fullPath === path;
+        }
+        if (route.views) {
+          return hasMatchingRoute(route.views, path);
+        }
+        return false;
+      });
+    };
+    
+    checkRouteMatch(props.routes);
+    setState(newState);
+  }, [location.pathname, props.routes]);
+  
   const mainPanel = React.useRef();
   let variantChange = "0.2s linear";
   // verifies if routeName is the one active (in browser input)
@@ -64,7 +109,10 @@ function Sidebar(props) {
     // Calculate padding based on nesting level
     const paddingLeft = level > 0 ? `${16 + (level * 24)}px` : "16px";
     
-    return routes.map((prop, key) => {
+    // Filter out routes that should be hidden from sidebar
+    const visibleRoutes = routes.filter(route => !route.hideFromSidebar);
+    
+    return visibleRoutes.map((prop, key) => {
       if (prop.redirect) {
         return null;
       }
@@ -365,6 +413,51 @@ export function SidebarResponsive(props) {
 
   // this is for the rest of the collapses
   const [state, setState] = React.useState({});
+  
+  // Auto-expand sidebar based on current route
+  React.useEffect(() => {
+    const currentPath = location.pathname;
+    const newState = {};
+    
+    // Function to check if a route contains the current path
+    const checkRouteMatch = (routes) => {
+      for (const route of routes) {
+        if (route.collapse && route.views) {
+          // Check if any view in this collapse matches current path
+          if (hasMatchingRoute(route.views, currentPath)) {
+            newState[route.state] = true;
+            // Recursively check nested collapses
+            checkRouteMatch(route.views);
+          }
+        } else if (route.category && route.views) {
+          checkRouteMatch(route.views);
+        }
+      }
+    };
+    
+    // Helper function to check if routes contain current path
+    const hasMatchingRoute = (routes, path) => {
+      return routes.some(route => {
+        if (route.layout && route.path) {
+          const fullPath = route.layout + route.path;
+          // For routes with parameters, check if current path starts with base path
+          if (route.path.includes(':')) {
+            const basePath = route.layout + route.path.split('/:')[0];
+            return path.startsWith(basePath);
+          }
+          return fullPath === path;
+        }
+        if (route.views) {
+          return hasMatchingRoute(route.views, path);
+        }
+        return false;
+      });
+    };
+    
+    checkRouteMatch(routes);
+    setState(newState);
+  }, [location.pathname, routes]);
+  
   const mainPanel = React.useRef();
   let variantChange = "0.2s linear";
   // verifies if routeName is the one active (in browser input)
@@ -394,7 +487,10 @@ export function SidebarResponsive(props) {
     // Calculate padding based on nesting level
     const paddingLeft = level > 0 ? `${16 + (level * 24)}px` : "16px";
     
-    return routes.map((prop, key) => {
+    // Filter out routes that should be hidden from sidebar
+    const visibleRoutes = routes.filter(route => !route.hideFromSidebar);
+    
+    return visibleRoutes.map((prop, key) => {
       if (prop.redirect) {
         return null;
       }
