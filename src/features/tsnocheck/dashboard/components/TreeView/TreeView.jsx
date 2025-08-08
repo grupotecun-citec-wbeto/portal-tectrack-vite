@@ -364,10 +364,16 @@ const TreeView = ({
   variant = 'default', // 'default', 'compact', 'cards'
   searchable = true,
   expandable = true,
-  title = "Estructura de Datos"
+  title = "Estructura de Datos",
+  selectedItems = [] // Nueva prop para elementos seleccionados
 }) => {
   const [expandedNodes, setExpandedNodes] = useState(new Set());
-  const [selectedNodes, setSelectedNodes] = useState(new Set());
+  
+  // Inicializar selectedNodes con los items seleccionados pasados como prop
+  const [selectedNodes, setSelectedNodes] = useState(() => {
+    return new Set(selectedItems || []);
+  });
+  
   const [searchInput, setSearchInput] = useState(''); // Input inmediato del usuario
   const [searchTerm, setSearchTerm] = useState(''); // Término de búsqueda con debounce
   const [searchType, setSearchType] = useState('all'); // 'all', 'sistemas', 'servicios'
@@ -384,6 +390,16 @@ const TreeView = ({
     // Eliminamos setTimeout para evitar violaciones de rendimiento
     setSearchTerm(searchInput);
   }, [searchInput]);
+
+  // Sincronizar selectedNodes cuando cambien las selectedItems externas
+  React.useEffect(() => {
+    const externalSelection = new Set(selectedItems || []);
+    // Solo actualizar si es diferente para evitar loops infinitos
+    if (externalSelection.size !== selectedNodes.size || 
+        !Array.from(externalSelection).every(id => selectedNodes.has(id))) {
+      setSelectedNodes(externalSelection);
+    }
+  }, [selectedItems]);
 
   // Actualizar viewMode cuando cambie el variant inicial, pero mantener preferencia del usuario
   React.useEffect(() => {
@@ -566,10 +582,18 @@ const TreeView = ({
         } else {
           newSet.add(node.id);
         }
+        
+        // Llamar onSelect con el nuevo estado inmediatamente
+        setTimeout(() => {
+          onSelect?.(node, newSet);
+        }, 0);
+        
         return newSet;
       });
+    } else {
+      // Para selección simple sin checkboxes
+      onSelect?.(node, selectedNodes);
     }
-    onSelect?.(node, selectedNodes);
   };
 
   const expandAll = () => {

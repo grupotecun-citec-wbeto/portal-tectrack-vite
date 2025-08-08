@@ -2320,6 +2320,154 @@ function WizardExample() {
     });
   }, [formData.selectedEquipment, formData.equipmentDiagnostics, equipmentData]);
 
+  // Funciones globales para TreeView (utilizadas en múltiples componentes)
+  const getSelectionStats = useCallback((selectedIds) => {
+    if (!selectedIds || selectedIds.length === 0) return { sistemas: 0, subsistemas: 0, servicios: 0 };
+
+    const selectedItems = selectedIds.map(id => treeData.find(item => item.id === id)).filter(Boolean);
+    
+    const stats = {
+      sistemas: selectedItems.filter(item => item.type === "Sistema" && !item.parentId).length,
+      subsistemas: selectedItems.filter(item => item.type === "Sistema" && item.parentId).length,
+      servicios: selectedItems.filter(item => item.type === "Servicio").length
+    };
+
+    return stats;
+  }, [treeData]);
+
+  const organizeTreeSelection = useCallback((selectedIds) => {
+    if (!selectedIds || selectedIds.length === 0) return [];
+
+    const selectedItems = selectedIds.map(id => treeData.find(item => item.id === id)).filter(Boolean);
+    const organized = {};
+
+    selectedItems.forEach(item => {
+      if (item.type === "Sistema") {
+        // Si es un sistema padre (sin parentId)
+        if (!item.parentId) {
+          if (!organized[item.id]) {
+            organized[item.id] = {
+              sistema: {
+                id: item.id,
+                name: item.name,
+                type: item.type,
+                description: item.description
+              },
+              subsistemas: [],
+              servicios: []
+            };
+          }
+        } else {
+          // Si es un subsistema (tiene parentId)
+          const parentId = item.parentId;
+          
+          // Buscar el sistema padre
+          const parentSystem = treeData.find(parent => parent.id === parentId);
+          if (parentSystem) {
+            if (!organized[parentId]) {
+              organized[parentId] = {
+                sistema: {
+                  id: parentSystem.id,
+                  name: parentSystem.name,
+                  type: parentSystem.type,
+                  description: parentSystem.description
+                },
+                subsistemas: [],
+                servicios: []
+              };
+            }
+            
+            // Agregar el subsistema si no existe
+            const existingSubsystem = organized[parentId].subsistemas.find(sub => sub.id === item.id);
+            if (!existingSubsystem) {
+              organized[parentId].subsistemas.push({
+                id: item.id,
+                name: item.name,
+                type: item.type,
+                description: item.description,
+                servicios: []
+              });
+            }
+          }
+        }
+      } else if (item.type === "Servicio") {
+        // Si es un servicio
+        const parentId = item.parentId;
+        const parentSystem = treeData.find(parent => parent.id === parentId);
+        
+        if (parentSystem) {
+          // Determinar si el padre es un sistema principal o subsistema
+          if (!parentSystem.parentId) {
+            // El padre es un sistema principal
+            if (!organized[parentId]) {
+              organized[parentId] = {
+                sistema: {
+                  id: parentSystem.id,
+                  name: parentSystem.name,
+                  type: parentSystem.type,
+                  description: parentSystem.description
+                },
+                subsistemas: [],
+                servicios: []
+              };
+            }
+            
+            organized[parentId].servicios.push({
+              id: item.id,
+              name: item.name,
+              type: item.type,
+              description: item.description,
+              icon: item.icon
+            });
+          } else {
+            // El padre es un subsistema
+            const grandParentId = parentSystem.parentId;
+            const grandParentSystem = treeData.find(gp => gp.id === grandParentId);
+            
+            if (grandParentSystem) {
+              if (!organized[grandParentId]) {
+                organized[grandParentId] = {
+                  sistema: {
+                    id: grandParentSystem.id,
+                    name: grandParentSystem.name,
+                    type: grandParentSystem.type,
+                    description: grandParentSystem.description
+                  },
+                  subsistemas: [],
+                  servicios: []
+                };
+              }
+              
+              // Encontrar o crear el subsistema
+              let subsystem = organized[grandParentId].subsistemas.find(sub => sub.id === parentId);
+              if (!subsystem) {
+                subsystem = {
+                  id: parentSystem.id,
+                  name: parentSystem.name,
+                  type: parentSystem.type,
+                  description: parentSystem.description,
+                  servicios: []
+                };
+                organized[grandParentId].subsistemas.push(subsystem);
+              }
+              
+              // Agregar el servicio al subsistema
+              subsystem.servicios.push({
+                id: item.id,
+                name: item.name,
+                type: item.type,
+                description: item.description,
+                icon: item.icon
+              });
+            }
+          }
+        }
+      }
+    });
+
+    return Object.values(organized);
+  }, [treeData]);
+
   // Custom checkbox with icon component
   const IconCheckbox = ({ icon: Icon, title, description, isChecked, onChange, colorScheme = "blue" }) => {
     const borderColor = useColorModeValue('gray.200', 'gray.600');
@@ -2734,6 +2882,11 @@ function WizardExample() {
       fecha_reporte: new Date().toISOString().split('T')[0]
     });
 
+    // Estado local para sistemas seleccionados - evita dependencias externas que causen re-renders
+    const [localSelectedSystems, setLocalSelectedSystems] = useState(() => {
+      return formData.equipmentSystems?.[equipment.id] || [];
+    });
+
     // Ultra-optimización: Refs para inputs no controlados - elimina re-renders
     const problemaRef = useRef(null);
     const sintomasRef = useRef(null);
@@ -2789,171 +2942,28 @@ function WizardExample() {
       if (fechaRef.current) fechaRef.current.value = newDiagnostic.fecha_reporte || '';
     }, [diagnostic]);
 
-    // Función para obtener estadísticas de la selección
-    const getSelectionStats = useCallback((selectedIds) => {
-      if (!selectedIds || selectedIds.length === 0) return { sistemas: 0, subsistemas: 0, servicios: 0 };
-
-      const selectedItems = selectedIds.map(id => treeData.find(item => item.id === id)).filter(Boolean);
-      
-      const stats = {
-        sistemas: selectedItems.filter(item => item.type === "Sistema" && !item.parentId).length,
-        subsistemas: selectedItems.filter(item => item.type === "Sistema" && item.parentId).length,
-        servicios: selectedItems.filter(item => item.type === "Servicio").length
-      };
-
-      return stats;
-    }, [treeData]);
-
-    // Función para organizar la selección del TreeView en estructura jerárquica detallada
-    const organizeTreeSelection = useCallback((selectedIds) => {
-      if (!selectedIds || selectedIds.length === 0) return [];
-
-      const selectedItems = selectedIds.map(id => treeData.find(item => item.id === id)).filter(Boolean);
-      const organized = {};
-
-      selectedItems.forEach(item => {
-        if (item.type === "Sistema") {
-          // Si es un sistema padre (sin parentId)
-          if (!item.parentId) {
-            if (!organized[item.id]) {
-              organized[item.id] = {
-                sistema: {
-                  id: item.id,
-                  name: item.name,
-                  type: item.type,
-                  description: item.description
-                },
-                subsistemas: [],
-                servicios: []
-              };
-            }
-          } else {
-            // Si es un subsistema (tiene parentId)
-            const parentId = item.parentId;
-            
-            // Buscar el sistema padre
-            const parentSystem = treeData.find(parent => parent.id === parentId);
-            if (parentSystem) {
-              if (!organized[parentId]) {
-                organized[parentId] = {
-                  sistema: {
-                    id: parentSystem.id,
-                    name: parentSystem.name,
-                    type: parentSystem.type,
-                    description: parentSystem.description
-                  },
-                  subsistemas: [],
-                  servicios: []
-                };
-              }
-              
-              // Agregar el subsistema si no existe
-              const existingSubsystem = organized[parentId].subsistemas.find(sub => sub.id === item.id);
-              if (!existingSubsystem) {
-                organized[parentId].subsistemas.push({
-                  id: item.id,
-                  name: item.name,
-                  type: item.type,
-                  description: item.description,
-                  servicios: []
-                });
-              }
-            }
-          }
-        } else if (item.type === "Servicio") {
-          // Si es un servicio
-          const parentId = item.parentId;
-          const parentSystem = treeData.find(parent => parent.id === parentId);
-          
-          if (parentSystem) {
-            // Determinar si el padre es un sistema principal o subsistema
-            if (!parentSystem.parentId) {
-              // El padre es un sistema principal
-              if (!organized[parentId]) {
-                organized[parentId] = {
-                  sistema: {
-                    id: parentSystem.id,
-                    name: parentSystem.name,
-                    type: parentSystem.type,
-                    description: parentSystem.description
-                  },
-                  subsistemas: [],
-                  servicios: []
-                };
-              }
-              
-              organized[parentId].servicios.push({
-                id: item.id,
-                name: item.name,
-                type: item.type,
-                description: item.description,
-                icon: item.icon
-              });
-            } else {
-              // El padre es un subsistema
-              const grandParentId = parentSystem.parentId;
-              const grandParentSystem = treeData.find(gp => gp.id === grandParentId);
-              
-              if (grandParentSystem) {
-                if (!organized[grandParentId]) {
-                  organized[grandParentId] = {
-                    sistema: {
-                      id: grandParentSystem.id,
-                      name: grandParentSystem.name,
-                      type: grandParentSystem.type,
-                      description: grandParentSystem.description
-                    },
-                    subsistemas: [],
-                    servicios: []
-                  };
-                }
-                
-                // Encontrar o crear el subsistema
-                let subsystem = organized[grandParentId].subsistemas.find(sub => sub.id === parentId);
-                if (!subsystem) {
-                  subsystem = {
-                    id: parentSystem.id,
-                    name: parentSystem.name,
-                    type: parentSystem.type,
-                    description: parentSystem.description,
-                    servicios: []
-                  };
-                  organized[grandParentId].subsistemas.push(subsystem);
-                }
-                
-                // Agregar el servicio al subsistema
-                subsystem.servicios.push({
-                  id: item.id,
-                  name: item.name,
-                  type: item.type,
-                  description: item.description,
-                  icon: item.icon
-                });
-              }
-            }
-          }
+    // Efecto para sincronizar sistemas seleccionados con formData cuando cambie externamente
+    useEffect(() => {
+      const externalSelection = formData.equipmentSystems?.[equipment.id] || [];
+      // Solo actualizar si es diferente del estado local actual para evitar loops
+      // Usar una comparación más robusta sin depender del estado local en las dependencias
+      setLocalSelectedSystems(current => {
+        if (JSON.stringify(externalSelection) !== JSON.stringify(current)) {
+          return externalSelection;
         }
+        return current;
       });
-
-      return Object.values(organized);
-    }, [treeData]);
+    }, [formData.equipmentSystems, equipment.id]);
 
     // Función ultra optimizada para manejar selección de TreeView
     const handleTreeViewSelection = useCallback((node, selectedNodes) => {
-      // Actualizar sistemas específicos para este equipo
-      const currentEquipmentSystems = formData.equipmentSystems || {};
+      // SOLO actualizar estado local inmediatamente para mantener la UI responsive
       const selectedArray = Array.from(selectedNodes);
-      const currentSelection = currentEquipmentSystems[equipment.id] || [];
+      setLocalSelectedSystems(selectedArray);
       
-      // Comparación optimizada sin JSON.stringify
-      if (selectedArray.length !== currentSelection.length || 
-          selectedArray.some((item, index) => item !== currentSelection[index])) {
-        updateFormData('equipmentSystems', {
-          ...currentEquipmentSystems,
-          [equipment.id]: selectedArray
-        });
-      }
-    }, [equipment.id, formData.equipmentSystems, updateFormData]);
+      // NO actualizar formData aquí para evitar re-renders que cierren el formulario
+      // El formData se actualizará solo cuando se guarde o cancele
+    }, []);
 
     // Memoizar props del TreeView para evitar re-renders innecesarios
     const treeViewProps = useMemo(() => ({
@@ -2961,8 +2971,8 @@ function WizardExample() {
       onSelect: handleTreeViewSelection,
       showCheckboxes: true,
       title: `Sistemas para ${equipment.modelo_name}`,
-      selectedItems: formData.equipmentSystems?.[equipment.id] || []
-    }), [treeData, handleTreeViewSelection, equipment.modelo_name, equipment.id, formData.equipmentSystems]);
+      selectedItems: localSelectedSystems
+    }), [treeData, handleTreeViewSelection, equipment.modelo_name, localSelectedSystems]);
 
     // Handlers ultra-optimizados individuales para cada campo - máximo rendimiento
     const handleProblemaChange = useCallback((e) => {
@@ -3003,18 +3013,28 @@ function WizardExample() {
 
     // Memoizar funciones de manejo para evitar re-creaciones
     const handleSave = useCallback(() => {
+      // Asegurar que los sistemas seleccionados se guarden en formData antes de cerrar
+      const currentEquipmentSystems = formData.equipmentSystems || {};
+      updateFormData('equipmentSystems', {
+        ...currentEquipmentSystems,
+        [equipment.id]: localSelectedSystems
+      });
+      
       onUpdateDiagnostic(equipment.id, localDiagnostic);
       setIsEditing(false);
       setIsFullscreen(false);
-    }, [equipment.id, localDiagnostic, onUpdateDiagnostic]);
+    }, [equipment.id, localDiagnostic, localSelectedSystems, onUpdateDiagnostic, formData.equipmentSystems, updateFormData]);
 
     const toggleFullscreen = useCallback(() => {
       setIsFullscreen(prev => !prev);
     }, []);
 
     const handleEditClick = useCallback(() => {
+      // Sincronizar el estado local con formData al abrir la edición
+      const currentSelection = formData.equipmentSystems?.[equipment.id] || [];
+      setLocalSelectedSystems(currentSelection);
       setIsEditing(true);
-    }, []);
+    }, [formData.equipmentSystems, equipment.id]);
 
     const handleRemoveClick = useCallback(() => {
       onRemoveDiagnostic(equipment.id);
@@ -3050,6 +3070,10 @@ function WizardExample() {
       if (notasRef.current) notasRef.current.value = newDiagnostic.notas_adicionales || '';
       if (prioridadRef.current) prioridadRef.current.value = newDiagnostic.prioridad || 'media';
       if (fechaRef.current) fechaRef.current.value = newDiagnostic.fecha_reporte || '';
+
+      // Restaurar las selecciones del TreeView a su estado original
+      const originalSelection = formData.equipmentSystems?.[equipment.id] || [];
+      setLocalSelectedSystems(originalSelection);
 
       setIsEditing(false);
       setIsFullscreen(false);
@@ -3358,7 +3382,7 @@ function WizardExample() {
                     <TreeView {...treeViewProps} />
                     
                     {/* Resumen detallado de sistemas y servicios seleccionados para este equipo */}
-                    {formData.equipmentSystems?.[equipment.id] && formData.equipmentSystems[equipment.id].length > 0 && (
+                    {localSelectedSystems && localSelectedSystems.length > 0 && (
                       <Box
                         p={3}
                         bg="gray.50"
@@ -3369,11 +3393,11 @@ function WizardExample() {
                         <VStack align="start" spacing={3}>
                           <HStack justify="space-between" w="100%">
                             <Text fontSize="xs" fontWeight="medium" color="gray.700">
-                              Sistemas y Servicios Seleccionados ({formData.equipmentSystems[equipment.id].length} elementos):
+                              Sistemas y Servicios Seleccionados ({localSelectedSystems.length} elementos):
                             </Text>
                             <HStack spacing={2}>
                               {(() => {
-                                const stats = getSelectionStats(formData.equipmentSystems[equipment.id]);
+                                const stats = getSelectionStats(localSelectedSystems);
                                 return (
                                   <>
                                     <Badge size="sm" colorScheme="blue">{stats.sistemas} Sistemas</Badge>
@@ -3387,7 +3411,7 @@ function WizardExample() {
                           
                           {/* Mostrar información organizada por sistema */}
                           <VStack spacing={3} w="100%" align="stretch">
-                            {organizeTreeSelection(formData.equipmentSystems[equipment.id]).map(systemGroup => (
+                            {organizeTreeSelection(localSelectedSystems).map(systemGroup => (
                               <Box 
                                 key={systemGroup.sistema.id} 
                                 p={3} 
@@ -3674,7 +3698,7 @@ function WizardExample() {
                     <TreeView {...treeViewProps} />
                     
                     {/* Resumen detallado de sistemas y servicios seleccionados para este equipo */}
-                    {formData.equipmentSystems?.[equipment.id] && formData.equipmentSystems[equipment.id].length > 0 && (
+                    {localSelectedSystems && localSelectedSystems.length > 0 && (
                       <Box
                         p={4}
                         bg="white"
@@ -3685,11 +3709,11 @@ function WizardExample() {
                         <VStack align="start" spacing={4}>
                           <HStack justify="space-between" w="100%">
                             <Text fontSize="md" fontWeight="medium" color="gray.700">
-                              Sistemas y Servicios Seleccionados ({formData.equipmentSystems[equipment.id].length} elementos):
+                              Sistemas y Servicios Seleccionados ({localSelectedSystems.length} elementos):
                             </Text>
                             <HStack spacing={3}>
                               {(() => {
-                                const stats = getSelectionStats(formData.equipmentSystems[equipment.id]);
+                                const stats = getSelectionStats(localSelectedSystems);
                                 return (
                                   <>
                                     <Badge size="md" colorScheme="blue">{stats.sistemas} Sistemas</Badge>
@@ -3703,7 +3727,7 @@ function WizardExample() {
                           
                           {/* Mostrar información organizada por sistema */}
                           <VStack spacing={4} w="100%" align="stretch">
-                            {organizeTreeSelection(formData.equipmentSystems[equipment.id]).map(systemGroup => (
+                            {organizeTreeSelection(localSelectedSystems).map(systemGroup => (
                               <Box 
                                 key={systemGroup.sistema.id} 
                                 p={4} 
@@ -3833,6 +3857,15 @@ function WizardExample() {
         </Box>
       )}
     </>
+    );
+  }, (prevProps, nextProps) => {
+    // Función de comparación personalizada para evitar re-renders innecesarios
+    // Solo re-renderizar si las props importantes cambian
+    return (
+      prevProps.equipment.id === nextProps.equipment.id &&
+      prevProps.diagnostic === nextProps.diagnostic &&
+      prevProps.onUpdateDiagnostic === nextProps.onUpdateDiagnostic &&
+      prevProps.onRemoveDiagnostic === nextProps.onRemoveDiagnostic
     );
   });
 
