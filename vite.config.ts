@@ -52,13 +52,7 @@ export default defineConfig({
       }
     })
   ],
-  preview: {
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, './certs/localhost-key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, './certs/localhost.pem'))
-    },
-    port: 4173
-  },
+  
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'), // Alias para la carpeta src
