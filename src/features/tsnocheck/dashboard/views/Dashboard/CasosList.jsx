@@ -419,7 +419,7 @@ const CasosList = () => {
   };
 
   return (
-    <Box p={6}>
+    <Box pt={{ base: "120px", md: "75px" }} px={6} pb={6}>
       <VStack spacing={6} align="stretch">
         {/* Header */}
         <Flex justify="space-between" align="center" flexWrap="wrap" gap={4}>
