@@ -3030,6 +3030,13 @@ function WizardExample() {
       selectedItems: localSelectedSystems
     }), [treeData, handleTreeViewSelection, equipment.modelo_name, localSelectedSystems]);
 
+    // Debug: Verificar qué se está pasando al TreeView
+    console.log(`[DEBUG] TreeView props for ${equipment.modelo_name}:`, {
+      selectedItemsLength: localSelectedSystems.length,
+      selectedItems: localSelectedSystems,
+      formDataSystems: formData.equipmentSystems?.[equipment.id]
+    });
+
     // Handlers ultra-optimizados individuales para cada campo - máximo rendimiento
     const handleProblemaChange = useCallback((e) => {
       const value = e.target.value;

@@ -397,12 +397,25 @@ const TreeView = ({
   // Sincronizar selectedNodes cuando cambien las selectedItems externas
   React.useEffect(() => {
     const externalSelection = new Set(selectedItems || []);
-    // Solo actualizar si es diferente para evitar loops infinitos
-    if (externalSelection.size !== selectedNodes.size || 
-        !Array.from(externalSelection).every(id => selectedNodes.has(id))) {
+    
+    // Debug: Verificar sincronización
+    console.log('[DEBUG TreeView] Sincronizando selectedItems:', {
+      externalSelectionSize: externalSelection.size,
+      externalSelection: Array.from(externalSelection),
+      currentSelectedSize: selectedNodes.size,
+      currentSelected: Array.from(selectedNodes)
+    });
+    
+    // Comparación más robusta
+    const externalArray = Array.from(externalSelection).sort();
+    const currentArray = Array.from(selectedNodes).sort();
+    const isDifferent = JSON.stringify(externalArray) !== JSON.stringify(currentArray);
+    
+    if (isDifferent) {
+      console.log('[DEBUG TreeView] Actualizando selectedNodes:', externalArray);
       setSelectedNodes(externalSelection);
     }
-  }, [selectedItems]);
+  }, [selectedItems, selectedNodes]);
 
   // Actualizar viewMode cuando cambie el variant inicial, pero mantener preferencia del usuario
   React.useEffect(() => {
