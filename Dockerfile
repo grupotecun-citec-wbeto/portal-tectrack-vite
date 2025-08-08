@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm install --force
 
 COPY . .
-RUN npm run build
+RUN npm run deploy
 
 # Cloud Run asigna $PORT; usamos 8080 como fallback local
 EXPOSE 8080
