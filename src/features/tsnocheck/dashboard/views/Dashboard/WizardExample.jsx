@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   Box,
   Button,
@@ -2228,14 +2228,16 @@ function WizardExample() {
 ]
 ;
 
-  const updateFormData = (field, value) => {
+  // Memoizar updateFormData para mejor rendimiento
+  const updateFormData = useCallback((field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
-  };
+  }, []);
 
-  const updateFeature = (featureName, value) => {
+  // Memoizar updateFeature para mejor rendimiento  
+  const updateFeature = useCallback((featureName, value) => {
     setFormData(prev => ({
       ...prev,
       features: {
@@ -2243,11 +2245,12 @@ function WizardExample() {
         [featureName]: value
       }
     }));
-  };
+  }, []);
 
-  const handleTreeSelection = (node, selectedNodes) => {
+  // Memoizar handleTreeSelection para mejor rendimiento
+  const handleTreeSelection = useCallback((node, selectedNodes) => {
     updateFormData('selectedTreeItems', Array.from(selectedNodes));
-  };
+  }, [updateFormData]);
 
   // Funciones para la búsqueda de equipos
   const filteredEquipment = equipmentData.filter(equipment => {
@@ -2267,7 +2270,8 @@ function WizardExample() {
     );
   });
 
-  const handleEquipmentSelection = (equipmentId) => {
+  // Memoizar handleEquipmentSelection para mejor rendimiento
+  const handleEquipmentSelection = useCallback((equipmentId) => {
     const currentSelection = formData.selectedEquipment;
     const isSelected = currentSelection.includes(equipmentId);
     
@@ -2276,33 +2280,35 @@ function WizardExample() {
     } else {
       updateFormData('selectedEquipment', [...currentSelection, equipmentId]);
     }
-  };
+  }, [formData.selectedEquipment, updateFormData]);
 
-  const selectAllVisibleEquipment = () => {
+  // Memoizar selectAllVisibleEquipment para mejor rendimiento
+  const selectAllVisibleEquipment = useCallback(() => {
     const visibleIds = filteredEquipment.map(eq => eq.id);
     updateFormData('selectedEquipment', visibleIds);
-  };
+  }, [filteredEquipment, updateFormData]);
 
-  const clearEquipmentSelection = () => {
+  // Memoizar clearEquipmentSelection para mejor rendimiento
+  const clearEquipmentSelection = useCallback(() => {
     updateFormData('selectedEquipment', []);
-  };
+  }, [updateFormData]);
 
-  // Funciones para diagnósticos de equipos
-  const updateEquipmentDiagnostic = (equipmentId, diagnosticData) => {
+  // Funciones para diagnósticos de equipos (memoizadas para mejor rendimiento)
+  const updateEquipmentDiagnostic = useCallback((equipmentId, diagnosticData) => {
     const updatedDiagnostics = {
       ...formData.equipmentDiagnostics,
       [equipmentId]: diagnosticData
     };
     updateFormData('equipmentDiagnostics', updatedDiagnostics);
-  };
+  }, [formData.equipmentDiagnostics, updateFormData]);
 
-  const removeDiagnostic = (equipmentId) => {
+  const removeDiagnostic = useCallback((equipmentId) => {
     const updatedDiagnostics = { ...formData.equipmentDiagnostics };
     delete updatedDiagnostics[equipmentId];
     updateFormData('equipmentDiagnostics', updatedDiagnostics);
-  };
+  }, [formData.equipmentDiagnostics, updateFormData]);
 
-  const getSelectedEquipmentWithDiagnostics = () => {
+  const getSelectedEquipmentWithDiagnostics = useCallback(() => {
     return formData.selectedEquipment.map(equipId => {
       const equipment = equipmentData.find(eq => eq.id === equipId);
       const diagnostic = formData.equipmentDiagnostics[equipId];
@@ -2311,7 +2317,7 @@ function WizardExample() {
         diagnostic: diagnostic || null
       };
     });
-  };
+  }, [formData.selectedEquipment, formData.equipmentDiagnostics, equipmentData]);
 
   // Custom checkbox with icon component
   const IconCheckbox = ({ icon: Icon, title, description, isChecked, onChange, colorScheme = "blue" }) => {
@@ -2714,8 +2720,8 @@ function WizardExample() {
     </Box>
   );
 
-  // Componente para mostrar equipo con opción de diagnóstico
-  const EquipmentDiagnosticCard = ({ equipment, diagnostic, onUpdateDiagnostic, onRemoveDiagnostic }) => {
+  // Componente para mostrar equipo con opción de diagnóstico (memoizado para rendimiento)
+  const EquipmentDiagnosticCard = React.memo(({ equipment, diagnostic, onUpdateDiagnostic, onRemoveDiagnostic }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [localDiagnostic, setLocalDiagnostic] = useState(diagnostic || {
@@ -2727,27 +2733,176 @@ function WizardExample() {
       fecha_reporte: new Date().toISOString().split('T')[0]
     });
 
-    const handleSave = () => {
-      onUpdateDiagnostic(equipment.id, localDiagnostic);
-      setIsEditing(false);
-      setIsFullscreen(false); // Cerrar pantalla completa al guardar
-    };
+    // Ultra-optimización: Refs para inputs no controlados - elimina re-renders
+    const problemaRef = useRef(null);
+    const sintomasRef = useRef(null);
+    const condicionesRef = useRef(null);
+    const notasRef = useRef(null);
+    const prioridadRef = useRef(null);
+    const fechaRef = useRef(null);
 
-    const handleCancel = () => {
-      setLocalDiagnostic(diagnostic || {
+    // Estados ultra optimizados - eliminando throttle para máximo rendimiento
+    const [inputValues, setInputValues] = useState({
+      problema_reportado: localDiagnostic.problema_reportado,
+      sintomas: localDiagnostic.sintomas,
+      condiciones_operacion: localDiagnostic.condiciones_operacion,
+      notas_adicionales: localDiagnostic.notas_adicionales,
+      prioridad: localDiagnostic.prioridad,
+      fecha_reporte: localDiagnostic.fecha_reporte
+    });
+
+    // Ref para evitar renders innecesarios
+    const lastUpdateRef = useRef({});
+
+    // Sincronizar inputValues cuando cambie el diagnóstico externo (ultra optimizado)
+    useEffect(() => {
+      const newDiagnostic = diagnostic || {
         problema_reportado: '',
         sintomas: '',
         condiciones_operacion: '',
         notas_adicionales: '',
         prioridad: 'media',
         fecha_reporte: new Date().toISOString().split('T')[0]
+      };
+      
+      // Actualizar ref para evitar loops
+      lastUpdateRef.current = newDiagnostic;
+      
+      // Actualización directa sin requestAnimationFrame para mejor rendimiento
+      setLocalDiagnostic(newDiagnostic);
+      setInputValues({
+        problema_reportado: newDiagnostic.problema_reportado,
+        sintomas: newDiagnostic.sintomas,
+        condiciones_operacion: newDiagnostic.condiciones_operacion,
+        notas_adicionales: newDiagnostic.notas_adicionales,
+        prioridad: newDiagnostic.prioridad,
+        fecha_reporte: newDiagnostic.fecha_reporte
       });
-      setIsEditing(false);
-      setIsFullscreen(false); // Cerrar pantalla completa al cancelar
-    };
 
-    const toggleFullscreen = () => {
-      setIsFullscreen(!isFullscreen);
+      // Actualizar refs de inputs para evitar re-renders
+      if (problemaRef.current) problemaRef.current.value = newDiagnostic.problema_reportado || '';
+      if (sintomasRef.current) sintomasRef.current.value = newDiagnostic.sintomas || '';
+      if (condicionesRef.current) condicionesRef.current.value = newDiagnostic.condiciones_operacion || '';
+      if (notasRef.current) notasRef.current.value = newDiagnostic.notas_adicionales || '';
+      if (prioridadRef.current) prioridadRef.current.value = newDiagnostic.prioridad || 'media';
+      if (fechaRef.current) fechaRef.current.value = newDiagnostic.fecha_reporte || '';
+    }, [diagnostic]);
+
+    // Función ultra optimizada para manejar selección de TreeView
+    const handleTreeViewSelection = useCallback((node, selectedNodes) => {
+      // Actualizar sistemas específicos para este equipo
+      const currentEquipmentSystems = formData.equipmentSystems || {};
+      const selectedArray = Array.from(selectedNodes);
+      const currentSelection = currentEquipmentSystems[equipment.id] || [];
+      
+      // Comparación optimizada sin JSON.stringify
+      if (selectedArray.length !== currentSelection.length || 
+          selectedArray.some((item, index) => item !== currentSelection[index])) {
+        updateFormData('equipmentSystems', {
+          ...currentEquipmentSystems,
+          [equipment.id]: selectedArray
+        });
+      }
+    }, [equipment.id, formData.equipmentSystems, updateFormData]);
+
+    // Memoizar props del TreeView para evitar re-renders innecesarios
+    const treeViewProps = useMemo(() => ({
+      data: treeData,
+      onSelect: handleTreeViewSelection,
+      showCheckboxes: true,
+      title: `Sistemas para ${equipment.modelo_name}`,
+      selectedItems: formData.equipmentSystems?.[equipment.id] || []
+    }), [treeData, handleTreeViewSelection, equipment.modelo_name, equipment.id, formData.equipmentSystems]);
+
+    // Handlers ultra-optimizados individuales para cada campo - máximo rendimiento
+    const handleProblemaChange = useCallback((e) => {
+      const value = e.target.value;
+      lastUpdateRef.current.problema_reportado = value;
+      setLocalDiagnostic(prev => ({ ...prev, problema_reportado: value }));
+    }, []);
+
+    const handleSintomasChange = useCallback((e) => {
+      const value = e.target.value;
+      lastUpdateRef.current.sintomas = value;
+      setLocalDiagnostic(prev => ({ ...prev, sintomas: value }));
+    }, []);
+
+    const handleCondicionesChange = useCallback((e) => {
+      const value = e.target.value;
+      lastUpdateRef.current.condiciones_operacion = value;
+      setLocalDiagnostic(prev => ({ ...prev, condiciones_operacion: value }));
+    }, []);
+
+    const handleNotasChange = useCallback((e) => {
+      const value = e.target.value;
+      lastUpdateRef.current.notas_adicionales = value;
+      setLocalDiagnostic(prev => ({ ...prev, notas_adicionales: value }));
+    }, []);
+
+    const handlePrioridadChange = useCallback((e) => {
+      const value = e.target.value;
+      lastUpdateRef.current.prioridad = value;
+      setLocalDiagnostic(prev => ({ ...prev, prioridad: value }));
+    }, []);
+
+    const handleFechaChange = useCallback((e) => {
+      const value = e.target.value;
+      lastUpdateRef.current.fecha_reporte = value;
+      setLocalDiagnostic(prev => ({ ...prev, fecha_reporte: value }));
+    }, []);
+
+    // Memoizar funciones de manejo para evitar re-creaciones
+    const handleSave = useCallback(() => {
+      onUpdateDiagnostic(equipment.id, localDiagnostic);
+      setIsEditing(false);
+      setIsFullscreen(false);
+    }, [equipment.id, localDiagnostic, onUpdateDiagnostic]);
+
+    const toggleFullscreen = useCallback(() => {
+      setIsFullscreen(prev => !prev);
+    }, []);
+
+    const handleEditClick = useCallback(() => {
+      setIsEditing(true);
+    }, []);
+
+    const handleRemoveClick = useCallback(() => {
+      onRemoveDiagnostic(equipment.id);
+    }, [equipment.id, onRemoveDiagnostic]);
+
+    const handleCancel = () => {
+      const newDiagnostic = diagnostic || {
+        problema_reportado: '',
+        sintomas: '',
+        condiciones_operacion: '',
+        notas_adicionales: '',
+        prioridad: 'media',
+        fecha_reporte: new Date().toISOString().split('T')[0]
+      };
+      
+      // Actualizar ref
+      lastUpdateRef.current = newDiagnostic;
+      
+      setLocalDiagnostic(newDiagnostic);
+      setInputValues({
+        problema_reportado: newDiagnostic.problema_reportado,
+        sintomas: newDiagnostic.sintomas,
+        condiciones_operacion: newDiagnostic.condiciones_operacion,
+        notas_adicionales: newDiagnostic.notas_adicionales,
+        prioridad: newDiagnostic.prioridad,
+        fecha_reporte: newDiagnostic.fecha_reporte
+      });
+
+      // Actualizar refs de inputs
+      if (problemaRef.current) problemaRef.current.value = newDiagnostic.problema_reportado || '';
+      if (sintomasRef.current) sintomasRef.current.value = newDiagnostic.sintomas || '';
+      if (condicionesRef.current) condicionesRef.current.value = newDiagnostic.condiciones_operacion || '';
+      if (notasRef.current) notasRef.current.value = newDiagnostic.notas_adicionales || '';
+      if (prioridadRef.current) prioridadRef.current.value = newDiagnostic.prioridad || 'media';
+      if (fechaRef.current) fechaRef.current.value = newDiagnostic.fecha_reporte || '';
+
+      setIsEditing(false);
+      setIsFullscreen(false);
     };
 
     const getPriorityColor = (priority) => {
@@ -2835,7 +2990,7 @@ function WizardExample() {
                     <Button
                       size="sm"
                       leftIcon={diagnostic ? <FiEdit3 /> : <FiPlus />}
-                      onClick={() => setIsEditing(true)}
+                      onClick={handleEditClick}
                       colorScheme="blue"
                       variant={diagnostic ? "outline" : "solid"}
                     >
@@ -2846,7 +3001,7 @@ function WizardExample() {
                         size="sm"
                         variant="ghost"
                         colorScheme="red"
-                        onClick={() => onRemoveDiagnostic(equipment.id)}
+                        onClick={handleRemoveClick}
                       >
                         Eliminar
                       </Button>
@@ -2960,11 +3115,9 @@ function WizardExample() {
                   <FormControl>
                     <FormLabel fontSize="sm">Problema Reportado</FormLabel>
                     <Textarea
-                      value={localDiagnostic.problema_reportado}
-                      onChange={(e) => setLocalDiagnostic({
-                        ...localDiagnostic,
-                        problema_reportado: e.target.value
-                      })}
+                      ref={problemaRef}
+                      defaultValue={inputValues.problema_reportado}
+                      onChange={handleProblemaChange}
                       placeholder="Describe el problema principal..."
                       size="sm"
                       rows={3}
@@ -2974,11 +3127,9 @@ function WizardExample() {
                   <FormControl>
                     <FormLabel fontSize="sm">Síntomas Observados</FormLabel>
                     <Textarea
-                      value={localDiagnostic.sintomas}
-                      onChange={(e) => setLocalDiagnostic({
-                        ...localDiagnostic,
-                        sintomas: e.target.value
-                      })}
+                      ref={sintomasRef}
+                      defaultValue={inputValues.sintomas}
+                      onChange={handleSintomasChange}
                       placeholder="Síntomas específicos..."
                       size="sm"
                       rows={3}
@@ -2988,11 +3139,9 @@ function WizardExample() {
                   <FormControl>
                     <FormLabel fontSize="sm">Condiciones de Operación</FormLabel>
                     <Textarea
-                      value={localDiagnostic.condiciones_operacion}
-                      onChange={(e) => setLocalDiagnostic({
-                        ...localDiagnostic,
-                        condiciones_operacion: e.target.value
-                      })}
+                      ref={condicionesRef}
+                      defaultValue={inputValues.condiciones_operacion}
+                      onChange={handleCondicionesChange}
                       placeholder="Condiciones cuando ocurrió el problema..."
                       size="sm"
                       rows={3}
@@ -3003,11 +3152,9 @@ function WizardExample() {
                     <FormControl>
                       <FormLabel fontSize="sm">Prioridad</FormLabel>
                       <Select
-                        value={localDiagnostic.prioridad}
-                        onChange={(e) => setLocalDiagnostic({
-                          ...localDiagnostic,
-                          prioridad: e.target.value
-                        })}
+                        ref={prioridadRef}
+                        defaultValue={inputValues.prioridad}
+                        onChange={handlePrioridadChange}
                         size="sm"
                       >
                         <option value="baja">Baja</option>
@@ -3019,12 +3166,10 @@ function WizardExample() {
                     <FormControl>
                       <FormLabel fontSize="sm">Fecha de Reporte</FormLabel>
                       <Input
+                        ref={fechaRef}
                         type="date"
-                        value={localDiagnostic.fecha_reporte}
-                        onChange={(e) => setLocalDiagnostic({
-                          ...localDiagnostic,
-                          fecha_reporte: e.target.value
-                        })}
+                        defaultValue={inputValues.fecha_reporte}
+                        onChange={handleFechaChange}
                         size="sm"
                       />
                     </FormControl>
@@ -3034,11 +3179,9 @@ function WizardExample() {
                 <FormControl>
                   <FormLabel fontSize="sm">Notas Adicionales</FormLabel>
                   <Textarea
-                    value={localDiagnostic.notas_adicionales}
-                    onChange={(e) => setLocalDiagnostic({
-                      ...localDiagnostic,
-                      notas_adicionales: e.target.value
-                    })}
+                    ref={notasRef}
+                    defaultValue={inputValues.notas_adicionales}
+                    onChange={handleNotasChange}
                     placeholder="Información adicional relevante..."
                     size="sm"
                     rows={2}
@@ -3062,20 +3205,7 @@ function WizardExample() {
                       Selecciona los sistemas y servicios específicos para este equipo
                     </Text>
                     
-                    <TreeView
-                      data={treeData}
-                      onSelect={(node, selectedNodes) => {
-                        // Actualizar sistemas específicos para este equipo
-                        const currentEquipmentSystems = formData.equipmentSystems || {};
-                        updateFormData('equipmentSystems', {
-                          ...currentEquipmentSystems,
-                          [equipment.id]: Array.from(selectedNodes)
-                        });
-                      }}
-                      showCheckboxes={true}
-                      title={`Sistemas para ${equipment.modelo_name}`}
-                      selectedItems={formData.equipmentSystems?.[equipment.id] || []}
-                    />
+                    <TreeView {...treeViewProps} />
                     
                     {/* Resumen de sistemas seleccionados para este equipo */}
                     {formData.equipmentSystems?.[equipment.id] && formData.equipmentSystems[equipment.id].length > 0 && (
@@ -3201,11 +3331,8 @@ function WizardExample() {
                   <FormControl>
                     <FormLabel fontSize="md">Problema Reportado</FormLabel>
                     <Textarea
-                      value={localDiagnostic.problema_reportado}
-                      onChange={(e) => setLocalDiagnostic({
-                        ...localDiagnostic,
-                        problema_reportado: e.target.value
-                      })}
+                      defaultValue={inputValues.problema_reportado}
+                      onChange={handleProblemaChange}
                       placeholder="Describe el problema principal..."
                       size="md"
                       rows={4}
@@ -3215,11 +3342,8 @@ function WizardExample() {
                   <FormControl>
                     <FormLabel fontSize="md">Síntomas Observados</FormLabel>
                     <Textarea
-                      value={localDiagnostic.sintomas}
-                      onChange={(e) => setLocalDiagnostic({
-                        ...localDiagnostic,
-                        sintomas: e.target.value
-                      })}
+                      defaultValue={inputValues.sintomas}
+                      onChange={handleSintomasChange}
                       placeholder="Síntomas específicos..."
                       size="md"
                       rows={4}
@@ -3229,11 +3353,8 @@ function WizardExample() {
                   <FormControl>
                     <FormLabel fontSize="md">Condiciones de Operación</FormLabel>
                     <Textarea
-                      value={localDiagnostic.condiciones_operacion}
-                      onChange={(e) => setLocalDiagnostic({
-                        ...localDiagnostic,
-                        condiciones_operacion: e.target.value
-                      })}
+                      defaultValue={inputValues.condiciones_operacion}
+                      onChange={handleCondicionesChange}
                       placeholder="Condiciones cuando ocurrió el problema..."
                       size="md"
                       rows={4}
@@ -3245,11 +3366,8 @@ function WizardExample() {
                   <FormControl>
                     <FormLabel fontSize="md">Prioridad</FormLabel>
                     <Select
-                      value={localDiagnostic.prioridad}
-                      onChange={(e) => setLocalDiagnostic({
-                        ...localDiagnostic,
-                        prioridad: e.target.value
-                      })}
+                      defaultValue={inputValues.prioridad}
+                      onChange={handlePrioridadChange}
                       size="md"
                     >
                       <option value="baja">Baja</option>
@@ -3262,11 +3380,8 @@ function WizardExample() {
                     <FormLabel fontSize="md">Fecha de Reporte</FormLabel>
                     <Input
                       type="date"
-                      value={localDiagnostic.fecha_reporte}
-                      onChange={(e) => setLocalDiagnostic({
-                        ...localDiagnostic,
-                        fecha_reporte: e.target.value
-                      })}
+                      defaultValue={inputValues.fecha_reporte}
+                      onChange={handleFechaChange}
                       size="md"
                     />
                   </FormControl>
@@ -3277,11 +3392,8 @@ function WizardExample() {
                 <FormControl>
                   <FormLabel fontSize="md">Notas Adicionales</FormLabel>
                   <Textarea
-                    value={localDiagnostic.notas_adicionales}
-                    onChange={(e) => setLocalDiagnostic({
-                      ...localDiagnostic,
-                      notas_adicionales: e.target.value
-                    })}
+                    defaultValue={inputValues.notas_adicionales}
+                    onChange={handleNotasChange}
                     placeholder="Información adicional relevante..."
                     size="md"
                     rows={3}
@@ -3304,20 +3416,7 @@ function WizardExample() {
                       Selecciona los sistemas y servicios específicos para este equipo
                     </Text>
                     
-                    <TreeView
-                      data={treeData}
-                      onSelect={(node, selectedNodes) => {
-                        // Actualizar sistemas específicos para este equipo
-                        const currentEquipmentSystems = formData.equipmentSystems || {};
-                        updateFormData('equipmentSystems', {
-                          ...currentEquipmentSystems,
-                          [equipment.id]: Array.from(selectedNodes)
-                        });
-                      }}
-                      showCheckboxes={true}
-                      title={`Sistemas para ${equipment.modelo_name}`}
-                      selectedItems={formData.equipmentSystems?.[equipment.id] || []}
-                    />
+                    <TreeView {...treeViewProps} />
                     
                     {/* Resumen de sistemas seleccionados para este equipo */}
                     {formData.equipmentSystems?.[equipment.id] && formData.equipmentSystems[equipment.id].length > 0 && (
@@ -3362,7 +3461,20 @@ function WizardExample() {
       )}
     </>
     );
-  };
+  });
+
+  // Handlers memoizados para optimizar rendimiento
+  const handleSegmentSelection = useCallback((segmentId) => {
+    updateFormData('selectedSegment', segmentId);
+  }, [updateFormData]);
+
+  const handleCaseTypeSelection = useCallback((caseTypeId) => {
+    updateFormData('selectedCaseType', caseTypeId);
+  }, [updateFormData]);
+
+  const handleViewModeChange = useCallback((mode) => {
+    updateFormData('viewMode', mode);
+  }, [updateFormData]);
 
   const handleStepChange = (stepIndex, step) => {
     console.log(`Changed to step ${stepIndex}:`, step.title);
@@ -3422,7 +3534,7 @@ function WizardExample() {
                         boxShadow: 'lg'
                       }
                     }}
-                    onClick={() => updateFormData('selectedSegment', segment.id)}
+                    onClick={() => handleSegmentSelection(segment.id)}
                   >
                     {/* Indicador de selección */}
                     {isSelected && (
@@ -3552,7 +3664,7 @@ function WizardExample() {
                         boxShadow: 'lg'
                       }
                     }}
-                    onClick={() => updateFormData('selectedCaseType', caseType.id)}
+                    onClick={() => handleCaseTypeSelection(caseType.id)}
                   >
                     {/* Indicador de selección */}
                     {isSelected && (
@@ -3753,7 +3865,7 @@ function WizardExample() {
                       size="sm"
                       variant={formData.viewMode === 'compact' ? 'solid' : 'ghost'}
                       colorScheme="blue"
-                      onClick={() => updateFormData('viewMode', 'compact')}
+                      onClick={() => handleViewModeChange('compact')}
                       leftIcon={<FiList />}
                       flex={{ base: "1", md: "none" }}
                       minW={{ base: "90px", md: "auto" }}
@@ -3764,7 +3876,7 @@ function WizardExample() {
                       size="sm"
                       variant={formData.viewMode === 'normal' ? 'solid' : 'ghost'}
                       colorScheme="blue"
-                      onClick={() => updateFormData('viewMode', 'normal')}
+                      onClick={() => handleViewModeChange('normal')}
                       leftIcon={<FiEye />}
                       flex={{ base: "1", md: "none" }}
                       minW={{ base: "90px", md: "auto" }}
@@ -3775,7 +3887,7 @@ function WizardExample() {
                       size="sm"
                       variant={formData.viewMode === 'cards' ? 'solid' : 'ghost'}
                       colorScheme="blue"
-                      onClick={() => updateFormData('viewMode', 'cards')}
+                      onClick={() => handleViewModeChange('cards')}
                       leftIcon={<FiGrid />}
                       flex={{ base: "1", md: "none" }}
                       minW={{ base: "90px", md: "auto" }}

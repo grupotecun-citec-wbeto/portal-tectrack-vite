@@ -379,15 +379,10 @@ const TreeView = ({
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
 
-  // Debounce hook para la búsqueda
+  // Actualización directa del término de búsqueda para máximo rendimiento
   React.useEffect(() => {
-    const debounceTimer = setTimeout(() => {
-      setSearchTerm(searchInput);
-    }, 300); // 300ms de delay
-
-    return () => {
-      clearTimeout(debounceTimer);
-    };
+    // Eliminamos setTimeout para evitar violaciones de rendimiento
+    setSearchTerm(searchInput);
   }, [searchInput]);
 
   // Actualizar viewMode cuando cambie el variant inicial, pero mantener preferencia del usuario
@@ -545,7 +540,8 @@ const TreeView = ({
   // Auto-expandir sistemas cuando se cambia el tipo de búsqueda a 'sistemas'
   React.useEffect(() => {
     if (searchTerm && searchType === 'sistemas') {
-      setTimeout(expandAllFoundSystems, 100); // Pequeño delay para asegurar que el filtrado esté listo
+      // Ejecutar inmediatamente para evitar violaciones de rendimiento
+      expandAllFoundSystems();
     }
   }, [searchTerm, searchType]);
 
