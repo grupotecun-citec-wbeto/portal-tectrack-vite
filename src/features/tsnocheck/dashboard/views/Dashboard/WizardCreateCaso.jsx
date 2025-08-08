@@ -2804,15 +2804,15 @@ function WizardCreateCaso() {
                 color={textColor} 
                 fontWeight="bold"
               >
-                Wizard Component Demo
+                Creación de Caso
               </Text>
               <Text 
                 color={textColor} 
                 fontSize={{ base: "sm", md: "md" }}
                 maxW="600px"
               >
-                Ejemplo del componente Wizard inspirado en Argon Chakra Dashboard Pro.
-                Incluye múltiples pasos, validación, navegación y diferentes tipos de contenido.
+                Sistema de gestión para la creación de casos de mantenimiento y soporte técnico.
+                Selecciona el segmento, tipo de caso, equipos y completa el diagnóstico paso a paso.
               </Text>
             </VStack>
           </CardHeader>
