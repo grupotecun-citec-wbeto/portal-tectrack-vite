@@ -1,30 +1,12 @@
-# Usa una imagen de Node para construir el proyecto
-FROM node:20.15.1 AS build
-
-# Instalar cross-env
-RUN npm install -g cross-env
-
-# Define el directorio de trabajo
+FROM node:20-alpine
 WORKDIR /app
 
-# Copia los archivos de tu proyecto a Docker
+COPY package*.json ./
+RUN npm ci
+
 COPY . .
+RUN npm run build
 
-# Instala las dependencias y genera el build
-RUN npm install --force
-RUN npm run deploy
-
-# Usa una imagen ligera de Nginx para servir los archivos estáticos
-FROM nginx:alpine
-
-# Copia el build generado a la carpeta pública de Nginx
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copia la configuración personalizada de Nginx
-#COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Exponer el puerto en el que Nginx sirve la aplicación
-EXPOSE 80
-
-# Comando por defecto para iniciar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Cloud Run asigna $PORT; usamos 8080 como fallback local
+EXPOSE 8080
+CMD ["sh", "-c", "npm run preview -- --host 0.0.0.0 --port ${PORT:-8080}"]
