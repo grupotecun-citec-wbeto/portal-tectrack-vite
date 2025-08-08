@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
-import fs from 'fs'
 import path from 'path'
 
 // https://vite.dev/config/
@@ -52,6 +51,25 @@ export default defineConfig({
       }
     })
   ],
+  
+  // Configuración para preview (producción)
+  preview: {
+    host: '0.0.0.0',
+    port: 8080,
+    strictPort: true,
+    allowedHosts: [
+      'tectrack-vite2-58928188038.us-central1.run.app',
+      'localhost',
+      '127.0.0.1'
+    ]
+  },
+  
+  // Configuración para desarrollo
+  server: {
+    host: '0.0.0.0',
+    port: 3000,
+    strictPort: false
+  },
   
   resolve: {
     alias: {
