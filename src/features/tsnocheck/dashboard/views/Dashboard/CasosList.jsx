@@ -24,10 +24,19 @@ import {
   SimpleGrid,
   Icon,
   InputGroup,
-  InputLeftElement
+  InputLeftElement,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure
 } from '@chakra-ui/react';
 import Card from "@dashboard/components/Card/Card.jsx";
 import CardBody from "@dashboard/components/Card/CardBody.jsx";
+import ViaticosCasoDetalle from "@dashboard/components/Viaticos/ViaticosCasoDetalle.jsx";
 import { 
   FaEye, 
   FaFilePdf, 
@@ -52,7 +61,8 @@ import {
   FaCheckCircle,
   FaPlus,
   FaPause,
-  FaTimes
+  FaTimes,
+  FaMoneyBillWave
 } from 'react-icons/fa';
 
 import { 
@@ -98,6 +108,9 @@ const CasosList = () => {
   const [filterEstado, setFilterEstado] = useState('');
   const [filterPrioridad, setFilterPrioridad] = useState('');
   const [filterSegmento, setFilterSegmento] = useState('');
+  const [selectedCasoViaticos, setSelectedCasoViaticos] = useState(null);
+
+  const { isOpen: isViaticoModalOpen, onOpen: onViaticoModalOpen, onClose: onViaticoModalClose } = useDisclosure();
 
   const textColor = useColorModeValue('gray.700', 'white');
   const bgColor = useColorModeValue('white', 'gray.800');
@@ -121,6 +134,12 @@ const CasosList = () => {
       return matchesSearch && matchesEstado && matchesPrioridad && matchesSegmento;
     });
   }, [searchTerm, filterEstado, filterPrioridad, filterSegmento]);
+
+  // Función para abrir viáticos
+  const handleOpenViaticos = (caso) => {
+    setSelectedCasoViaticos(caso);
+    onViaticoModalOpen();
+  };
 
   // Componente para vista compacta
   const CompactCasoView = ({ caso }) => {
@@ -169,6 +188,15 @@ const CasosList = () => {
                 aria-label="Ver caso"
                 size="sm"
                 onClick={() => console.log('Ver caso:', caso.ID)}
+              />
+            </Tooltip>
+            <Tooltip label="Viáticos">
+              <IconButton
+                icon={<FaMoneyBillWave />}
+                aria-label="Viáticos"
+                size="sm"
+                colorScheme="green"
+                onClick={() => handleOpenViaticos(caso)}
               />
             </Tooltip>
             <Tooltip label="Generar PDF">
@@ -278,6 +306,14 @@ const CasosList = () => {
               >
                 Ver
               </Button>
+              <IconButton
+                icon={<FaMoneyBillWave />}
+                aria-label="Viáticos"
+                variant="outline"
+                colorScheme="green"
+                size="sm"
+                onClick={() => handleOpenViaticos(caso)}
+              />
               <IconButton
                 icon={<FaFilePdf />}
                 aria-label="PDF"
@@ -404,6 +440,13 @@ const CasosList = () => {
               >
                 Ver
               </Button>
+              <IconButton
+                icon={<FaMoneyBillWave />}
+                aria-label="Viáticos"
+                colorScheme="green"
+                variant="outline"
+                onClick={() => handleOpenViaticos(caso)}
+              />
               <IconButton
                 icon={<FaFilePdf />}
                 aria-label="PDF"
@@ -558,6 +601,27 @@ const CasosList = () => {
           </Box>
         )}
       </VStack>
+
+      {/* Modal de viáticos */}
+      <Modal isOpen={isViaticoModalOpen} onClose={onViaticoModalClose} size="6xl" scrollBehavior="inside">
+        <ModalOverlay />
+        <ModalContent bg={bgColor}>
+          <ModalHeader>
+            <Text fontSize="xl" fontWeight="bold">
+              Gestión de Viáticos
+            </Text>
+          </ModalHeader>
+          <ModalCloseButton />
+          
+          <ModalBody p={0}>
+            {selectedCasoViaticos && (
+              <Box p={6}>
+                <ViaticosCasoDetalle caso={selectedCasoViaticos} />
+              </Box>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
