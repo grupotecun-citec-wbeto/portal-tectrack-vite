@@ -30,7 +30,7 @@ import CardBody from '@dashboard/components/Card/CardBody';
 import { Wizard, WizardStepContent } from '@dashboard/components/Wizard';
 import TreeView from '@dashboard/components/TreeView/TreeView';
 
-function WizardExample() {
+function WizardCreateCaso() {
   const textColor = useColorModeValue('gray.700', 'white');
   const toast = useToast();
   
@@ -5412,4 +5412,4 @@ function WizardExample() {
   );
 }
 
-export default WizardExample;
+export default WizardCreateCaso;
