@@ -21,6 +21,7 @@ import {
   Stack,
   SimpleGrid,
   useToast,
+  Badge,
 } from '@chakra-ui/react';
 import { FiUser, FiSettings, FiCheck, FiMail, FiShield, FiBell, FiMoon, FiZap, FiGlobe, FiLock, FiGitBranch, FiHeadphones, FiBookOpen, FiTool, FiStar, FiAlertTriangle, FiRefreshCw, FiSearch, FiGrid, FiList, FiEye, FiFilter, FiClipboard, FiEdit3, FiPlus, FiMaximize2, FiMinimize2 } from 'react-icons/fi';
 import Card from '@dashboard/components/Card/Card';
@@ -2788,6 +2789,155 @@ function WizardExample() {
       if (fechaRef.current) fechaRef.current.value = newDiagnostic.fecha_reporte || '';
     }, [diagnostic]);
 
+    // Función para obtener estadísticas de la selección
+    const getSelectionStats = useCallback((selectedIds) => {
+      if (!selectedIds || selectedIds.length === 0) return { sistemas: 0, subsistemas: 0, servicios: 0 };
+
+      const selectedItems = selectedIds.map(id => treeData.find(item => item.id === id)).filter(Boolean);
+      
+      const stats = {
+        sistemas: selectedItems.filter(item => item.type === "Sistema" && !item.parentId).length,
+        subsistemas: selectedItems.filter(item => item.type === "Sistema" && item.parentId).length,
+        servicios: selectedItems.filter(item => item.type === "Servicio").length
+      };
+
+      return stats;
+    }, [treeData]);
+
+    // Función para organizar la selección del TreeView en estructura jerárquica detallada
+    const organizeTreeSelection = useCallback((selectedIds) => {
+      if (!selectedIds || selectedIds.length === 0) return [];
+
+      const selectedItems = selectedIds.map(id => treeData.find(item => item.id === id)).filter(Boolean);
+      const organized = {};
+
+      selectedItems.forEach(item => {
+        if (item.type === "Sistema") {
+          // Si es un sistema padre (sin parentId)
+          if (!item.parentId) {
+            if (!organized[item.id]) {
+              organized[item.id] = {
+                sistema: {
+                  id: item.id,
+                  name: item.name,
+                  type: item.type,
+                  description: item.description
+                },
+                subsistemas: [],
+                servicios: []
+              };
+            }
+          } else {
+            // Si es un subsistema (tiene parentId)
+            const parentId = item.parentId;
+            
+            // Buscar el sistema padre
+            const parentSystem = treeData.find(parent => parent.id === parentId);
+            if (parentSystem) {
+              if (!organized[parentId]) {
+                organized[parentId] = {
+                  sistema: {
+                    id: parentSystem.id,
+                    name: parentSystem.name,
+                    type: parentSystem.type,
+                    description: parentSystem.description
+                  },
+                  subsistemas: [],
+                  servicios: []
+                };
+              }
+              
+              // Agregar el subsistema si no existe
+              const existingSubsystem = organized[parentId].subsistemas.find(sub => sub.id === item.id);
+              if (!existingSubsystem) {
+                organized[parentId].subsistemas.push({
+                  id: item.id,
+                  name: item.name,
+                  type: item.type,
+                  description: item.description,
+                  servicios: []
+                });
+              }
+            }
+          }
+        } else if (item.type === "Servicio") {
+          // Si es un servicio
+          const parentId = item.parentId;
+          const parentSystem = treeData.find(parent => parent.id === parentId);
+          
+          if (parentSystem) {
+            // Determinar si el padre es un sistema principal o subsistema
+            if (!parentSystem.parentId) {
+              // El padre es un sistema principal
+              if (!organized[parentId]) {
+                organized[parentId] = {
+                  sistema: {
+                    id: parentSystem.id,
+                    name: parentSystem.name,
+                    type: parentSystem.type,
+                    description: parentSystem.description
+                  },
+                  subsistemas: [],
+                  servicios: []
+                };
+              }
+              
+              organized[parentId].servicios.push({
+                id: item.id,
+                name: item.name,
+                type: item.type,
+                description: item.description,
+                icon: item.icon
+              });
+            } else {
+              // El padre es un subsistema
+              const grandParentId = parentSystem.parentId;
+              const grandParentSystem = treeData.find(gp => gp.id === grandParentId);
+              
+              if (grandParentSystem) {
+                if (!organized[grandParentId]) {
+                  organized[grandParentId] = {
+                    sistema: {
+                      id: grandParentSystem.id,
+                      name: grandParentSystem.name,
+                      type: grandParentSystem.type,
+                      description: grandParentSystem.description
+                    },
+                    subsistemas: [],
+                    servicios: []
+                  };
+                }
+                
+                // Encontrar o crear el subsistema
+                let subsystem = organized[grandParentId].subsistemas.find(sub => sub.id === parentId);
+                if (!subsystem) {
+                  subsystem = {
+                    id: parentSystem.id,
+                    name: parentSystem.name,
+                    type: parentSystem.type,
+                    description: parentSystem.description,
+                    servicios: []
+                  };
+                  organized[grandParentId].subsistemas.push(subsystem);
+                }
+                
+                // Agregar el servicio al subsistema
+                subsystem.servicios.push({
+                  id: item.id,
+                  name: item.name,
+                  type: item.type,
+                  description: item.description,
+                  icon: item.icon
+                });
+              }
+            }
+          }
+        }
+      });
+
+      return Object.values(organized);
+    }, [treeData]);
+
     // Función ultra optimizada para manejar selección de TreeView
     const handleTreeViewSelection = useCallback((node, selectedNodes) => {
       // Actualizar sistemas específicos para este equipo
@@ -3207,7 +3357,7 @@ function WizardExample() {
                     
                     <TreeView {...treeViewProps} />
                     
-                    {/* Resumen de sistemas seleccionados para este equipo */}
+                    {/* Resumen detallado de sistemas y servicios seleccionados para este equipo */}
                     {formData.equipmentSystems?.[equipment.id] && formData.equipmentSystems[equipment.id].length > 0 && (
                       <Box
                         p={3}
@@ -3216,28 +3366,133 @@ function WizardExample() {
                         border="1px solid"
                         borderColor="gray.200"
                       >
-                        <VStack align="start" spacing={2}>
-                          <Text fontSize="xs" fontWeight="medium" color="gray.700">
-                            Sistemas Seleccionados ({formData.equipmentSystems[equipment.id].length}):
-                          </Text>
-                          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
-                            {formData.equipmentSystems[equipment.id].map(itemId => {
-                              const item = treeData.find(d => d.id === itemId);
-                              return item ? (
-                                <HStack key={itemId} p={2} bg="white" borderRadius="md" border="1px solid" borderColor="gray.100">
-                                  <Box w={2} h={2} bg="blue.400" borderRadius="full" />
-                                  <VStack align="start" spacing={0} flex="1">
-                                    <Text fontSize="xs" fontWeight="medium" color="gray.800">
-                                      {item.name}
-                                    </Text>
-                                    <Text fontSize="xs" color="gray.600">
-                                      {item.type}
-                                    </Text>
-                                  </VStack>
-                                </HStack>
-                              ) : null;
-                            })}
-                          </SimpleGrid>
+                        <VStack align="start" spacing={3}>
+                          <HStack justify="space-between" w="100%">
+                            <Text fontSize="xs" fontWeight="medium" color="gray.700">
+                              Sistemas y Servicios Seleccionados ({formData.equipmentSystems[equipment.id].length} elementos):
+                            </Text>
+                            <HStack spacing={2}>
+                              {(() => {
+                                const stats = getSelectionStats(formData.equipmentSystems[equipment.id]);
+                                return (
+                                  <>
+                                    <Badge size="sm" colorScheme="blue">{stats.sistemas} Sistemas</Badge>
+                                    <Badge size="sm" colorScheme="green">{stats.subsistemas} Subsistemas</Badge>
+                                    <Badge size="sm" colorScheme="orange">{stats.servicios} Servicios</Badge>
+                                  </>
+                                );
+                              })()}
+                            </HStack>
+                          </HStack>
+                          
+                          {/* Mostrar información organizada por sistema */}
+                          <VStack spacing={3} w="100%" align="stretch">
+                            {organizeTreeSelection(formData.equipmentSystems[equipment.id]).map(systemGroup => (
+                              <Box 
+                                key={systemGroup.sistema.id} 
+                                p={3} 
+                                bg="white" 
+                                borderRadius="lg" 
+                                border="1px solid" 
+                                borderColor="blue.200"
+                                boxShadow="sm"
+                              >
+                                {/* Sistema Principal */}
+                                <VStack align="start" spacing={2}>
+                                  <HStack spacing={2} w="100%">
+                                    <Box w={3} h={3} bg="blue.500" borderRadius="full" />
+                                    <VStack align="start" spacing={0} flex="1">
+                                      <Text fontSize="sm" fontWeight="bold" color="blue.700">
+                                        {systemGroup.sistema.name}
+                                      </Text>
+                                      <HStack spacing={2}>
+                                        <Text fontSize="xs" color="gray.600">
+                                          ID: {systemGroup.sistema.id}
+                                        </Text>
+                                        <Badge size="sm" colorScheme="blue">
+                                          {systemGroup.sistema.type}
+                                        </Badge>
+                                      </HStack>
+                                    </VStack>
+                                  </HStack>
+
+                                  {/* Subsistemas */}
+                                  {systemGroup.subsistemas.length > 0 && (
+                                    <Box pl={4} w="100%">
+                                      <Text fontSize="xs" fontWeight="medium" color="gray.600" mb={2}>
+                                        Subsistemas ({systemGroup.subsistemas.length}):
+                                      </Text>
+                                      <VStack spacing={1} w="100%" align="stretch">
+                                        {systemGroup.subsistemas.map(subsistema => (
+                                          <Box key={subsistema.id} pl={2}>
+                                            <HStack spacing={2}>
+                                              <Box w={2} h={2} bg="green.400" borderRadius="full" />
+                                              <VStack align="start" spacing={0} flex="1">
+                                                <Text fontSize="xs" fontWeight="medium" color="green.700">
+                                                  {subsistema.name}
+                                                </Text>
+                                                <Text fontSize="xs" color="gray.500">
+                                                  ID: {subsistema.id}
+                                                </Text>
+                                              </VStack>
+                                            </HStack>
+                                            
+                                            {/* Servicios del subsistema */}
+                                            {subsistema.servicios.length > 0 && (
+                                              <Box pl={4} mt={1}>
+                                                <Text fontSize="xs" color="gray.500" mb={1}>
+                                                  Servicios ({subsistema.servicios.length}):
+                                                </Text>
+                                                <VStack spacing={1} align="stretch">
+                                                  {subsistema.servicios.map(servicio => (
+                                                    <HStack key={servicio.id} spacing={2} pl={2}>
+                                                      <Box w={1.5} h={1.5} bg="orange.400" borderRadius="full" />
+                                                      <VStack align="start" spacing={0} flex="1">
+                                                        <Text fontSize="xs" color="orange.700">
+                                                          {servicio.name}
+                                                        </Text>
+                                                        <Text fontSize="xs" color="gray.400">
+                                                          ID: {servicio.id}
+                                                        </Text>
+                                                      </VStack>
+                                                    </HStack>
+                                                  ))}
+                                                </VStack>
+                                              </Box>
+                                            )}
+                                          </Box>
+                                        ))}
+                                      </VStack>
+                                    </Box>
+                                  )}
+
+                                  {/* Servicios directos del sistema principal */}
+                                  {systemGroup.servicios.length > 0 && (
+                                    <Box pl={4} w="100%">
+                                      <Text fontSize="xs" fontWeight="medium" color="gray.600" mb={2}>
+                                        Servicios Directos ({systemGroup.servicios.length}):
+                                      </Text>
+                                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2} w="100%">
+                                        {systemGroup.servicios.map(servicio => (
+                                          <HStack key={servicio.id} spacing={2} p={2} bg="orange.50" borderRadius="md" border="1px solid" borderColor="orange.100">
+                                            <Box w={2} h={2} bg="orange.400" borderRadius="full" />
+                                            <VStack align="start" spacing={0} flex="1">
+                                              <Text fontSize="xs" fontWeight="medium" color="orange.700">
+                                                {servicio.name}
+                                              </Text>
+                                              <Text fontSize="xs" color="gray.500">
+                                                ID: {servicio.id}
+                                              </Text>
+                                            </VStack>
+                                          </HStack>
+                                        ))}
+                                      </SimpleGrid>
+                                    </Box>
+                                  )}
+                                </VStack>
+                              </Box>
+                            ))}
+                          </VStack>
                         </VStack>
                       </Box>
                     )}
@@ -3418,7 +3673,7 @@ function WizardExample() {
                     
                     <TreeView {...treeViewProps} />
                     
-                    {/* Resumen de sistemas seleccionados para este equipo */}
+                    {/* Resumen detallado de sistemas y servicios seleccionados para este equipo */}
                     {formData.equipmentSystems?.[equipment.id] && formData.equipmentSystems[equipment.id].length > 0 && (
                       <Box
                         p={4}
@@ -3427,28 +3682,146 @@ function WizardExample() {
                         border="1px solid"
                         borderColor="gray.300"
                       >
-                        <VStack align="start" spacing={3}>
-                          <Text fontSize="md" fontWeight="medium" color="gray.700">
-                            Sistemas Seleccionados ({formData.equipmentSystems[equipment.id].length}):
-                          </Text>
-                          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={3} w="100%">
-                            {formData.equipmentSystems[equipment.id].map(itemId => {
-                              const item = treeData.find(d => d.id === itemId);
-                              return item ? (
-                                <HStack key={itemId} p={3} bg="blue.50" borderRadius="lg" border="1px solid" borderColor="blue.200">
-                                  <Box w={3} h={3} bg="blue.400" borderRadius="full" />
-                                  <VStack align="start" spacing={0} flex="1">
-                                    <Text fontSize="sm" fontWeight="medium" color="blue.800">
-                                      {item.name}
-                                    </Text>
-                                    <Text fontSize="xs" color="blue.600">
-                                      {item.type}
-                                    </Text>
-                                  </VStack>
-                                </HStack>
-                              ) : null;
-                            })}
-                          </SimpleGrid>
+                        <VStack align="start" spacing={4}>
+                          <HStack justify="space-between" w="100%">
+                            <Text fontSize="md" fontWeight="medium" color="gray.700">
+                              Sistemas y Servicios Seleccionados ({formData.equipmentSystems[equipment.id].length} elementos):
+                            </Text>
+                            <HStack spacing={3}>
+                              {(() => {
+                                const stats = getSelectionStats(formData.equipmentSystems[equipment.id]);
+                                return (
+                                  <>
+                                    <Badge size="md" colorScheme="blue">{stats.sistemas} Sistemas</Badge>
+                                    <Badge size="md" colorScheme="green">{stats.subsistemas} Subsistemas</Badge>
+                                    <Badge size="md" colorScheme="orange">{stats.servicios} Servicios</Badge>
+                                  </>
+                                );
+                              })()}
+                            </HStack>
+                          </HStack>
+                          
+                          {/* Mostrar información organizada por sistema */}
+                          <VStack spacing={4} w="100%" align="stretch">
+                            {organizeTreeSelection(formData.equipmentSystems[equipment.id]).map(systemGroup => (
+                              <Box 
+                                key={systemGroup.sistema.id} 
+                                p={4} 
+                                bg="blue.50" 
+                                borderRadius="xl" 
+                                border="2px solid" 
+                                borderColor="blue.200"
+                                boxShadow="md"
+                              >
+                                {/* Sistema Principal */}
+                                <VStack align="start" spacing={3}>
+                                  <HStack spacing={3} w="100%">
+                                    <Box w={4} h={4} bg="blue.500" borderRadius="full" />
+                                    <VStack align="start" spacing={1} flex="1">
+                                      <Text fontSize="lg" fontWeight="bold" color="blue.800">
+                                        {systemGroup.sistema.name}
+                                      </Text>
+                                      <HStack spacing={3}>
+                                        <Text fontSize="sm" color="gray.600">
+                                          ID: {systemGroup.sistema.id}
+                                        </Text>
+                                        <Badge size="md" colorScheme="blue">
+                                          {systemGroup.sistema.type}
+                                        </Badge>
+                                        <Text fontSize="xs" color="gray.500">
+                                          {systemGroup.sistema.description}
+                                        </Text>
+                                      </HStack>
+                                    </VStack>
+                                  </HStack>
+
+                                  {/* Subsistemas */}
+                                  {systemGroup.subsistemas.length > 0 && (
+                                    <Box pl={6} w="100%">
+                                      <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={3}>
+                                        Subsistemas ({systemGroup.subsistemas.length}):
+                                      </Text>
+                                      <VStack spacing={3} w="100%" align="stretch">
+                                        {systemGroup.subsistemas.map(subsistema => (
+                                          <Box key={subsistema.id} p={3} bg="white" borderRadius="lg" border="1px solid" borderColor="green.200">
+                                            <HStack spacing={3}>
+                                              <Box w={3} h={3} bg="green.500" borderRadius="full" />
+                                              <VStack align="start" spacing={1} flex="1">
+                                                <Text fontSize="md" fontWeight="medium" color="green.700">
+                                                  {subsistema.name}
+                                                </Text>
+                                                <HStack spacing={2}>
+                                                  <Text fontSize="sm" color="gray.500">
+                                                    ID: {subsistema.id}
+                                                  </Text>
+                                                  <Badge size="sm" colorScheme="green">
+                                                    {subsistema.type}
+                                                  </Badge>
+                                                </HStack>
+                                              </VStack>
+                                            </HStack>
+                                            
+                                            {/* Servicios del subsistema */}
+                                            {subsistema.servicios.length > 0 && (
+                                              <Box pl={6} mt={3}>
+                                                <Text fontSize="sm" color="gray.600" mb={2}>
+                                                  Servicios ({subsistema.servicios.length}):
+                                                </Text>
+                                                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={2}>
+                                                  {subsistema.servicios.map(servicio => (
+                                                    <HStack key={servicio.id} spacing={2} p={2} bg="orange.50" borderRadius="md" border="1px solid" borderColor="orange.200">
+                                                      <Box w={2.5} h={2.5} bg="orange.500" borderRadius="full" />
+                                                      <VStack align="start" spacing={0} flex="1">
+                                                        <Text fontSize="sm" fontWeight="medium" color="orange.700">
+                                                          {servicio.name}
+                                                        </Text>
+                                                        <Text fontSize="xs" color="gray.500">
+                                                          ID: {servicio.id}
+                                                        </Text>
+                                                      </VStack>
+                                                    </HStack>
+                                                  ))}
+                                                </SimpleGrid>
+                                              </Box>
+                                            )}
+                                          </Box>
+                                        ))}
+                                      </VStack>
+                                    </Box>
+                                  )}
+
+                                  {/* Servicios directos del sistema principal */}
+                                  {systemGroup.servicios.length > 0 && (
+                                    <Box pl={6} w="100%">
+                                      <Text fontSize="sm" fontWeight="medium" color="gray.700" mb={3}>
+                                        Servicios Directos ({systemGroup.servicios.length}):
+                                      </Text>
+                                      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={3} w="100%">
+                                        {systemGroup.servicios.map(servicio => (
+                                          <HStack key={servicio.id} spacing={3} p={3} bg="orange.50" borderRadius="lg" border="1px solid" borderColor="orange.200">
+                                            <Box w={3} h={3} bg="orange.500" borderRadius="full" />
+                                            <VStack align="start" spacing={1} flex="1">
+                                              <Text fontSize="sm" fontWeight="medium" color="orange.700">
+                                                {servicio.name}
+                                              </Text>
+                                              <HStack spacing={2}>
+                                                <Text fontSize="xs" color="gray.500">
+                                                  ID: {servicio.id}
+                                                </Text>
+                                                <Badge size="sm" colorScheme="orange">
+                                                  {servicio.type}
+                                                </Badge>
+                                              </HStack>
+                                            </VStack>
+                                          </HStack>
+                                        ))}
+                                      </SimpleGrid>
+                                    </Box>
+                                  )}
+                                </VStack>
+                              </Box>
+                            ))}
+                          </VStack>
                         </VStack>
                       </Box>
                     )}
@@ -4155,6 +4528,83 @@ function WizardExample() {
                           );
                         })}
                       </SimpleGrid>
+                      
+                      {/* Información detallada de sistemas y servicios por equipo */}
+                      <Box w="100%" mt={4}>
+                        <Text fontSize="xs" fontWeight="medium" color="gray.600" mb={3}>
+                          Sistemas y Servicios Seleccionados por Equipo:
+                        </Text>
+                        <VStack spacing={3} w="100%" align="stretch">
+                          {Object.keys(formData.equipmentDiagnostics || {}).map(equipmentId => {
+                            const equipment = equipmentData.find(eq => eq.id === parseInt(equipmentId));
+                            const equipmentSystems = formData.equipmentSystems?.[equipmentId] || [];
+                            
+                            if (!equipment || equipmentSystems.length === 0) return null;
+                            
+                            const organizedSystems = organizeTreeSelection(equipmentSystems);
+                            
+                            return (
+                              <Box key={`systems-${equipmentId}`} p={3} bg="white" borderRadius="lg" border="1px solid" borderColor="gray.200">
+                                <VStack align="start" spacing={2}>
+                                  <Text fontSize="sm" fontWeight="bold" color="gray.800">
+                                    {equipment.modelo_name} - {equipment.codigo_finca || equipment.serie || 'N/A'}
+                                  </Text>
+                                  
+                                  {organizedSystems.map(systemGroup => (
+                                    <Box key={`system-${systemGroup.sistema.id}`} pl={3} w="100%">
+                                      <VStack align="start" spacing={1} w="100%">
+                                        {/* Sistema Principal */}
+                                        <HStack spacing={2}>
+                                          <Box w={2} h={2} bg="blue.500" borderRadius="full" />
+                                          <Text fontSize="xs" fontWeight="medium" color="blue.700">
+                                            {systemGroup.sistema.name} (ID: {systemGroup.sistema.id})
+                                          </Text>
+                                        </HStack>
+                                        
+                                        {/* Subsistemas */}
+                                        {systemGroup.subsistemas.map(subsistema => (
+                                          <Box key={`sub-${subsistema.id}`} pl={4}>
+                                            <HStack spacing={2}>
+                                              <Box w={1.5} h={1.5} bg="green.400" borderRadius="full" />
+                                              <Text fontSize="xs" color="green.600">
+                                                {subsistema.name} (ID: {subsistema.id})
+                                              </Text>
+                                            </HStack>
+                                            
+                                            {/* Servicios del subsistema */}
+                                            {subsistema.servicios.map(servicio => (
+                                              <Box key={`sub-serv-${servicio.id}`} pl={6}>
+                                                <HStack spacing={2}>
+                                                  <Box w={1} h={1} bg="orange.400" borderRadius="full" />
+                                                  <Text fontSize="xs" color="orange.600">
+                                                    {servicio.name} (ID: {servicio.id})
+                                                  </Text>
+                                                </HStack>
+                                              </Box>
+                                            ))}
+                                          </Box>
+                                        ))}
+                                        
+                                        {/* Servicios directos */}
+                                        {systemGroup.servicios.map(servicio => (
+                                          <Box key={`serv-${servicio.id}`} pl={4}>
+                                            <HStack spacing={2}>
+                                              <Box w={1.5} h={1.5} bg="orange.400" borderRadius="full" />
+                                              <Text fontSize="xs" color="orange.600">
+                                                {servicio.name} (ID: {servicio.id})
+                                              </Text>
+                                            </HStack>
+                                          </Box>
+                                        ))}
+                                      </VStack>
+                                    </Box>
+                                  ))}
+                                </VStack>
+                              </Box>
+                            );
+                          })}
+                        </VStack>
+                      </Box>
                     </VStack>
                   )}
                 </VStack>
