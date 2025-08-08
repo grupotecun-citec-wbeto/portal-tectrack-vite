@@ -22,7 +22,7 @@ export function PWABadge() {
           gap: '8px'
         }}
       >
-        <div style={{ fontSize: '14px', fontWeight: '500' }}>
+        <div style={{ fontSize: '14px', fontWeight: 500 }}>
           ✅ App ready to work offline
         </div>
         <button 
@@ -62,7 +62,7 @@ export function PWABadge() {
           gap: '8px'
         }}
       >
-        <div style={{ fontSize: '14px', fontWeight: '500' }}>
+        <div style={{ fontSize: '14px', fontWeight: 500 }}>
           🔄 New content available, click on reload button to update.
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -76,7 +76,7 @@ export function PWABadge() {
               borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '12px',
-              fontWeight: '500'
+              fontWeight: 500
             }}
           >
             Reload
