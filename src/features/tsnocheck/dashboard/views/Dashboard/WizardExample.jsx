@@ -3319,6 +3319,74 @@ function WizardExample() {
                     </Text>
                   </Box>
                 )}
+
+                {/* Resumen de sistemas y servicios asociados al diagnóstico */}
+                {(() => {
+                  const localSelectedSystems = formData.equipmentSystems[equipment.id] || [];
+                  return localSelectedSystems.length > 0 && (
+                    <Box
+                      mt={3}
+                      p={3}
+                      bg="blue.50"
+                      borderRadius="md"
+                      border="1px solid"
+                      borderColor="blue.200"
+                    >
+                      <VStack align="start" spacing={2}>
+                        <HStack justify="space-between" w="100%">
+                          <Text fontSize="xs" fontWeight="medium" color="blue.700">
+                            Sistemas y Servicios Asociados ({localSelectedSystems.length} elementos):
+                          </Text>
+                          <HStack spacing={1}>
+                            {(() => {
+                              const stats = getSelectionStats(localSelectedSystems);
+                              return (
+                                <>
+                                  <Badge size="xs" colorScheme="blue">{stats.sistemas} S</Badge>
+                                  <Badge size="xs" colorScheme="green">{stats.subsistemas} Sub</Badge>
+                                  <Badge size="xs" colorScheme="orange">{stats.servicios} Srv</Badge>
+                                </>
+                              );
+                            })()}
+                          </HStack>
+                        </HStack>
+                        
+                        {/* Lista compacta de sistemas principales */}
+                        <VStack spacing={1} w="100%" align="stretch">
+                          {organizeTreeSelectionWithPaths(localSelectedSystems).slice(0, 2).map(systemGroup => (
+                            <Box 
+                              key={systemGroup.sistema.id} 
+                              p={2} 
+                              bg="white" 
+                              borderRadius="md" 
+                              border="1px solid" 
+                              borderColor="blue.100"
+                            >
+                              <HStack spacing={2} w="100%">
+                                <Box w={2} h={2} bg="blue.500" borderRadius="full" flexShrink={0} />
+                                <VStack align="start" spacing={0} flex="1" minW={0}>
+                                  <Text fontSize="xs" fontWeight="medium" color="blue.700" noOfLines={1}>
+                                    {systemGroup.sistema.name}
+                                  </Text>
+                                  <Text fontSize="xs" color="gray.600" noOfLines={1}>
+                                    {systemGroup.selections.length} elemento(s) seleccionado(s)
+                                  </Text>
+                                </VStack>
+                              </HStack>
+                            </Box>
+                          ))}
+                          
+                          {/* Mostrar indicador si hay más sistemas */}
+                          {organizeTreeSelectionWithPaths(localSelectedSystems).length > 2 && (
+                            <Text fontSize="xs" color="gray.500" textAlign="center" mt={1}>
+                              +{organizeTreeSelectionWithPaths(localSelectedSystems).length - 2} sistema(s) más...
+                            </Text>
+                          )}
+                        </VStack>
+                      </VStack>
+                    </Box>
+                  );
+                })()}
               </VStack>
             </Box>
           ) : isEditing ? (
