@@ -10,11 +10,6 @@ import {
   Select,
   FormControl,
   FormLabel,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   Textarea,
   useColorModeValue,
   useToast,
@@ -100,12 +95,12 @@ const ViaticoForm = ({
   useEffect(() => {
     // Calcular total automáticamente
     const total = 
-      (formData.desayuno || 0) +
-      (formData.almuerzo || 0) +
-      (formData.cena || 0) +
-      (formData.hospedaje || 0) +
-      (formData.combustible_monto || 0) +
-      (formData.transporte || 0);
+      (parseFloat(formData.desayuno) || 0) +
+      (parseFloat(formData.almuerzo) || 0) +
+      (parseFloat(formData.cena) || 0) +
+      (parseFloat(formData.hospedaje) || 0) +
+      (parseFloat(formData.combustible_monto) || 0) +
+      (parseFloat(formData.transporte) || 0);
     
     setCalculatedTotal(total);
   }, [formData]);
@@ -115,6 +110,20 @@ const ViaticoForm = ({
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleNumberInput = (field, value) => {
+    // Permitir solo números y punto decimal
+    const numericValue = value.replace(/[^0-9.]/g, '');
+    
+    // Asegurar que solo haya un punto decimal
+    const parts = numericValue.split('.');
+    let finalValue = parts[0];
+    if (parts.length > 1) {
+      finalValue += '.' + parts[1];
+    }
+    
+    handleInputChange(field, finalValue);
   };
 
   const handleSubmit = () => {
@@ -138,17 +147,17 @@ const ViaticoForm = ({
       fecha_ingreso: new Date().toISOString().split('T')[0],
       fecha_creacion: new Date().toISOString(),
       estado: "Pendiente",
-      desayuno: formData.desayuno || 0,
-      almuerzo: formData.almuerzo || 0,
-      cena: formData.cena || 0,
-      hospedaje: formData.hospedaje || 0,
+      desayuno: parseFloat(formData.desayuno) || 0,
+      almuerzo: parseFloat(formData.almuerzo) || 0,
+      cena: parseFloat(formData.cena) || 0,
+      hospedaje: parseFloat(formData.hospedaje) || 0,
       combustibles: {
-        cantidad: formData.combustible_cantidad || 0,
+        cantidad: parseFloat(formData.combustible_cantidad) || 0,
         unidad: formData.combustible_unidad,
         tipo: formData.combustible_tipo,
-        monto_total: formData.combustible_monto || 0
+        monto_total: parseFloat(formData.combustible_monto) || 0
       },
-      transporte: formData.transporte || 0,
+      transporte: parseFloat(formData.transporte) || 0,
       monto_total: calculatedTotal,
       observaciones: formData.observaciones,
       created_at: new Date().toISOString(),
@@ -208,54 +217,36 @@ const ViaticoForm = ({
                     <GridItem>
                       <FormControl>
                         <FormLabel>Desayuno</FormLabel>
-                        <NumberInput
+                        <Input
+                          type="text"
                           value={formData.desayuno}
-                          onChange={(valueString) => handleInputChange('desayuno', parseFloat(valueString) || 0)}
-                          precision={2}
-                          min={0}
-                        >
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
+                          onChange={(e) => handleNumberInput('desayuno', e.target.value)}
+                          placeholder="0.00"
+                        />
                       </FormControl>
                     </GridItem>
                     
                     <GridItem>
                       <FormControl>
                         <FormLabel>Almuerzo</FormLabel>
-                        <NumberInput
+                        <Input
+                          type="text"
                           value={formData.almuerzo}
-                          onChange={(valueString) => handleInputChange('almuerzo', parseFloat(valueString) || 0)}
-                          precision={2}
-                          min={0}
-                        >
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
+                          onChange={(e) => handleNumberInput('almuerzo', e.target.value)}
+                          placeholder="0.00"
+                        />
                       </FormControl>
                     </GridItem>
                     
                     <GridItem>
                       <FormControl>
                         <FormLabel>Cena</FormLabel>
-                        <NumberInput
+                        <Input
+                          type="text"
                           value={formData.cena}
-                          onChange={(valueString) => handleInputChange('cena', parseFloat(valueString) || 0)}
-                          precision={2}
-                          min={0}
-                        >
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
+                          onChange={(e) => handleNumberInput('cena', e.target.value)}
+                          placeholder="0.00"
+                        />
                       </FormControl>
                     </GridItem>
                   </Grid>
@@ -275,36 +266,24 @@ const ViaticoForm = ({
                     <GridItem>
                       <FormControl>
                         <FormLabel>Hospedaje</FormLabel>
-                        <NumberInput
+                        <Input
+                          type="text"
                           value={formData.hospedaje}
-                          onChange={(valueString) => handleInputChange('hospedaje', parseFloat(valueString) || 0)}
-                          precision={2}
-                          min={0}
-                        >
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
+                          onChange={(e) => handleNumberInput('hospedaje', e.target.value)}
+                          placeholder="0.00"
+                        />
                       </FormControl>
                     </GridItem>
                     
                     <GridItem>
                       <FormControl>
                         <FormLabel>Transporte</FormLabel>
-                        <NumberInput
+                        <Input
+                          type="text"
                           value={formData.transporte}
-                          onChange={(valueString) => handleInputChange('transporte', parseFloat(valueString) || 0)}
-                          precision={2}
-                          min={0}
-                        >
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
+                          onChange={(e) => handleNumberInput('transporte', e.target.value)}
+                          placeholder="0.00"
+                        />
                       </FormControl>
                     </GridItem>
                   </Grid>
@@ -324,18 +303,12 @@ const ViaticoForm = ({
                     <GridItem>
                       <FormControl>
                         <FormLabel>Cantidad</FormLabel>
-                        <NumberInput
+                        <Input
+                          type="text"
                           value={formData.combustible_cantidad}
-                          onChange={(valueString) => handleInputChange('combustible_cantidad', parseFloat(valueString) || 0)}
-                          precision={2}
-                          min={0}
-                        >
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
+                          onChange={(e) => handleNumberInput('combustible_cantidad', e.target.value)}
+                          placeholder="0.00"
+                        />
                       </FormControl>
                     </GridItem>
                     
@@ -374,18 +347,12 @@ const ViaticoForm = ({
                     <GridItem>
                       <FormControl>
                         <FormLabel>Monto Total</FormLabel>
-                        <NumberInput
+                        <Input
+                          type="text"
                           value={formData.combustible_monto}
-                          onChange={(valueString) => handleInputChange('combustible_monto', parseFloat(valueString) || 0)}
-                          precision={2}
-                          min={0}
-                        >
-                          <NumberInputField />
-                          <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                          </NumberInputStepper>
-                        </NumberInput>
+                          onChange={(e) => handleNumberInput('combustible_monto', e.target.value)}
+                          placeholder="0.00"
+                        />
                       </FormControl>
                     </GridItem>
                   </Grid>
