@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/compare/v1.1.0...v1.2.0) (2025-08-11)
+
+
+### Features
+
+* add cloudbuild.yaml and fix Dockerfile for Cloud Run deployment ([dc342c3](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/dc342c355bbbb4bbcd81eaf24d49daf35ac7cff6))
+
+
+### Bug Fixes
+
+* aceptar todos los host ([7dff5fd](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/7dff5fd41b6aad9e22fd710f30fad7751451008f))
+* add CLOUD_LOGGING_ONLY option to cloudbuild.yaml to resolve logging configuration error ([b2af9c0](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/b2af9c077f8c3592a298d4f100e4c4e988978455))
+* docker change ([1658f34](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/1658f3440893c461eba1f81a952d72f403868cbf))
+* Dockerfile sin ngnix ([dfe202f](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/dfe202f486106a10125ef7e24fad4f1b7dcb375a))
+* doker file modify ([bfec376](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/bfec376ba78ad3cc95d05bf80818d9f1e62c93e4))
+* eliminacion de docker-compose.yaml ([97dad9c](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/97dad9c939d2dfe6a9fe33984590c225e8bb5380))
+* eliminación del pem local ([7befeba](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/7befeba72ae3ead2a7d006d89edc950b707125a1))
+* npm run deploy ([69192e8](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/69192e885e613a8c0c00705da120531783c0309c))
+* remove cloudbuild.yaml ([c683f99](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/c683f998486812cac1f91b8177633057b59c1b4b))
+* rename dockerfile to Dockerfile (proper case) for Cloud Build compatibility ([08e41d5](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/08e41d5ab2240ae7b6206156026d6ac3789e10af))
+* run deploy ([4ff1fa1](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/4ff1fa122d24ed63d59f7c442fc98527453ad190))
+* simplify cloudbuild.yaml to minimal configuration for logging error resolution ([ddd21f3](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/ddd21f380e0fc0b4135f5b39994c7bd2291e731f))
+* use minimal cloudbuild.yaml without options section to resolve logging error ([2fa1eaa](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/2fa1eaadad1e7459313919288c44b408d277c7fe))
+
+
+### Chores
+
+* configure docker file para correr Google Cloud Run ([1d8fc24](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/commit/1d8fc248dc76358b5381f05aabe7c5be8483975c))
+
 ## [1.1.0](https://github.com/grupotecun-citec-wbeto/portal-tectrack-vite/compare/v1.0.0...v1.1.0) (2025-08-08)
 
 
