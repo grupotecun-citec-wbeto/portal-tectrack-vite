@@ -7,7 +7,15 @@ import {
   DrawerCloseButton,
   DrawerContent,
   DrawerHeader,
-  Flex, Link,
+  Flex, 
+  Input,
+  Link,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Select,
   Switch,
   Text,
   useColorMode,
@@ -29,6 +37,27 @@ export default function Configurator(props) {
     ...rest
   } = props;
   const [switched, setSwitched] = useState(props.isChecked);
+  
+  // Estados para las nuevas configuraciones
+  const [costoTecnico, setCostoTecnico] = useState(25.00); // Costo por hora en USD
+  const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState('sedan');
+  const [kmPorGalon, setKmPorGalon] = useState(12.5);
+  
+  // Lista de vehículos con su eficiencia de combustible
+  const vehiculos = {
+    'sedan': { nombre: 'Sedán', kmPorGalon: 12.5 },
+    'suv': { nombre: 'SUV', kmPorGalon: 8.5 },
+    'pickup': { nombre: 'Pick-up', kmPorGalon: 10.0 },
+    'compacto': { nombre: 'Compacto', kmPorGalon: 15.0 },
+    'van': { nombre: 'Van', kmPorGalon: 9.0 },
+    'moto': { nombre: 'Motocicleta', kmPorGalon: 35.0 }
+  };
+  
+  // Función para manejar el cambio de vehículo
+  const handleVehiculoChange = (tipoVehiculo) => {
+    setVehiculoSeleccionado(tipoVehiculo);
+    setKmPorGalon(vehiculos[tipoVehiculo].kmPorGalon);
+  };
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -97,6 +126,89 @@ export default function Configurator(props) {
                   Toggle {colorMode === "light" ? "Dark" : "Light"}
                 </Button>
               </Flex>
+
+              <HSeparator />
+              
+              {/* Configuración de Costo de Técnico */}
+              <Box mt="24px" mb="24px">
+                <Text fontSize="md" fontWeight="600" mb="12px">
+                  Configuración de Costos
+                </Text>
+                <Flex justifyContent="space-between" alignItems="center" mb="16px">
+                  <Text fontSize="sm" fontWeight="500">
+                    Costo por Hora del Técnico ($)
+                  </Text>
+                </Flex>
+                <NumberInput
+                  value={costoTecnico}
+                  onChange={(valueString, valueNumber) => setCostoTecnico(valueNumber)}
+                  precision={2}
+                  step={0.25}
+                  min={5}
+                  max={100}
+                  size="sm"
+                >
+                  <NumberInputField placeholder="25.00" />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+                <Text fontSize="xs" color="gray.500" mt="4px">
+                  Rango: $5.00 - $100.00 por hora
+                </Text>
+              </Box>
+
+              <HSeparator />
+              
+              {/* Configuración de Vehículos y Combustible */}
+              <Box mt="24px" mb="24px">
+                <Text fontSize="md" fontWeight="600" mb="12px">
+                  Configuración de Vehículos
+                </Text>
+                
+                <Flex justifyContent="space-between" alignItems="center" mb="16px">
+                  <Text fontSize="sm" fontWeight="500">
+                    Tipo de Vehículo
+                  </Text>
+                </Flex>
+                <Select 
+                  value={vehiculoSeleccionado}
+                  onChange={(e) => handleVehiculoChange(e.target.value)}
+                  size="sm"
+                  mb="16px"
+                >
+                  {Object.entries(vehiculos).map(([key, vehiculo]) => (
+                    <option key={key} value={key}>
+                      {vehiculo.nombre}
+                    </option>
+                  ))}
+                </Select>
+                
+                <Flex justifyContent="space-between" alignItems="center" mb="16px">
+                  <Text fontSize="sm" fontWeight="500">
+                    Kilómetros por Galón
+                  </Text>
+                </Flex>
+                <NumberInput
+                  value={kmPorGalon}
+                  onChange={(valueString, valueNumber) => setKmPorGalon(valueNumber)}
+                  precision={1}
+                  step={0.5}
+                  min={5}
+                  max={50}
+                  size="sm"
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+                <Text fontSize="xs" color="gray.500" mt="4px">
+                  Eficiencia de combustible actual: {kmPorGalon} km/gal
+                </Text>
+              </Box>
 
               <HSeparator />
               <Box mt="24px">
