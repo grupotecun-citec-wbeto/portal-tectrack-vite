@@ -3,7 +3,7 @@
 **Módulo:** Caso  
 **Versión:** v1.0  
 **Fecha:** 14/08/2025  
-**Autor:** Humberto Herrador 2
+**Autor:** Humberto Herrador
 
 ---
 
@@ -45,5 +45,5 @@ Visualizar la lista de casos
 ![Diagrama]("")
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzUzNzQzNjc1XX0=
+eyJoaXN0b3J5IjpbMTYyNDIzNjkzLDc1Mzc0MzY3NV19
 -->
