@@ -44,6 +44,10 @@ Visualizar la lista de casos
 ## Diagrama
 ![Diagrama]("")
 
+## Relaciones
+- 
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTYyNDIzNjkzLDc1Mzc0MzY3NV19
+eyJoaXN0b3J5IjpbLTgzNjg2NjgwOSwxNjI0MjM2OTMsNzUzNz
+QzNjc1XX0=
 -->
