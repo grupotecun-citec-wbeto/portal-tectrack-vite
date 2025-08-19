@@ -49,13 +49,12 @@ Visualizar la lista de casos
 - No se tiene que mostrar los casos con estado 6 
 
 ## Diagrama
-[Link](https://app.diagrams.net/#Hgrupotecun-citec-wbeto%2Fportal-tectrack-vite%2Fuse-case-diagram%2Fdocs%2Fcasos-uso%2Fcaso%2FCU-CASO-ViewCases.drawio#%7B%22pageId%22%3A%2258KHKjolmZH9Jl-Zs60m%22%7D)
+[Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 
-## Relaciones
-- 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIyMDY3NDcsLTE3MTEwNTc3MDgsLTg4NT
-k2ODMzOSw0MzIwNTkzNzgsODQ0OTk1NTExLDMwMTIyODcyMywx
-NDk5MzU1ODE5LDg2NDg3MDYzMywtNDE5MzAzODI3XX0=
+eyJoaXN0b3J5IjpbLTE1MTY5MDE3NzMsLTIyMDY3NDcsLTE3MT
+EwNTc3MDgsLTg4NTk2ODMzOSw0MzIwNTkzNzgsODQ0OTk1NTEx
+LDMwMTIyODcyMywxNDk5MzU1ODE5LDg2NDg3MDYzMywtNDE5Mz
+AzODI3XX0=
 -->
