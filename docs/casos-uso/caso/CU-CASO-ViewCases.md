@@ -42,7 +42,7 @@ Visualizar la lista de casos
 - Los técnicos y administradores puede ver: 
    - El botón crear viáticos
    - El botón para generar informe
-   - El 
+   - Pueden el componente de acciones
 -  
 
 ## Excepciones
@@ -56,5 +56,5 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDU0ODk2MzQsLTQxOTMwMzgyN119
+eyJoaXN0b3J5IjpbODY0ODcwNjMzLC00MTkzMDM4MjddfQ==
 -->
