@@ -40,16 +40,10 @@ Este caso de uso permite al usuario aplicar filtros sobre la lista de casos most
 - EP: [extension point si aplica]
 
 ## Postcondiciones
-- [Estado final]
+- La lista de casos en la interfaz de usuario se actualiza para mostrar solo los casos que coinciden con los criterios de filtrado seleccionados.
 
 ## Diagrama (opcional)
-```mermaid
-usecaseDiagram
-  actor Admin
-  actor Técnico
-  (ViewCases)
-  Admin --> (ViewCases)
-  Técnico --> (ViewCases)ith [StackEdit](https://stackedit.io/).
+[Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO-ViewCases.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTMwMjkwNDU2M119
+eyJoaXN0b3J5IjpbNDE4ODc3ODM0XX0=
 -->
