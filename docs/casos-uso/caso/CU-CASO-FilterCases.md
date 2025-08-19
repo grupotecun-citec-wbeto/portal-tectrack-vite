@@ -44,9 +44,9 @@ Este caso de uso permite al usuario aplicar filtros sobre la lista de casos most
 - [RD1]
 
 ## Relaciones
-- «include»: [CU-…] (obligatorio y reutilizable)
-- «extend»: [CU-…] (condición/trigger)
-- EP: [extension point si aplica]
+-   **Extend** `ViewCases`: Este caso de uso es una extensión opcional del caso de uso `ViewCases`.
+    
+-   **Generalización:** `FiltrarCasos` es un caso de uso generalizado. Los casos de uso específicos como `FiltrarPorCliente`, `FiltrarPorPrioridad`, `FiltrarPorActor` y `FiltrarPorSegmento` son especializaciones de este caso de uso.
 
 ## Postcondiciones
 - La lista de casos en la interfaz de usuario se actualiza para mostrar solo los casos que coinciden con los criterios de filtrado seleccionados.
@@ -54,5 +54,5 @@ Este caso de uso permite al usuario aplicar filtros sobre la lista de casos most
 ## Diagrama (opcional)
 [Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO-ViewCases.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQzMjA3NDczMl19
+eyJoaXN0b3J5IjpbNTA3NDI0MjA1XX0=
 -->
