@@ -45,12 +45,12 @@ Visualizar la lista de casos
 - 
 
 ## Diagrama
-[Link](https://app.diagrams.net/?src=about#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/src/casos-uso/caso/CU-CASE-0001-View-Cases.drawio)
+[Link](https://app.diagrams.net/#Hgrupotecun-citec-wbeto%2Fportal-tectrack-vite%2Fuse-case-diagram%2Fdocs%2Fcasos-uso%2Fcaso%2FCU-CASO-ViewCases.drawio#%7B%22pageId%22%3A%2258KHKjolmZH9Jl-Zs60m%22%7D)
 
 ## Relaciones
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTQ5OTM1NTgxOSw4NjQ4NzA2MzMsLTQxOT
-MwMzgyN119
+eyJoaXN0b3J5IjpbMzAxMjI4NzIzLDE0OTkzNTU4MTksODY0OD
+cwNjMzLC00MTkzMDM4MjddfQ==
 -->
