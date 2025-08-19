@@ -37,7 +37,8 @@ Visualizar la lista de casos
 ## Reglas de dominio
 - Solo el administrador puede ver todo los casos
 - Los técnicos solo pueden ver casos que ellos han creado o se han sido asignados
-- Los técnicos no pueden eliminar u 
+- Los técnicos no pueden eliminar un caso ya creado
+- Los técnicos antes de cerrar un caso pueden agregar o eliminar equipos 
 
 ## Excepciones
 - [E1]
@@ -50,5 +51,5 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTUzOTIyNDY4LC00MTkzMDM4MjddfQ==
+eyJoaXN0b3J5IjpbLTEwNDQyNDE3MDcsLTQxOTMwMzgyN119
 -->
