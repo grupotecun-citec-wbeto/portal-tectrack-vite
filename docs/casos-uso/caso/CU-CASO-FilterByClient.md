@@ -1,18 +1,18 @@
-# CU-CASO - [Nombre]
+# CU-CASO-FilterByClient
 
-**Característica:** [Módulo] 
-**Fecha:** [DD/MM/AAAA] 
+**Característica:** Caso 
+**Fecha:**  14/08/2025
 **Autor:** Humberto Herrador
 **Departamento:** CITEC
 **Proyecto:** TECTRACK
 
 
 ## Descripción
-[Objetivo en 1–2 líneas]
+Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite al usuario restringir la lista de casos mostrada a aquellos que están asociados a un cliente específico seleccionado.
 
 ## Actores
-- Principal: [Actor]
-- Secundarios: [Opcional]
+- Administrador
+- Técnico
 
 ## Precondiciones
 - [Condición 1]
@@ -48,5 +48,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTg1ODQ2NDA5MF19
+eyJoaXN0b3J5IjpbLTE4OTI5MTQ1OTddfQ==
 -->
