@@ -38,8 +38,8 @@ Visualizar la lista de casos
 ## Reglas de dominio
 - Solo el administrador puede ver todo los casos
 - Los técnicos solo pueden ver: 
-	- Casos que ellos han creado
-	- Casos que les han asignado
+	- Casos que ellos han creado.
+	- Casos que les han asignado.
 
 ## Excepciones
 - 
@@ -51,6 +51,6 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzAxMjI4NzIzLDE0OTkzNTU4MTksODY0OD
-cwNjMzLC00MTkzMDM4MjddfQ==
+eyJoaXN0b3J5IjpbODQ0OTk1NTExLDMwMTIyODcyMywxNDk5Mz
+U1ODE5LDg2NDg3MDYzMywtNDE5MzAzODI3XX0=
 -->
