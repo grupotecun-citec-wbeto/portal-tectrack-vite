@@ -38,11 +38,11 @@ Visualizar la lista de casos
 ## Reglas de dominio
 - Solo el administrador puede ver todo los casos
 - Los técnicos solo pueden ver: 
-	- Casos que ellos han creado o se han sido asignados
+	- Casos que ellos han creado
+	- Casos que les han asignado
 
 ## Excepciones
-- [E1]
-- [E2]
+- 
 
 ## Diagrama
 [Link](https://app.diagrams.net/?src=about#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/src/casos-uso/caso/CU-CASE-0001-View-Cases.drawio)
@@ -51,6 +51,6 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTc4MDg2MDk5OSw4NjQ4NzA2MzMsLTQxOT
+eyJoaXN0b3J5IjpbMTQ5OTM1NTgxOSw4NjQ4NzA2MzMsLTQxOT
 MwMzgyN119
 -->
