@@ -1,6 +1,10 @@
 # CU-[CÓDIGO] - [Nombre]
 
-**Módulo:** [Módulo] • **Versión:** v1.0 • **Fecha:** [DD/MM/AAAA] • **Autor:** [Tú]
+**Módulo:** [Módulo] 
+**Versión:** v1.0 
+**Fecha:** [DD/MM/AAAA] 
+**Autor:** [Tú]
+
 
 ## Descripción
 [Objetivo en 1–2 líneas]
@@ -43,5 +47,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTcyNjAyMTExN119
+eyJoaXN0b3J5IjpbNjI2NjA0NDU1LDE3MjYwMjExMTddfQ==
 -->
