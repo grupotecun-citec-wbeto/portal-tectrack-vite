@@ -40,9 +40,9 @@ Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósit
 -   **RD-INF-02:** El tiempo transcurrido se calcula a partir de la fecha de creación del caso.
 
 ## Relaciones
--   **Include** `ViewCases`: Este caso de uso es una parte necesaria e integral del caso de uso `ViewCases`.
+-   **Include** `ViewCases`: Este caso de uso es una parte necesaria e integral de `ViewCases`.
     
--   **Generalización:** `ShowBadges` es un caso de uso generalizado. Los casos de uso específicos como `ShowBadgeStatus`, `ShowBadgeSegment`, `ShowBadgeTime` y `ShowBadgeQuantity` son especializaciones de este caso de uso.
+-   **Generalización**: `ManageInformation` es un caso de uso generalizado. Los casos de uso específicos como `ViewStatus`, `ViewSegment`, `ViewTime`, `ViewCreationDate` y `ViewAssignedTechnician` son especializaciones de este caso de uso.
 
 ## Postcondiciones
 - La información relevante de cada caso se recupera y se presenta al usuario de manera organizada.
@@ -50,5 +50,5 @@ Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósit
 ## Diagrama (opcional)
 [Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyODM4NjQ3MV19
+eyJoaXN0b3J5IjpbMzg3MDA0NTM4XX0=
 -->
