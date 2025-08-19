@@ -24,20 +24,20 @@ Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósit
 -   El sistema presenta esta información al usuario a través de la interfaz (por ejemplo, en un formato de badges, texto o etiquetas).
 
 ## Flujos alternos
-- **A1: Datos del badge no disponibles:**
+- **A1: Datos no disponibles:**
 
-	-   Si la información para un badge específico (ej. el tiempo transcurrido) no está disponible o no es aplicable para un caso en particular, ese badge no se muestra.
+-   Si la información para un campo específico (ej., el técnico asignado) no está disponible, el sistema lo muestra como vacío o con un valor por defecto.
 
 ## Reglas de negocio
--   **RN-BAD-01:** La visualización de los badges es obligatoria siempre que se muestre la lista de casos.
+-   **RN-INF-01:** La visualización de la información es obligatoria siempre que se muestre la lista de casos.
+    
+-   **RN-INF-02:** Los datos de la información (estado, segmento, tiempo, etc.) deben ser mostrados de manera coherente con los estándares de diseño de la aplicación.
     
 -   **RN-BAD-02:** Los badges deben seguir los estándares de diseño y colores definidos para la aplicación (ej. color verde para "Resuelto", amarillo para "En Progreso").
 ## Reglas de dominio (invariantes)
--   **RD-BAD-01:** El estado de un caso debe ser uno de los valores definidos en el dominio (`Abierto`, `En Progreso`, `Resuelto`, `Cerrado`).
+-   **RD-INF-01:** El estado de un caso debe ser uno de los valores definidos en el dominio (ej., `Abierto`, `En Progreso`, `Resuelto`).
     
--   **RD-BAD-02:** La cantidad de equipos es un valor numérico entero y no negativo.
-    
--   **RD-BAD-03:** El tiempo transcurrido se calcula a partir de la fecha de creación del caso.
+-   **RD-INF-02:** El tiempo transcurrido se calcula a partir de la fecha de creación del caso.
 
 ## Relaciones
 -   **Include** `ViewCases`: Este caso de uso es una parte necesaria e integral del caso de uso `ViewCases`.
@@ -50,5 +50,5 @@ Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósit
 ## Diagrama (opcional)
 [Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTcyMzUzMDMyNl19
+eyJoaXN0b3J5IjpbLTEyODM4NjQ3MV19
 -->
