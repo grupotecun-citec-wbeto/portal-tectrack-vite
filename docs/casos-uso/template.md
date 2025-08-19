@@ -1,9 +1,10 @@
 # CU-[CÓDIGO] - [Nombre]
 
-**Módulo:** [Módulo] 
-**Versión:** v1.0 
+**Característica:** [Módulo] 
 **Fecha:** [DD/MM/AAAA] 
-**Autor:** [Tú]
+**Autor:** Humberto Herrador
+**Departamento:** CITEC
+**Proyecto:** TECTRACK
 
 
 ## Descripción
@@ -47,5 +48,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjI2NjA0NDU1LDE3MjYwMjExMTddfQ==
+eyJoaXN0b3J5IjpbLTMzODU4MzUxLDE3MjYwMjExMTddfQ==
 -->
