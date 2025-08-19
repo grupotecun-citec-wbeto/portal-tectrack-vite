@@ -9,20 +9,23 @@
 
 
 ## Descripción
-[Objetivo en 1–2 líneas]
+Este caso de uso es una parte integral de `ViewCases` y permite al usuario interactuar con el formulario del caso para ver y modificar su información. Es un caso de uso que orquesta las acciones relacionadas con el formulario, incluyendo la visualización de datos y la activación de otras funcionalidades como el registro de kilometraje.
 
 ## Actores
-- Principal: [Actor]
-- Secundarios: [Opcional]
+-   **Administrador**
+-   **Técnico**
 
 ## Precondiciones
-- [Condición 1]
-- [Condición 2]
+- El caso de uso `ViewCases` ha sido iniciado y el formulario del caso está disponible.
 
 ## Flujo principal
-1. [Paso 1]
-2. [Paso 2]
-3. [Paso 3]
+-   Durante la visualización de un caso, el sistema recupera los datos del formulario asociados a dicho caso.
+    
+-   El sistema presenta estos datos en la interfaz de usuario en el formato de un formulario.
+    
+-   El usuario puede ver los campos del formulario.
+    
+-   El sistema gestiona la interacción con el formulario, incluyendo la activación de funcionalidades como el registro de kilometraje, que es un paso necesario en este proceso.
 
 ## Flujos alternos
 - **FA1:** [Condición → Resultado]
@@ -38,7 +41,7 @@
 - EP: [extension point si aplica]
 
 ## Postcondiciones
-- [Estado final]
+- La interfaz de usuario muestra el formulario del caso con sus datos correspondientes.
 
 ## Diagrama (opcional)
 ```mermaid
@@ -49,5 +52,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExNDAzMzMwOF19
+eyJoaXN0b3J5IjpbLTIxMTI0MDE5MjcsLTExNDAzMzMwOF19
 -->
