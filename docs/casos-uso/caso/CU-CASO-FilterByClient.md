@@ -15,13 +15,16 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 - Técnico
 
 ## Precondiciones
-- [Condición 1]
-- [Condición 2]
+-   Se ha ejecutado el caso de uso `FiltrarCasos`.
+-   Los datos de al menos un cliente están disponibles en el sistema.
 
 ## Flujo principal
-1. [Paso 1]
-2. [Paso 2]
-3. [Paso 3]
+-   El sistema presenta una interfaz para que el usuario seleccione un cliente de una lista (por ejemplo, un campo de autocompletado, una lista desplegable).
+-   El usuario busca y selecciona un cliente de la lista.
+-   El usuario activa el filtro (por ejemplo, haciendo clic en el botón "Aplicar Filtros" o un botón específico para el filtro por cliente).
+-   El sistema ejecuta la lógica de filtrado para buscar los casos que pertenecen al cliente seleccionado.
+    
+-   El sistema refresca la interfaz, mostrando solo los casos asociados a ese cliente.
 
 ## Flujos alternos
 - **FA1:** [Condición → Resultado]
@@ -37,7 +40,7 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 - EP: [extension point si aplica]
 
 ## Postcondiciones
-- [Estado final]
+- La lista de casos se actualiza para mostrar solo los casos cuyo cliente coincide con el seleccionado.
 
 ## Diagrama (opcional)
 ```mermaid
@@ -48,5 +51,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4OTI5MTQ1OTddfQ==
+eyJoaXN0b3J5IjpbLTE1NjY2ODg0MDZdfQ==
 -->
