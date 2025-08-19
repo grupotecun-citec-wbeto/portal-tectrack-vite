@@ -1,4 +1,4 @@
-# CU-CASO-ManageBadges
+# CU-CASO-ManageInformation
 
 **Característica:** Caso
 **Fecha:** 14/08/2025
@@ -8,7 +8,7 @@
 
 
 ## Descripción
-Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósito es generar y mostrar indicadores visuales (badges) junto a cada caso en la lista para proveer información rápida y concisa sobre su estado y atributos clave.
+Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósito es orquestar la recuperación y visualización de la información clave de un caso, incluyendo el estado, el segmento, el tiempo transcurrido, la fecha de creación y el técnico asignado. No se limita solo a mostrar datos, sino que gestiona su presentación de forma coherente.
 
 ## Actores
 -   **Administrador**
@@ -51,5 +51,5 @@ Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósit
 ## Diagrama (opcional)
 [Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQ2MjkyODEyNV19
+eyJoaXN0b3J5IjpbLTEzNzQyMzAzNjcsLTQ2MjkyODEyNV19
 -->
