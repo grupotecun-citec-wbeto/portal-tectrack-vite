@@ -20,10 +20,9 @@ Visualizar la lista de casos
 
 ## Flujo principal
 1. El usuario ingresa a la plataforma
-2. Abre el panel 
+2. Abre la barra lateral izquierda 
 3. En el la barra lateral selecciona  el apartado casos
-4. Esto le mostrara un panel con la lista de casos 
-5. Puede aplicar filtros
+4. Esto le mostrara un panel con la lista de casos
 
 ## Flujos alternos
 - Si el usuario a ingresar a visualizar los casos no hay casos, tiene que mostrar un mensaje de que hay casos disponibles
@@ -52,5 +51,5 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzYzODY5NTk0LC00MTkzMDM4MjddfQ==
+eyJoaXN0b3J5IjpbLTE5NzEzMDYxMzYsLTQxOTMwMzgyN119
 -->
