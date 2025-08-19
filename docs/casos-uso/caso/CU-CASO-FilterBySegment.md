@@ -14,7 +14,7 @@ CU-CASO-FilterByActor
 
 ## Descripción  
 
-Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite al usuario restringir la lista de casos mostrada a aquellos que pertenecen a un segmento de caso específico seleccionado. Los segmentos de caso son categorías predefinidas que agrupan a los clientes con características similares.
+Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite al usuario restringir la lista de casos mostrada a aquellos que pertenecen a un segmento de caso específico seleccionado. Los segmentos de caso son categorías predefinidas que agrupan a los casos con características similares.
   
 
 ## Actores  
@@ -31,12 +31,12 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 
 ## Flujo principal  
 
--   El sistema presenta una interfaz para que el usuario seleccione un cliente de una lista (por ejemplo, un campo de autocompletado, una lista desplegable).  
--   El usuario busca y selecciona un cliente de la lista.  
--   El usuario activa el filtro (por ejemplo, haciendo clic en el botón "Aplicar Filtros" o un botón específico para el filtro por cliente).  
--   El sistema ejecuta la lógica de filtrado para buscar los casos que pertenecen al cliente seleccionado.  
+-   El sistema presenta al usuario una lista de segmentos de caso disponibles (por ejemplo, en un menú desplegable).
+-   El usuario selecciona uno de los segmentos de la lista.
+-   El usuario activa el filtro (por ejemplo, haciendo clic en el botón "Aplicar Filtros").
+-   El sistema ejecuta la lógica de filtrado para buscar los casos que pertenecen al segmento seleccionado.
     
--   El sistema refresca la interfaz, mostrando solo los casos asociados a ese cliente.  
+-   El sistema refresca la interfaz, mostrando únicamente los casos asociados a ese segmento.
   
 
 ## Flujos alternos  
@@ -158,5 +158,5 @@ Workspaces
 
 Syntax error in graphmermaid version 8.9.2
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTYwMDA2OTA1N119
+eyJoaXN0b3J5IjpbLTQ0MjUzNjQ1M119
 -->
