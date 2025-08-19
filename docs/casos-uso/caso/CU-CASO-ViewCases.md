@@ -1,4 +1,4 @@
-# CU-CASE-0001-ViewCases
+# CU-CA-ViewCases
 
 **Característica:** Caso
 **Versión:** v1.0  
@@ -51,6 +51,7 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODQ0OTk1NTExLDMwMTIyODcyMywxNDk5Mz
-U1ODE5LDg2NDg3MDYzMywtNDE5MzAzODI3XX0=
+eyJoaXN0b3J5IjpbLTIwNjg5Mjk3MDUsODQ0OTk1NTExLDMwMT
+IyODcyMywxNDk5MzU1ODE5LDg2NDg3MDYzMywtNDE5MzAzODI3
+XX0=
 -->
