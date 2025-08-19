@@ -26,12 +26,20 @@ Este caso de uso es una parte integral de `ViewCases` y se encarga de mostrar lo
 -   Los botones se renderizan y se muestran junto a la información principal de cada caso.
 
 ## Flujos alternos
-- **FA1:** [Condición → Resultado]
+- **A1: No hay botones de acción aplicables:**
+
+	-   Si las reglas de negocio o de dominio no permiten ninguna acción para un caso en particular, no se muestra ningún botón de acción.
 
 ## Reglas de negocio
-- [RN1]
+-   **RN-ACT-BUT-01:** La visualización de los botones es obligatoria para cada caso si hay acciones disponibles.
+    
+-   **RN-ACT-BUT-02:** Los botones deben seguir los estándares de diseño y disposición de la aplicación.
 ## Reglas de dominio (invariantes)
-- [RD1]
+-   **RD-ACT-BUT-01:** Un caso solo puede ser `Iniciado` si su estado actual es "Abierto".
+    
+-   **RD-ACT-BUT-02:** Un caso solo puede ser `Cerrado` si su estado actual es "Resuelto" o "Cerrado".
+    
+-   **RD-ACT-BUT-03:** Solo los actores con el rol de `Administrador` o `Técnico` tienen permitido ejecutar acciones sobre los casos.
 
 ## Relaciones
 - «include»: [CU-…] (obligatorio y reutilizable)
@@ -50,5 +58,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTg0NzM0OTQ2NF19
+eyJoaXN0b3J5IjpbODQzNDMwMTVdfQ==
 -->
