@@ -14,7 +14,7 @@ CU-CASO-FilterByActor
 
 ## Descripción  
 
-Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite al usuario restringir la lista de casos mostrada a aquellos que están asociados a un cliente específico seleccionado.  
+Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite al usuario restringir la lista de casos mostrada a aquellos que tienen un nivel de prioridad específico, como "Alta", "Media" o "Baja".
   
 
 ## Actores  
@@ -154,5 +154,5 @@ Workspaces
 
 Syntax error in graphmermaid version 8.9.2
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg0MTg3NzMxM119
+eyJoaXN0b3J5IjpbMTAyNjYxMjE3MSwxODQxODc3MzEzXX0=
 -->
