@@ -28,12 +28,20 @@ Este caso de uso es una parte integral de `ViewCases` y permite al usuario inter
 -   El sistema gestiona la interacción con el formulario, incluyendo la activación de funcionalidades como el registro de kilometraje, que es un paso necesario en este proceso.
 
 ## Flujos alternos
-- **FA1:** [Condición → Resultado]
+- **A1: Datos del formulario no disponibles:**
+
+-   Si no hay datos de formulario asociados al caso, el sistema muestra un formulario vacío o un mensaje informativo.
 
 ## Reglas de negocio
-- [RN1]
+-   **RN-FORM-01:** La visualización del formulario es obligatoria para cada caso si el formulario es un componente del caso.
+    
+-   **RN-FORM-02:** Los campos del formulario deben reflejar las propiedades del caso.
+    
+-   **RN-FORM-03:** Ciertos campos del formulario pueden ser editables o de solo lectura, dependiendo del estado del caso y del rol del usuario.
 ## Reglas de dominio (invariantes)
-- [RD1]
+-   **RD-FORM-01:** Un formulario se compone de una colección de campos (ej., texto, numéricos, fechas) que corresponden a los atributos del caso.
+    
+-   **RD-FORM-02:** Los datos del formulario deben ser válidos de acuerdo a las reglas de formato y tipo de datos de cada campo.
 
 ## Relaciones
 - «include»: [CU-…] (obligatorio y reutilizable)
@@ -52,5 +60,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMTI0MDE5MjcsLTExNDAzMzMwOF19
+eyJoaXN0b3J5IjpbLTEyODUzNzM0MDUsLTExNDAzMzMwOF19
 -->
