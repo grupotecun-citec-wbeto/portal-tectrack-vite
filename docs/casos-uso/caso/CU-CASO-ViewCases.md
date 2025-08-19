@@ -44,7 +44,7 @@ Visualizar la lista de casos
 -  
 
 ## Excepciones
-- 
+- No se tiene que mostrar los casos con estado 6 
 
 ## Diagrama
 [Link](https://app.diagrams.net/#Hgrupotecun-citec-wbeto%2Fportal-tectrack-vite%2Fuse-case-diagram%2Fdocs%2Fcasos-uso%2Fcaso%2FCU-CASO-ViewCases.drawio#%7B%22pageId%22%3A%2258KHKjolmZH9Jl-Zs60m%22%7D)
@@ -53,7 +53,7 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjM3NTY3NDEsNDMyMDU5Mzc4LDg0NDk5NT
-UxMSwzMDEyMjg3MjMsMTQ5OTM1NTgxOSw4NjQ4NzA2MzMsLTQx
-OTMwMzgyN119
+eyJoaXN0b3J5IjpbLTg4NTk2ODMzOSw0MzIwNTkzNzgsODQ0OT
+k1NTExLDMwMTIyODcyMywxNDk5MzU1ODE5LDg2NDg3MDYzMywt
+NDE5MzAzODI3XX0=
 -->
