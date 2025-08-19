@@ -40,23 +40,28 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 
 ## Flujos alternos  
 
--  **FA1: El cliente no tiene casos asociados:**  
- -  Si el sistema no encuentra casos para el cliente seleccionado, muestra un mensaje informativo como "El cliente [Nombre del Cliente] no tiene casos registrados."  
--  **FA2: Cancelación de la selección:**  
- -  El usuario puede cancelar la selección de filtro de cliente, restaurando la lista de casos a su estado anterior (ya sea la lista completa o la lista filtrada por otros criterios).  
+-   **A1: El nivel de prioridad no tiene casos asociados:**
+    
+    -   Si el sistema no encuentra casos con la prioridad seleccionada, muestra un mensaje informativo como "No se encontraron casos con prioridad [Prioridad Seleccionada]."
+        
+-   **A2: Cancelación de la selección:**
+    
+    -   El usuario puede cancelar la selección del filtro de prioridad, restaurando la lista de casos a su estado anterior.
   
 
 ## Reglas de negocio  
 
--  **RN-FIL-CLI-01:** La búsqueda de clientes para aplicar el filtro debe incluir un mecanismo de búsqueda (ej. búsqueda por nombre, por ID) para facilitar la selección.  
+-   **RN-FIL-PRI-01:** La selección de prioridad debe ser única; el usuario no puede seleccionar múltiples prioridades para aplicar el filtro al mismo tiempo.
     
--  **RN-FIL-CLI-02:** El filtro por cliente puede combinarse con otros filtros (prioridad, actor, segmento) para refinar aún más los resultados.  
+-   **RN-FIL-PRI-02:** El filtro por prioridad puede combinarse con otros filtros (cliente, actor, segmento) para refinar aún más los resultados.
 
 ## Reglas de dominio (invariantes)  
 
--  **RD-FIL-CLI-01:** Cada caso en el sistema debe estar asociado a un único cliente.  
+-   **RD-FIL-PRI-01:** Cada caso en el sistema debe tener una prioridad definida.
     
--  **RD-FIL-CLI-02:** Un cliente es una entidad del dominio que tiene atributos como `ID de cliente`, `Nombre`, y `Segmento`.  
+-   **RD-FIL-PRI-02:** Los niveles de prioridad son un conjunto finito y predefinido de valores (ej., "Alta", "Media", "Baja", "Crítica").
+    
+-   **RD-FIL-PRI-03:** El filtrado de casos se basa en el atributo de prioridad del propio caso.
   
 
 ## Relaciones  
@@ -153,5 +158,5 @@ Workspaces
 
 Syntax error in graphmermaid version 8.9.2
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU3ODM5OTEyNSwxODQxODc3MzEzXX0=
+eyJoaXN0b3J5IjpbLTE0ODcwNjA1NzksMTg0MTg3NzMxM119
 -->
