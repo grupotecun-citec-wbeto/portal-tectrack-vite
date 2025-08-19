@@ -41,8 +41,8 @@ Visualizar la lista de casos
 - Los técnicos no pueden eliminar un caso ya creado
 - Los técnicos y administradores puede ver: 
    - El botón crear viáticos
-   - El botón para para generar informe
-   - 
+   - El botón para generar informe
+   - El 
 -  
 
 ## Excepciones
@@ -56,5 +56,5 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTIwMjM5NzQ4NSwtNDE5MzAzODI3XX0=
+eyJoaXN0b3J5IjpbNDU0ODk2MzQsLTQxOTMwMzgyN119
 -->
