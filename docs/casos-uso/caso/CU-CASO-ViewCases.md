@@ -40,7 +40,7 @@ Visualizar la lista de casos
 - Los técnicos solo pueden ver casos que ellos han creado o se han sido asignados
 - Los técnicos no pueden eliminar un caso ya creado
 - Los técnicos y administradores puede ver: 
-   - El botón crear viáticos
+   - 
    - El botón para generar informe
    - Pueden el componente de acciones
 -  
@@ -56,5 +56,6 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODY0ODcwNjMzLC00MTkzMDM4MjddfQ==
+eyJoaXN0b3J5IjpbNjEyNzE0OTksODY0ODcwNjMzLC00MTkzMD
+M4MjddfQ==
 -->
