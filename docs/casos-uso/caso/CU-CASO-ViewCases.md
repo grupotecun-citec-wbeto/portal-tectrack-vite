@@ -38,7 +38,7 @@ Visualizar la lista de casos
 - Solo el administrador puede ver todo los casos
 - Los técnicos solo pueden ver casos que ellos han creado o se han sido asignados
 - Los técnicos no pueden eliminar un caso ya creado
-- Los técnicos antes de cerrar un caso pueden agregar o eliminar equipos 
+- Los técnicos y adminstradores  
 
 ## Excepciones
 - [E1]
@@ -51,5 +51,5 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwNDQyNDE3MDcsLTQxOTMwMzgyN119
+eyJoaXN0b3J5IjpbNDA0NDg3MTI0LC00MTkzMDM4MjddfQ==
 -->
