@@ -111,22 +111,27 @@ Este caso de uso es una especialización del caso de uso  `FiltrarCasos`. Permit
 
 ## Flujos alternos
 
--   **FA1: El cliente no tiene casos asociados:**
-    -   Si el sistema no encuentra casos para el cliente seleccionado, muestra un mensaje informativo como “El cliente [Nombre del Cliente] no tiene casos registrados.”
+-   **FA1: El segmento no tiene casos asociados:**
+    
+    -   Si el sistema no encuentra casos para el segmento seleccionado, muestra un mensaje informativo como "No se encontraron casos para el segmento [Nombre del Segmento]."
+        
 -   **FA2: Cancelación de la selección:**
-    -   El usuario puede cancelar la selección de filtro de cliente, restaurando la lista de casos a su estado anterior (ya sea la lista completa o la lista filtrada por otros criterios).
+    
+    -   El usuario puede cancelar la selección de filtro de segmento, restaurando la lista de casos a su estado anterior.
 
 ## Reglas de negocio
 
--   **RN-FIL-CLI-01:**  La búsqueda de clientes para aplicar el filtro debe incluir un mecanismo de búsqueda (ej. búsqueda por nombre, por ID) para facilitar la selección.
+-   **RN-FIL-SEG-01:** La selección de segmentos debe ser única; el usuario no puede seleccionar múltiples segmentos al mismo tiempo para aplicar el filtro.
     
--   **RN-FIL-CLI-02:**  El filtro por cliente puede combinarse con otros filtros (prioridad, actor, segmento) para refinar aún más los resultados.
+-   **RN-FIL-SEG-02:** El filtro por segmento puede combinarse con otros filtros (cliente, prioridad, actor) para refinar aún más los resultados.
     
 
 ## Reglas de dominio (invariantes)
-
--   **RD-FIL-CLI-01:**  Cada caso en el sistema debe estar asociado a un único cliente.
--   **RD-FIL-CLI-02:**  Un cliente es una entidad del dominio que tiene atributos como  `ID de cliente`,  `Nombre`, y  `Segmento`.
+-   **RD-FIL-SEG-01:** Un `Caso` solo puede estar asociado a un `Cliente`, y cada `Cliente` debe pertenecer a un único `Segmento`.
+    
+-   **RD-FIL-SEG-02:** Los segmentos son entidades del dominio que se definen y gestionan por separado.
+    
+-   **RD-FIL-SEG-03:** El filtrado se basa en la asociación del cliente con el segmento, no directamente en el caso.
     
 
 ## Relaciones
@@ -153,5 +158,5 @@ Workspaces
 
 Syntax error in graphmermaid version 8.9.2
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTc1MzAyNzM3NV19
+eyJoaXN0b3J5IjpbLTExODM1NTgyNDNdfQ==
 -->
