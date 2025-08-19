@@ -21,7 +21,7 @@ Visualizar la lista de casos
 ## Flujo principal
 1. El usuario ingresa a la plataforma
 2. Ingresa al panel principal
-3. En el la barra lateral eligue el item casos
+3. En el la barra lateral seleecc el item casos
 4. Puede aplicar filtros
 
 ## Flujos alternos
@@ -51,5 +51,5 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDA0NDg3MTI0LC00MTkzMDM4MjddfQ==
+eyJoaXN0b3J5IjpbLTIxNzk3NzI3MywtNDE5MzAzODI3XX0=
 -->
