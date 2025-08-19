@@ -12,17 +12,18 @@
 Visualizar la lista de casos
 
 ## Actores
-- Principal: Admin
-- Secundarios: Técnicos
+- Principal: Administrador
+- Secundarios: Técnico
 
 ## Precondiciones
-- El usuario tiene estar logueado
+- El actor ya tiene qu
 
 ## Flujo principal
 1. El usuario ingresa a la plataforma
 2. Ingresa al panel principal
-3. En el la barra lateral seleecc el item casos
-4. Puede aplicar filtros
+3. En el la barra lateral selecciona  el apartado casos
+4. Esto le mostrara un panel con la lista de casos 
+5. Puede aplicar filtros
 
 ## Flujos alternos
 - Si el usuario a ingresar a visualizar los casos no hay casos, tiene que mostrar un mensaje de que hay casos disponibles
@@ -51,5 +52,5 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxNzk3NzI3MywtNDE5MzAzODI3XX0=
+eyJoaXN0b3J5IjpbLTE4ODY0MjMzNDIsLTQxOTMwMzgyN119
 -->
