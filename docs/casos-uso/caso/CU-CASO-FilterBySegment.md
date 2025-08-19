@@ -94,7 +94,7 @@ Este caso de uso es una especialización del caso de uso  `FiltrarCasos`. Permit
 ## Precondiciones
 
 -   Se ha ejecutado el caso de uso  `FiltrarCasos`.
--   Los datos de al menos un cliente están disponibles en el sistema.
+-   Los segmentos están definidos en el sistema.
 
 ## Flujo principal
 
@@ -140,7 +140,7 @@ Este caso de uso es una especialización del caso de uso  `FiltrarCasos`. Permit
 
 ## Postcondiciones
 
--   La lista de casos se actualiza para mostrar solo los casos cuyo cliente coincide con el seleccionado.
+-   La lista de casos se actualiza para mostrar solo los casos cuyo cliente está asociado al segmento seleccionado.
 
 ## Diagrama (opcional)
 
@@ -158,5 +158,5 @@ Workspaces
 
 Syntax error in graphmermaid version 8.9.2
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExODM1NTgyNDNdfQ==
+eyJoaXN0b3J5IjpbLTE2MDAwOTIxMjVdfQ==
 -->
