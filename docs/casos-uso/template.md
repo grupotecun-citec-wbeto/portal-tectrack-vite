@@ -36,14 +36,14 @@ Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósit
 ## Reglas de dominio (invariantes)
 -   **RD-BAD-01:** El estado de un caso debe ser uno de los valores definidos en el dominio (`Abierto`, `En Progreso`, `Resuelto`, `Cerrado`).
     
--   **RD-BAD-02:** La cantidad de subcasos es un valor numérico entero y no negativo.
+-   **RD-BAD-02:** La cantidad de equipos es un valor numérico entero y no negativo.
     
 -   **RD-BAD-03:** El tiempo transcurrido se calcula a partir de la fecha de creación del caso.
 
 ## Relaciones
-- «include»: [CU-…] (obligatorio y reutilizable)
-- «extend»: [CU-…] (condición/trigger)
-- EP: [extension point si aplica]
+-   **Include** `ViewCases`: Este caso de uso es una parte necesaria e integral del caso de uso `ViewCases`.
+    
+-   **Generalización:** `ShowBadges` es un caso de uso generalizado. Los casos de uso específicos como `ShowBadgeStatus`, `ShowBadgeSegment`, `ShowBadgeTime` y `ShowBadgeQuantity` son especializaciones de este caso de uso.
 
 ## Postcondiciones
 - Los badges correspondientes a las propiedades del caso se renderizan y se muestran junto a cada caso en la interfaz de usuario.
@@ -57,6 +57,6 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTMxMjI3MjY1LC02NTIxMDg4MywxNzI2MD
+eyJoaXN0b3J5IjpbNDE4OTAxOTQ5LC02NTIxMDg4MywxNzI2MD
 IxMTE3XX0=
 -->
