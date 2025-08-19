@@ -30,7 +30,13 @@ Este caso de uso permite al usuario aplicar filtros sobre la lista de casos most
 -   El sistema actualiza la lista de casos mostrada en la interfaz, mostrando únicamente los resultados que cumplen con los filtros.
 
 ## Flujos alternos
-- **FA1:** [Condición → Resultado]
+-   **FA1: No se seleccionan filtros:**
+    
+    -   Si el usuario no selecciona ningún filtro y hace clic en "Aplicar", el sistema no realiza ninguna acción y mantiene la lista de casos actual sin cambios.
+        
+-   **FA2: No hay resultados para los filtros seleccionados:**
+    
+    -   Si, después de aplicar los filtros, no se encuentran casos que coincidan, el sistema muestra un mensaje informativo como "No se encontraron casos con los filtros seleccionados".
 
 ## Reglas de negocio
 - [RN1]
@@ -48,5 +54,5 @@ Este caso de uso permite al usuario aplicar filtros sobre la lista de casos most
 ## Diagrama (opcional)
 [Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO-ViewCases.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjkyMTM1NzI5XX0=
+eyJoaXN0b3J5IjpbLTQzMjA3NDczMl19
 -->
