@@ -32,15 +32,15 @@ Visualizar la lista de casos
 - Al seleccionar el caso se puede visualizar la lista equipos ingresados
 
 ## Reglas de negocio
-- Si no existe  
+- Se tiene que mostrar 20 casos por pagina
+- Se tiene que mostrar de primero el caso recién creado
 
 ## Reglas de dominio
 - Solo el administrador puede ver todo los casos
 - Los técnicos solo pueden ver: 
 	- Casos que ellos han creado.
 	- Casos que les han asignado.
-- Se tiene que mostrar 20 casos por pagina
-- Se tiene que mostrar de primero el caso recién creado
+- 
 -  
 
 ## Excepciones
@@ -53,7 +53,7 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTkzMjYzMTkyMCwtODg1OTY4MzM5LDQzMj
+eyJoaXN0b3J5IjpbLTMyMDU5MjQyNSwtODg1OTY4MzM5LDQzMj
 A1OTM3OCw4NDQ5OTU1MTEsMzAxMjI4NzIzLDE0OTkzNTU4MTks
 ODY0ODcwNjMzLC00MTkzMDM4MjddfQ==
 -->
