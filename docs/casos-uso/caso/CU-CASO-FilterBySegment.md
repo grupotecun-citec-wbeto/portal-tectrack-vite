@@ -35,7 +35,6 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 -   El usuario selecciona uno de los segmentos de la lista.
 -   El usuario activa el filtro (por ejemplo, haciendo clic en el botón "Aplicar Filtros").
 -   El sistema ejecuta la lógica de filtrado para buscar los casos que pertenecen al segmento seleccionado.
-    
 -   El sistema refresca la interfaz, mostrando únicamente los casos asociados a ese segmento.
   
 
@@ -158,5 +157,5 @@ Workspaces
 
 Syntax error in graphmermaid version 8.9.2
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQ0MjUzNjQ1M119
+eyJoaXN0b3J5IjpbLTEzMTg0MDAyNzldfQ==
 -->
