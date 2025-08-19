@@ -26,7 +26,7 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 ## Precondiciones  
 
 - Se ha ejecutado el caso de uso `FiltrarCasos`.  
--   Los datos de al menos un cliente están disponibles en el sistema.  
+- Los niveles de prioridad están definidos en el sistema.
   
 
 ## Flujo principal  
@@ -154,5 +154,5 @@ Workspaces
 
 Syntax error in graphmermaid version 8.9.2
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAyNjYxMjE3MSwxODQxODc3MzEzXX0=
+eyJoaXN0b3J5IjpbLTkwMDk5MTA3NSwxODQxODc3MzEzXX0=
 -->
