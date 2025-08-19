@@ -42,21 +42,15 @@ Este caso de uso es una parte integral de `ViewCases` y se encarga de mostrar lo
 -   **RD-ACT-BUT-03:** Solo los actores con el rol de `Administrador` o `Técnico` tienen permitido ejecutar acciones sobre los casos.
 
 ## Relaciones
-- «include»: [CU-…] (obligatorio y reutilizable)
-- «extend»: [CU-…] (condición/trigger)
-- EP: [extension point si aplica]
+-   **Include** `ViewCases`: Este caso de uso es una parte integral de `ViewCases`.
+    
+-   **Generalización:** Este caso de uso es un caso de uso generalizado. Los casos de uso específicos como `ShowViewButton`, `ShowReportButton`, `ShowStartButton` y `ShowCloseButton` son especializaciones.
 
 ## Postcondiciones
 - Los botones de acción permitidos se muestran junto a cada caso en la interfaz de usuario.
 
 ## Diagrama (opcional)
-```mermaid
-usecaseDiagram
-  actor Admin
-  actor Técnico
-  (ViewCases)
-  Admin --> (ViewCases)
-  Técnico --> (ViewCases)
+[Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODQzNDMwMTVdfQ==
+eyJoaXN0b3J5IjpbLTcxMTk2NzM1XX0=
 -->
