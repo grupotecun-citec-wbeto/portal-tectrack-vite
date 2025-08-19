@@ -31,12 +31,11 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 
 ## Flujo principal  
 
--   El sistema presenta una interfaz para que el usuario seleccione un cliente de una lista (por ejemplo, un campo de autocompletado, una lista desplegable).  
--   El usuario busca y selecciona un cliente de la lista.  
--   El usuario activa el filtro (por ejemplo, haciendo clic en el botón "Aplicar Filtros" o un botón específico para el filtro por cliente).  
--   El sistema ejecuta la lógica de filtrado para buscar los casos que pertenecen al cliente seleccionado.  
-    
--   El sistema refresca la interfaz, mostrando solo los casos asociados a ese cliente.  
+- [ ]   El sistema presenta al usuario una lista de niveles de prioridad disponibles (ej. un menú desplegable).
+- [ ]   El usuario selecciona uno de los niveles de prioridad de la lista.
+- [ ]  El usuario activa el filtro (ej. haciendo clic en el botón "Aplicar Filtros").
+- [ ]   El sistema ejecuta la lógica de filtrado para buscar los casos que coinciden con la prioridad seleccionada.    
+- [ ]   El sistema refresca la interfaz, mostrando únicamente los casos con esa prioridad.  
   
 
 ## Flujos alternos  
@@ -154,5 +153,5 @@ Workspaces
 
 Syntax error in graphmermaid version 8.9.2
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTkwMDk5MTA3NSwxODQxODc3MzEzXX0=
+eyJoaXN0b3J5IjpbLTU3ODM5OTEyNSwxODQxODc3MzEzXX0=
 -->
