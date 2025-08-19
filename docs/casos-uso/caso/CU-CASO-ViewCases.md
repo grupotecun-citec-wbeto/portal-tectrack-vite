@@ -32,7 +32,7 @@ Visualizar la lista de casos
 - Al seleccionar el caso se puede visualizar la lista equipos ingresados
 
 ## Reglas de negocio
-- 
+- Si no existe  
 
 ## Reglas de dominio
 - Solo el administrador puede ver todo los casos
@@ -53,7 +53,7 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTg4NTk2ODMzOSw0MzIwNTkzNzgsODQ0OT
-k1NTExLDMwMTIyODcyMywxNDk5MzU1ODE5LDg2NDg3MDYzMywt
-NDE5MzAzODI3XX0=
+eyJoaXN0b3J5IjpbLTkzMjYzMTkyMCwtODg1OTY4MzM5LDQzMj
+A1OTM3OCw4NDQ5OTU1MTEsMzAxMjI4NzIzLDE0OTkzNTU4MTks
+ODY0ODcwNjMzLC00MTkzMDM4MjddfQ==
 -->
