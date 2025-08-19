@@ -1,10 +1,10 @@
 
 
 
-# CU-CASO-FilterCase
+# CU-CASO-FilterCases
 
 **Característica:** Caso 
-**Fecha:** [DD/MM/AAAA] 
+**Fecha:** 14/08/2025
 **Autor:** Humberto Herrador
 **Departamento:** CITEC
 **Proyecto:** TECTRACK
@@ -51,5 +51,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)ith [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIzMjIyNDMxXX0=
+eyJoaXN0b3J5IjpbLTE0ODc3ODg2NzRdfQ==
 -->
