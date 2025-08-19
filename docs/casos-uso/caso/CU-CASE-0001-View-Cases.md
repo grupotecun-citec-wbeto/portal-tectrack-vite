@@ -1,6 +1,6 @@
 # CU-CASE-0001-View-Cases
 
-**Módulo:** Caso  
+**Característica:** Caso
 **Versión:** v1.0  
 **Fecha:** 14/08/2025  
 **Autor:** Humberto Herrador
@@ -48,6 +48,6 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTgzNjg2NjgwOSwxNjI0MjM2OTMsNzUzNz
-QzNjc1XX0=
+eyJoaXN0b3J5IjpbMTM5OTUyNjI1NywtODM2ODY2ODA5LDE2Mj
+QyMzY5Myw3NTM3NDM2NzVdfQ==
 -->
