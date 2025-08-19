@@ -40,6 +40,7 @@ Visualizar la lista de casos
 - Los técnicos solo pueden ver: 
 	- Casos que ellos han creado.
 	- Casos que les han asignado.
+- Si no existen casos no se tiene que mostrar el filtro
 - 
 -  
 
@@ -53,7 +54,7 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTMyMDU5MjQyNSwtODg1OTY4MzM5LDQzMj
-A1OTM3OCw4NDQ5OTU1MTEsMzAxMjI4NzIzLDE0OTkzNTU4MTks
-ODY0ODcwNjMzLC00MTkzMDM4MjddfQ==
+eyJoaXN0b3J5IjpbLTE3MTEwNTc3MDgsLTg4NTk2ODMzOSw0Mz
+IwNTkzNzgsODQ0OTk1NTExLDMwMTIyODcyMywxNDk5MzU1ODE5
+LDg2NDg3MDYzMywtNDE5MzAzODI3XX0=
 -->
