@@ -15,13 +15,15 @@ Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósit
 -   **Técnico**
 
 ## Precondiciones
-- [Condición 1]
-- [Condición 2]
+-   El caso de uso `ViewCases` ha sido iniciado y está en proceso de mostrar la lista de casos.
+-   Los datos de cada caso (estado, segmento, tiempo transcurrido, cantidad de equipos) están disponibles para ser procesados.
 
 ## Flujo principal
-1. [Paso 1]
-2. [Paso 2]
-3. [Paso 3]
+-   El sistema, durante la ejecución del caso de uso `ViewCases`, itera sobre la lista de casos a mostrar.
+-   Para cada caso, el sistema recupera los datos necesarios (estado, segmento, tiempo, cantidad de equipos).
+-   El sistema genera los badges visuales basándose en estos datos.
+    
+-   Los badges se muestran junto a la información principal de cada caso.
 
 ## Flujos alternos
 - **FA1:** [Condición → Resultado]
@@ -37,7 +39,7 @@ Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósit
 - EP: [extension point si aplica]
 
 ## Postcondiciones
-- [Estado final]
+- Los badges correspondientes a las propiedades del caso se renderizan y se muestran junto a cada caso en la interfaz de usuario.
 
 ## Diagrama (opcional)
 ```mermaid
@@ -48,5 +50,6 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTY1MjEwODgzLDE3MjYwMjExMTddfQ==
+eyJoaXN0b3J5IjpbNjY4MDU1MDY2LC02NTIxMDg4MywxNzI2MD
+IxMTE3XX0=
 -->
