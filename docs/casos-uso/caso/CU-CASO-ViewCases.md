@@ -43,11 +43,11 @@ Visualizar la lista de casos
 - [E2]
 
 ## Diagrama
-![Diagrama]("")
+[Link](https://app.diagrams.net/?src=about#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/src/casos-uso/caso/CU-CASE-0001-View-Cases.drawio)
 
 ## Relaciones
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjI3NjQwODU0XX0=
+eyJoaXN0b3J5IjpbLTQxOTMwMzgyN119
 -->
