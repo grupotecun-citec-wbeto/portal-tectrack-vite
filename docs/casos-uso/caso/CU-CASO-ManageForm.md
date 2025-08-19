@@ -44,21 +44,15 @@ Este caso de uso es una parte integral de `ViewCases` y permite al usuario inter
 -   **RD-FORM-02:** Los datos del formulario deben ser válidos de acuerdo a las reglas de formato y tipo de datos de cada campo.
 
 ## Relaciones
-- «include»: [CU-…] (obligatorio y reutilizable)
-- «extend»: [CU-…] (condición/trigger)
-- EP: [extension point si aplica]
+-   **include** `ViewCases`: Este caso de uso es una parte necesaria de `ViewCases`.
+    
+-   **include** `RecordMileage`: Este caso de uso incluye la funcionalidad de registrar kilometraje como un paso necesario.
 
 ## Postcondiciones
 - La interfaz de usuario muestra el formulario del caso con sus datos correspondientes.
 
 ## Diagrama (opcional)
-```mermaid
-usecaseDiagram
-  actor Admin
-  actor Técnico
-  (ViewCases)
-  Admin --> (ViewCases)
-  Técnico --> (ViewCases)
+[Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyODUzNzM0MDUsLTExNDAzMzMwOF19
+eyJoaXN0b3J5IjpbLTI2MDQwMTA1MCwtMTE0MDMzMzA4XX0=
 -->
