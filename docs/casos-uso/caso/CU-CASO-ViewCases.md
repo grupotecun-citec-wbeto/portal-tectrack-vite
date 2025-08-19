@@ -29,7 +29,8 @@ Visualizar la lista de casos
 - Si no hay casos, mostrar un mensaje que los lleve a crear un caso
 
 ## Postcondiciones
-- No hay porque solo es una visualización
+- Al seleccionar el caso se visualiza el detalle del caso
+- Al seleccionar el caso se puede visualizar la lista equipos ingresados
 
 ## Reglas de negocio
 - 
@@ -38,7 +39,7 @@ Visualizar la lista de casos
 - Solo el administrador puede ver todo los casos
 - Los técnicos solo pueden ver casos que ellos han creado o se han sido asignados
 - Los técnicos no pueden eliminar un caso ya creado
-- Los técnicos y adminstradores  
+- Los técnicos y administradores  
 
 ## Excepciones
 - [E1]
@@ -51,5 +52,5 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5NzEzMDYxMzYsLTQxOTMwMzgyN119
+eyJoaXN0b3J5IjpbMTg4MzY0NTk2LC00MTkzMDM4MjddfQ==
 -->
