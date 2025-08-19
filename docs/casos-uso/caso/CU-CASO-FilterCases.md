@@ -11,7 +11,7 @@
 
 
 ## Descripción
-[Objetivo en 1–2 líneas]
+Este caso de uso permite al usuario aplicar filtros sobre la lista de casos mostrada, restringiendo los resultados a aquellos que cumplen con criterios específicos. La funcionalidad de filtrado es opcional y se activa después de que la lista de casos ha sido cargada exitosamente.
 
 ## Actores
 - Principal: [Actor]
@@ -51,5 +51,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)ith [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0ODc3ODg2NzRdfQ==
+eyJoaXN0b3J5IjpbMjAwMTU4Njk5OF19
 -->
