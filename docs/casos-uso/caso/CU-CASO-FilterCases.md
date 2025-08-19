@@ -39,9 +39,17 @@ Este caso de uso permite al usuario aplicar filtros sobre la lista de casos most
     -   Si, después de aplicar los filtros, no se encuentran casos que coincidan, el sistema muestra un mensaje informativo como "No se encontraron casos con los filtros seleccionados".
 
 ## Reglas de negocio
-- [RN1]
+-   **RN-FIL-01:** La funcionalidad de filtrado solo debe ser visible y activable si la lista de casos contiene al menos un elemento.
+    
+-   **RN-FIL-02:** Los criterios de filtro deben ser aplicables de forma individual o combinada (operación AND). Por ejemplo, un usuario puede filtrar por `cliente` **y** `prioridad`.
+    
+-   **RN-FIL-03:** Si el usuario no selecciona ningún filtro, el sistema debe mostrar la lista completa de casos por defecto.
 ## Reglas de dominio (invariantes)
-- [RD1]
+-   **RD-FIL-01:** Un filtro de tipo `Prioridad` solo puede ser aplicado utilizando los valores predefinidos del dominio (por ejemplo, "Alta", "Media", "Baja").
+    
+-   **RD-FIL-02:** Un filtro de tipo `Actor` solo puede utilizar los roles de usuario definidos en el dominio (por ejemplo, "Administrador", "Técnico").
+    
+-   **RD-FIL-03:** Un `Caso` solo puede pertenecer a un `Cliente` y a un `Segmento` a la vez.
 
 ## Relaciones
 -   **Extend** `ViewCases`: Este caso de uso es una extensión opcional del caso de uso `ViewCases`.
@@ -54,5 +62,5 @@ Este caso de uso permite al usuario aplicar filtros sobre la lista de casos most
 ## Diagrama (opcional)
 [Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO-ViewCases.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTA3NDI0MjA1XX0=
+eyJoaXN0b3J5IjpbNTY3NTEzNTgyLDUwNzQyNDIwNV19
 -->
