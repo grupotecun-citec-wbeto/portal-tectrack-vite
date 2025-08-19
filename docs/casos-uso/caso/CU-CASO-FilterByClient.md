@@ -27,10 +27,13 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 -   El sistema refresca la interfaz, mostrando solo los casos asociados a ese cliente.
 
 ## Flujos alternos
-- **FA1:** [Condición → Resultado]
+-   **FA1: El cliente no tiene casos asociados:**
+    -   Si el sistema no encuentra casos para el cliente seleccionado, muestra un mensaje informativo como "El cliente [Nombre del Cliente] no tiene casos registrados."
+-   **FA2: Cancelación de la selección:**
+    -   El usuario puede cancelar la selección de filtro de cliente, restaurando la lista de casos a su estado anterior (ya sea la lista completa o la lista filtrada por otros criterios).
 
 ## Reglas de negocio
-- [RN1]
+-
 ## Reglas de dominio (invariantes)
 - [RD1]
 
@@ -51,5 +54,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1NjY2ODg0MDZdfQ==
+eyJoaXN0b3J5IjpbLTEyNDM5NDgzNjBdfQ==
 -->
