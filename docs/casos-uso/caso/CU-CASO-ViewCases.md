@@ -1,13 +1,12 @@
 # CU-CASO-ViewCases
 
 **Característica:** Caso
-**Versión:** v1.0  
 **Fecha:** 14/08/2025
 **Autor:** Humberto Herrador
 **Departamento:** CITEC
+**Proyecto:** TECTRACK
 
 ---
-
 ## Descripción
 Visualizar la lista de casos
 
@@ -16,7 +15,7 @@ Visualizar la lista de casos
 - Secundarios: Técnico
 
 ## Precondiciones
-- El actor ya tiene que estar logueado en la plataforma
+- El actor tiene que estar logueado en la plataforma
 
 ## Flujo principal
 1. El usuario ingresa a la plataforma
@@ -51,7 +50,7 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTEzMzU4MzMxLDg0NDk5NTUxMSwzMDEyMj
+eyJoaXN0b3J5IjpbNDMyMDU5Mzc4LDg0NDk5NTUxMSwzMDEyMj
 g3MjMsMTQ5OTM1NTgxOSw4NjQ4NzA2MzMsLTQxOTMwMzgyN119
 
 -->
