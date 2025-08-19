@@ -16,11 +16,11 @@ Visualizar la lista de casos
 - Secundarios: Técnico
 
 ## Precondiciones
-- El actor ya tiene qu
+- El actor ya tiene que estar logueado en la plataforma
 
 ## Flujo principal
 1. El usuario ingresa a la plataforma
-2. Ingresa al panel principal
+2. Abre el panel 
 3. En el la barra lateral selecciona  el apartado casos
 4. Esto le mostrara un panel con la lista de casos 
 5. Puede aplicar filtros
@@ -52,5 +52,5 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4ODY0MjMzNDIsLTQxOTMwMzgyN119
+eyJoaXN0b3J5IjpbNzYzODY5NTk0LC00MTkzMDM4MjddfQ==
 -->
