@@ -14,12 +14,12 @@
 Este caso de uso permite al usuario aplicar filtros sobre la lista de casos mostrada, restringiendo los resultados a aquellos que cumplen con criterios específicos. La funcionalidad de filtrado es opcional y se activa después de que la lista de casos ha sido cargada exitosamente.
 
 ## Actores
-- Principal: [Actor]
-- Secundarios: [Opcional]
+- **Administrador:** Puede aplicar todos los filtros disponibles.
+- **Técnico:** Puede aplicar todos los filtros disponibles.
 
 ## Precondiciones
-- [Condición 1]
-- [Condición 2]
+-   El usuario debe estar autenticado en el sistema.
+-   El caso de uso `ViewCases` ha sido ejecutado, y se ha devuelto una lista de al menos un caso.
 
 ## Flujo principal
 1. [Paso 1]
@@ -51,5 +51,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)ith [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjAwMTU4Njk5OF19
+eyJoaXN0b3J5IjpbMTMwMjkwNDU2M119
 -->
