@@ -2,8 +2,9 @@
 
 **Característica:** Caso
 **Versión:** v1.0  
-**Fecha:** 14/08/2025  
+**Fecha:** 14/08/2025
 **Autor:** Humberto Herrador
+**Departamento:** CITEC
 
 ---
 
@@ -18,7 +19,7 @@ Visualizar la lista de casos
 - El usuario tiene estar logueado
 
 ## Flujo principal
-1. El usuario de loguea
+1. El usuario ingresa a la plataforma
 2. Ingresa al panel principal
 3. En el la barra lateral eligue el item casos
 4. Puede aplicar filtros
@@ -48,6 +49,6 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTc1MTkwOTk4LC04MzY4NjY4MDksMTYyND
+eyJoaXN0b3J5IjpbNjI3NjQwODU0LC04MzY4NjY4MDksMTYyND
 IzNjkzLDc1Mzc0MzY3NV19
 -->
