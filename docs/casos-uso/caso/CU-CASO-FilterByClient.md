@@ -48,7 +48,7 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 - La lista de casos se actualiza para mostrar solo los casos cuyo cliente coincide con el seleccionado.
 
 ## Diagrama (opcional)
-[Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO-ViewCases.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
+[Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTY1MzEwMTAyNV19
+eyJoaXN0b3J5IjpbLTY3NjM4MTA3Ml19
 -->
