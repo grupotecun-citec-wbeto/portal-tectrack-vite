@@ -1,7 +1,7 @@
-# CU-c - [Nombre]
+# CU-CASO-ShowBadges
 
-**Característica:** [Módulo] 
-**Fecha:** [DD/MM/AAAA] 
+**Característica:** Caso
+**Fecha:** 14/08/2025
 **Autor:** Humberto Herrador
 **Departamento:** CITEC
 **Proyecto:** TECTRACK
@@ -51,5 +51,5 @@ Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósit
 ## Diagrama (opcional)
 [Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA4OTM2NTkwNiwxNjkyNzEzMDIxXX0=
+eyJoaXN0b3J5IjpbLTE2OTcwNjYxNDksMTY5MjcxMzAyMV19
 -->
