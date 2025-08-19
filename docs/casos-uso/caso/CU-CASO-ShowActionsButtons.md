@@ -12,17 +12,18 @@
 Este caso de uso es una parte integral de `ViewCases` y se encarga de mostrar los botones de acción contextuales para cada caso en la lista. La visualización de los botones depende de las capacidades del actor y del estado del caso.
 
 ## Actores
-- Principal: [Actor]
-- Secundarios: [Opcional]
+-   **Administrador**
+-   **Técnico**
 
 ## Precondiciones
-- [Condición 1]
-- [Condición 2]
+-   El caso de uso `ViewCases` se ha iniciado y está mostrando una lista de casos.
+-   El sistema conoce el estado de cada caso y el rol del actor.
 
 ## Flujo principal
-1. [Paso 1]
-2. [Paso 2]
-3. [Paso 3]
+-   El sistema, durante la ejecución de `ViewCases`, itera sobre la lista de casos a mostrar.
+-   Para cada caso, el sistema evalúa las reglas de negocio y de dominio para determinar qué botones de acción son aplicables.
+-   El sistema genera los botones visuales correspondientes.
+-   Los botones se renderizan y se muestran junto a la información principal de cada caso.
 
 ## Flujos alternos
 - **FA1:** [Condición → Resultado]
@@ -38,7 +39,7 @@ Este caso de uso es una parte integral de `ViewCases` y se encarga de mostrar lo
 - EP: [extension point si aplica]
 
 ## Postcondiciones
-- [Estado final]
+- Los botones de acción permitidos se muestran junto a cada caso en la interfaz de usuario.
 
 ## Diagrama (opcional)
 ```mermaid
@@ -49,5 +50,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTQ1MDI4MDY4MV19
+eyJoaXN0b3J5IjpbLTg0NzM0OTQ2NF19
 -->
