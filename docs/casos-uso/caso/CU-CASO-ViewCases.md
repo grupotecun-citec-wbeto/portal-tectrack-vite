@@ -39,6 +39,9 @@ Visualizar la lista de casos
 - Los técnicos solo pueden ver: 
 	- Casos que ellos han creado.
 	- Casos que les han asignado.
+- Se tiene que mostrar 20 casos por pagina
+- Se tiene que mostrar de primero el caso recién creado
+-  
 
 ## Excepciones
 - 
@@ -50,7 +53,7 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDMyMDU5Mzc4LDg0NDk5NTUxMSwzMDEyMj
-g3MjMsMTQ5OTM1NTgxOSw4NjQ4NzA2MzMsLTQxOTMwMzgyN119
-
+eyJoaXN0b3J5IjpbNjM3NTY3NDEsNDMyMDU5Mzc4LDg0NDk5NT
+UxMSwzMDEyMjg3MjMsMTQ5OTM1NTgxOSw4NjQ4NzA2MzMsLTQx
+OTMwMzgyN119
 -->
