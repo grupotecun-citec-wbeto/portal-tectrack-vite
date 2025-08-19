@@ -22,9 +22,12 @@ Este caso de uso permite al usuario aplicar filtros sobre la lista de casos most
 -   El caso de uso `ViewCases` ha sido ejecutado, y se ha devuelto una lista de al menos un caso.
 
 ## Flujo principal
-1. [Paso 1]
-2. [Paso 2]
-3. [Paso 3]
+-   El sistema muestra la lista completa de casos (después de ejecutar el caso de uso `ViewCases`).
+ -  El usuario selecciona uno o más criterios de filtrado (por ejemplo, cliente, prioridad, actor, segmento) desde las opciones disponibles en la interfaz de usuario.
+-  El usuario confirma su selección (por ejemplo, haciendo clic en un botón de "Aplicar Filtros").
+-  El sistema procesa la solicitud de filtrado, aplicando la lógica de negocio correspondiente para cada criterio.
+    
+-   El sistema actualiza la lista de casos mostrada en la interfaz, mostrando únicamente los resultados que cumplen con los filtros.
 
 ## Flujos alternos
 - **FA1:** [Condición → Resultado]
@@ -45,5 +48,5 @@ Este caso de uso permite al usuario aplicar filtros sobre la lista de casos most
 ## Diagrama (opcional)
 [Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO-ViewCases.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDE4ODc3ODM0XX0=
+eyJoaXN0b3J5IjpbMjkyMTM1NzI5XX0=
 -->
