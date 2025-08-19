@@ -1,5 +1,3 @@
-  
-CU-CASO-FilterByActor
 
 # CU-CASO-FilterByPriority  
   
@@ -80,5 +78,5 @@ Este caso de uso es una especialización del caso de uso `FiltrarCasos`. Permite
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA1Mjg5NDMyNiwxODQxODc3MzEzXX0=
+eyJoaXN0b3J5IjpbMTc3MjM2MTY4LDE4NDE4NzczMTNdfQ==
 -->
