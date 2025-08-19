@@ -8,11 +8,11 @@
 
 
 ## Descripción
-[Objetivo en 1–2 líneas]
+Este caso de uso es una parte integral del caso de uso `ViewCases`. Su propósito es generar y mostrar indicadores visuales (badges) junto a cada caso en la lista para proveer información rápida y concisa sobre su estado y atributos clave.
 
 ## Actores
-- Principal: [Actor]
-- Secundarios: [Opcional]
+-   **Administrador**
+-   **Técnico**
 
 ## Precondiciones
 - [Condición 1]
@@ -48,5 +48,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTMzODU4MzUxLDE3MjYwMjExMTddfQ==
+eyJoaXN0b3J5IjpbLTY1MjEwODgzLDE3MjYwMjExMTddfQ==
 -->
