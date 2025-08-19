@@ -31,16 +31,17 @@ Visualizar la lista de casos
 - Al seleccionar el caso se visualiza el detalle del caso
 - Al seleccionar el caso se puede visualizar la lista equipos ingresados
 
-## Reglas de negocio o Apliación 
+## Reglas de negocio o Aplicación 
 - Se tiene que mostrar 20 casos por pagina
 - Se tiene que mostrar de primero el caso recién creado
+- Si no existen casos no se tiene que mostrar los filtros
 
 ## Reglas de dominio
 - Solo el administrador puede ver todo los casos
 - Los técnicos solo pueden ver: 
 	- Casos que ellos han creado.
 	- Casos que les han asignado.
-- Si no existen casos no se tiene que mostrar el filtro
+- 
 - 
 -  
 
@@ -54,7 +55,7 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMTc3MjI0ODUsLTE3MTEwNTc3MDgsLT
-g4NTk2ODMzOSw0MzIwNTkzNzgsODQ0OTk1NTExLDMwMTIyODcy
-MywxNDk5MzU1ODE5LDg2NDg3MDYzMywtNDE5MzAzODI3XX0=
+eyJoaXN0b3J5IjpbLTIyMDY3NDcsLTE3MTEwNTc3MDgsLTg4NT
+k2ODMzOSw0MzIwNTkzNzgsODQ0OTk1NTExLDMwMTIyODcyMywx
+NDk5MzU1ODE5LDg2NDg3MDYzMywtNDE5MzAzODI3XX0=
 -->
