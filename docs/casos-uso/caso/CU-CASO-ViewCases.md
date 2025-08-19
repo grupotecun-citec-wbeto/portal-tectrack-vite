@@ -37,13 +37,8 @@ Visualizar la lista de casos
 
 ## Reglas de dominio
 - Solo el administrador puede ver todo los casos
-- Los técnicos solo pueden ver casos que ellos han creado o se han sido asignados
-- Los técnicos no pueden eliminar un caso ya creado
-- Los técnicos y administradores puede ver: 
-   - 
-   - El botón para generar informe
-   - Pueden el componente de acciones
--  
+- Los técnicos solo pueden ver: 
+	- Casos que ellos han creado o se han sido asignados
 
 ## Excepciones
 - [E1]
@@ -56,6 +51,6 @@ Visualizar la lista de casos
 - 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjEyNzE0OTksODY0ODcwNjMzLC00MTkzMD
-M4MjddfQ==
+eyJoaXN0b3J5IjpbMTc4MDg2MDk5OSw4NjQ4NzA2MzMsLTQxOT
+MwMzgyN119
 -->
