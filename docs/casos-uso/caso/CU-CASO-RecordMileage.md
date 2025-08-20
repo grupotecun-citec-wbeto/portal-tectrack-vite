@@ -23,9 +23,10 @@ Este caso de uso es una parte necesaria de `ManageForm` y se encarga de permitir
 -   El usuario inicia la funcionalidad de registro de kilometraje desde el formulario del caso.
 -   El sistema presenta los campos para el kilometraje inicial y final.
 -   El usuario ingresa el kilometraje inicial.
--   Le da clic al boton  a starCase `CU-CASO-StarCase`
+-   Le da clic al boton  para iniciar el caso `CU-CASO-StarCase`
 -   El usuario realiza lo solicitado en el caso
 -   El usuario ingresa el kilometraje final.
+-   
 -   El usuario confirma el registro de los datos.
 -   El sistema valida los datos ingresados y los guarda en el caso.
 
@@ -54,5 +55,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTM3NTYxMTg1Nl19
+eyJoaXN0b3J5IjpbLTU5MzI5OTBdfQ==
 -->
