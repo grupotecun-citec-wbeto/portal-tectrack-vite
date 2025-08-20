@@ -9,20 +9,27 @@
 
 
 ## Descripción
-[Objetivo en 1–2 líneas]
+Este caso de uso es una parte necesaria de `ManageForm` y se encarga de permitir al usuario registrar el kilometraje inicial y final del equipo asociado a un caso. Es un paso clave para documentar el uso del equipo durante la resolución del caso.
 
 ## Actores
-- Principal: [Actor]
-- Secundarios: [Opcional]
+-   **Administrador**
+-   **Técnico**
 
 ## Precondiciones
-- [Condición 1]
-- [Condición 2]
+-   El caso de uso `ManageForm` ha sido iniciado.
+-   El caso está asociado a un equipo con capacidad de medición de kilometraje.
 
 ## Flujo principal
-1. [Paso 1]
-2. [Paso 2]
-3. [Paso 3]
+-   El usuario inicia la funcionalidad de registro de kilometraje desde el formulario del caso.
+-   El sistema presenta los campos para el kilometraje inicial y final.
+    
+-   El usuario ingresa el kilometraje inicial.
+    
+-   El usuario ingresa el kilometraje final.
+    
+-   El usuario confirma el registro de los datos.
+    
+-   El sistema valida los datos ingresados y los guarda en el caso.
 
 ## Flujos alternos
 - **FA1:** [Condición → Resultado]
@@ -38,7 +45,7 @@
 - EP: [extension point si aplica]
 
 ## Postcondiciones
-- [Estado final]
+- El kilometraje inicial y final se registra con éxito en el caso.
 
 ## Diagrama (opcional)
 ```mermaid
@@ -49,5 +56,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTk3Njc0OTg2XX0=
+eyJoaXN0b3J5IjpbMTc0MjI2ODIxOF19
 -->
