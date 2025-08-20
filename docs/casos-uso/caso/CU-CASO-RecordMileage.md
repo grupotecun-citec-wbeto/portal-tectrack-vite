@@ -22,13 +22,10 @@ Este caso de uso es una parte necesaria de `ManageForm` y se encarga de permitir
 ## Flujo principal
 -   El usuario inicia la funcionalidad de registro de kilometraje desde el formulario del caso.
 -   El sistema presenta los campos para el kilometraje inicial y final.
-    
 -   El usuario ingresa el kilometraje inicial.
-    
+-   El usuario rea
 -   El usuario ingresa el kilometraje final.
-    
 -   El usuario confirma el registro de los datos.
-    
 -   El sistema valida los datos ingresados y los guarda en el caso.
 
 ## Flujos alternos
@@ -56,5 +53,5 @@ usecaseDiagram
   Admin --> (ViewCases)
   Técnico --> (ViewCases)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTc0MjI2ODIxOF19
+eyJoaXN0b3J5IjpbNDA1OTQ5NDJdfQ==
 -->
