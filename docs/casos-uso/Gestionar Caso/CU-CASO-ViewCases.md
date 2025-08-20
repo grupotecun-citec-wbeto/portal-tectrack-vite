@@ -1,0 +1,57 @@
+# CU-CASO-ViewCases
+
+**Característica:** Caso
+**Fecha:** 14/08/2025
+**Autor:** Humberto Herrador
+**Departamento:** CITEC
+**Proyecto:** TECTRACK
+
+---
+## Descripción
+Visualizar la lista de casos
+
+## Actores
+- Principal: Administrador
+- Secundarios: Técnico
+
+## Precondiciones
+- El actor tiene que estar logueado en la plataforma
+
+## Flujo principal
+1. El usuario ingresa a la plataforma
+2. Abre la barra lateral izquierda 
+3. En el la barra lateral selecciona  el apartado casos
+4. Esto le mostrara un panel con la lista de casos
+
+## Flujos alternos
+- Si el usuario a ingresar a visualizar los casos no hay casos, tiene que mostrar un mensaje de que hay casos disponibles
+- Si no hay casos, mostrar un mensaje que los lleve a crear un caso
+
+## Postcondiciones
+- Al seleccionar el caso se visualiza el detalle del caso
+- Al seleccionar el caso se puede visualizar la lista equipos ingresados
+
+## Reglas de negocio o Aplicación 
+- Se tiene que mostrar 20 casos por pagina
+- Se tiene que mostrar de primero el caso recién creado
+- Si no existen casos no se tiene que mostrar los filtros
+
+## Reglas de dominio
+- Solo el administrador puede ver todo los casos
+- Los técnicos solo pueden ver: 
+	- Casos que ellos han creado.
+	- Casos que les han asignado.
+- 
+- 
+-  
+
+## Excepciones
+- No se tiene que mostrar los casos con estado 6 
+
+## Diagrama
+[Link diagrama](https://app.diagrams.net/#Hgrupotecun-citec-wbeto/portal-tectrack-vite/use-case-diagram/docs/casos-uso/caso/CU-CASO.drawio#%7B%22pageId%22:%2258KHKjolmZH9Jl-Zs60m%22%7D)
+
+
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTE1MTY5MDE3NzNdfQ==
+-->
